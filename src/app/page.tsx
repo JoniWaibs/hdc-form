@@ -10,12 +10,14 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { formContent, formPlaceholders } from "./content/form"
+import { CardContent, CardFooter } from "@/components/ui/card"
+import { formLabel, formPlaceholder } from "./content/form"
+import { handleInputType } from "@/lib/utils"
 
 const formSchema = z.object({
   name: z.string().min(1, "(*)"),
   email: z.string().email("Email inválido"),
+  identity_document: z.string().min(1, "(*)"),
   age: z.string().min(1, "(*)"),
   phone: z.string().min(1, "(*)"),
   city: z.string().min(1, "(*)"),
@@ -23,18 +25,18 @@ const formSchema = z.object({
   country: z.string().min(1, "(*)"),
   profession: z.string().min(1, "(*)"),
   how_did_you_hear: z.string().min(1, "(*)"),
-  identity_document: z.string().min(1, "(*)"),
+  why_did_you_interested: z.string().min(1, "(*)"),
 })
 
 export default function StudentRegistrationForm() {
   const [currentStep, setCurrentStep] = useState(0)
 
   const formSections = [
-    { fields: ["name", "age", "identity_document"], title: "Comencemos con tu información básica." },
-    { fields: ["profession"], title: "Contanos sobre tu formación profesional." },
+    { fields: ["name", "age", "identity_document"], title: "Comencemos con tus datos." },
+    { fields: ["profession"], title: "Contanos sobre tu ocupación" },
     { fields: ["email", "phone"], title: "¿Cómo podemos contactarte?" },
-    { fields: ["city", "province", "country"], title: "¿Dónde te vivís?" },
-    { fields: ["how_did_you_hear"], title: "¿Como te enteraste del curso?" },
+    { fields: ["city", "province", "country"], title: "¿Dónde  vivís?" },
+    { fields: ["how_did_you_hear", "why_did_you_interested"], title: "Últimas preguntas" },
   ]
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,14 +52,18 @@ export default function StudentRegistrationForm() {
       profession: "",
       how_did_you_hear: "",
       identity_document: "",
+      why_did_you_interested: "",
     },
     mode: "onChange",
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({values})
-    // Here you would typically send the data to your backend
-    alert("Form submitted successfully!")
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await fetch("/api/register", {
+      method: "POST",
+      body: JSON.stringify(values),
+    })
+    const data = await response.json()
+    console.log({ data })
   }
 
   const currentSection = formSections[currentStep]
@@ -86,34 +92,34 @@ export default function StudentRegistrationForm() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4 md:p-8">
-      <div className="w-full max-w-3xl">
-        <div className="mb-8 flex justify-center">
+    <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 md:p-8">
+      <div className="w-full max-w-3xl h-full">
+        <div className="mb-8 flex justify-center h-2/4">
           <div className="h-16 w-auto">
             {/* Replace with your company logo */}
             <div className="flex h-full items-center justify-center text-2xl font-bold">LOGO</div>
           </div>
         </div>
 
-        <Card className="w-full">
-          <CardHeader className="border-b bg-muted/50 px-6 py-4">
-            <h2 className="text-xl font-semibold">{currentSection.title}</h2>
+        <div className="w-full shadow-none h-2/4">
+          <div className="border-b py-4">
+            <h2 className="text-xl font-semibold py-2">{currentSection.title}</h2>
             <div className="mt-1 flex w-full gap-1">
               {formSections.map((_, index) => (
                 <div
                   key={index}
-                  className={`h-1 flex-1 rounded-full ${index <= currentStep ? "bg-primary" : "bg-muted"}`}
+                  className={`h-1 flex-1 rounded-full ${index <= currentStep ? "bg-primary" : "bg-gray-200"}`}
                 />
               ))}
             </div>
-          </CardHeader>
+          </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <CardContent className="space-y-6 p-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="h-100">
+              <CardContent className="space-y-6 py-6 px-0 h-3/4">
                 {currentSection.fields.map((fieldName) => {
                   const field = fieldName as keyof z.infer<typeof formSchema>
-                  const label = formContent.get(field)
-                  const placeholder = formPlaceholders.get(field)
+                  const label = formLabel.get(field)
+                  const placeholder = formPlaceholder.get(field)
 
                   return (
                     <FormField
@@ -121,9 +127,9 @@ export default function StudentRegistrationForm() {
                       control={form.control}
                       name={field}
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="p-0">
                           <div className="flex justify-between text-center">
-                          <FormLabel className="text-base">
+                          <FormLabel className="text-sm">
                             {label!.charAt(0).toUpperCase() + label!.slice(1)}
                           <FormMessage  />
                           </FormLabel>
@@ -136,7 +142,7 @@ export default function StudentRegistrationForm() {
 
                           <FormControl>
                             {
-                              field.name === "how_did_you_hear" ? (
+                              handleInputType(field.name) ? (
                                 <Textarea rows={3} placeholder={`${label}`} {...field} className="h-12 text-base" />
                               ) : (
                                 <Input placeholder={`${placeholder || `Ingresá tu ${label!.toLowerCase()}`}`} {...field} className="h-12 text-base" />
@@ -149,7 +155,7 @@ export default function StudentRegistrationForm() {
                   )
                 })}
               </CardContent>
-              <CardFooter className="flex justify-between border-t bg-muted/50 p-0">
+              <CardFooter className="flex justify-between p-0 h-1/4">
                 <Button
                   type="button"
                   variant="outline"
@@ -166,7 +172,7 @@ export default function StudentRegistrationForm() {
                   </Button>
                   {isLastStep ? (
                     <Button type="submit" className="w-28">
-                      Submit
+                      Enviar
                     </Button>
                   ) : (
                     <Button type="button" onClick={nextStep} className="w-28">
@@ -178,7 +184,7 @@ export default function StudentRegistrationForm() {
               </CardFooter>
             </form>
           </Form>
-        </Card>
+        </div>
       </div>
     </div>
   )
