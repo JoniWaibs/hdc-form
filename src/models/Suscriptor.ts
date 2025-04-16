@@ -1,6 +1,7 @@
-export interface Student {
+export interface Suscriptor {
   name: string
   email: string
+  identity_document: string
   age: string
   phone: string
   city: string
@@ -8,5 +9,6 @@ export interface Student {
   country: string
   profession: string
   how_did_you_hear: string
-  identity_document: string
+  why_did_you_interested: string
+  resource_id: string
 }
