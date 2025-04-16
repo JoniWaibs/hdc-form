@@ -1,6 +1,6 @@
 "use client"
-
-import { useState } from "react"
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -15,11 +15,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { formLabel, formPlaceholder } from "./content/form"
 import { handleInputType } from "@/lib/utils"
-
+import { Resource } from "@/app/schema/resource"
 
 export default function SuscriptorRegistrationForm() {
+  const searchParams = useSearchParams()
   const [currentStep, setCurrentStep] = useState(0)
-  const resourceId = "2c53f4cf-7186-4a36-947e-140497003c56"
+  const [resource, setResource] = useState<Resource | null>(null)
+  const resourceId = searchParams.get('resource_id')
 
   const formSections = [
     { fields: ["name", "age", "identity_document"], title: "Comencemos con tus datos." },
@@ -46,17 +48,35 @@ export default function SuscriptorRegistrationForm() {
     },
     mode: "onChange",
   })
-  async function onSubmit(values: z.infer<typeof SuscriptorSchema>) {
+
+  useEffect(() => {
+    if(resourceId) {
+      fetchResource()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resourceId])
+
+  const fetchResource = async () => {
+    const response = await fetch(`/api/register?resource_id=${resourceId}`)
+    const { data } = await response.json()
+    console.log({ data })
+    if(data) {
+      setResource(data[0])
+    }
+  }
+
+  const onSubmit = async (values: z.infer<typeof SuscriptorSchema>) => {
+    console.log({ resource })
     const response = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({
         suscriptor: values,
-        resource_id: resourceId,
+        resource_id: resource?.id,
       }),
     })
 
     const data = await response.json()
-    if (data.ok) {
+    if (data.message) {
       console.log({ data })
       alert("¡Congrats de registro exitoso!")
       window.scrollTo(0, 0)
