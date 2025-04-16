@@ -4,6 +4,8 @@ import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { SuscriptorSchema } from "@/app/schema/suscriptor"
+
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -14,22 +16,10 @@ import { CardContent, CardFooter } from "@/components/ui/card"
 import { formLabel, formPlaceholder } from "./content/form"
 import { handleInputType } from "@/lib/utils"
 
-const formSchema = z.object({
-  name: z.string().min(1, "(*)"),
-  email: z.string().email("Email inválido"),
-  identity_document: z.string().min(1, "(*)"),
-  age: z.string().min(1, "(*)"),
-  phone: z.string().min(1, "(*)"),
-  city: z.string().min(1, "(*)"),
-  province: z.string().min(1, "(*)"),
-  country: z.string().min(1, "(*)"),
-  profession: z.string().min(1, "(*)"),
-  how_did_you_hear: z.string().min(1, "(*)"),
-  why_did_you_interested: z.string().min(1, "(*)"),
-})
 
-export default function StudentRegistrationForm() {
+export default function SuscriptorRegistrationForm() {
   const [currentStep, setCurrentStep] = useState(0)
+  const resourceId = "2c53f4cf-7186-4a36-947e-140497003c56"
 
   const formSections = [
     { fields: ["name", "age", "identity_document"], title: "Comencemos con tus datos." },
@@ -39,8 +29,8 @@ export default function StudentRegistrationForm() {
     { fields: ["how_did_you_hear", "why_did_you_interested"], title: "Últimas preguntas" },
   ]
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof SuscriptorSchema>>({
+    resolver: zodResolver(SuscriptorSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -56,21 +46,29 @@ export default function StudentRegistrationForm() {
     },
     mode: "onChange",
   })
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof SuscriptorSchema>) {
     const response = await fetch("/api/register", {
       method: "POST",
-      body: JSON.stringify(values),
+      body: JSON.stringify({
+        suscriptor: values,
+        resource_id: resourceId,
+      }),
     })
+
     const data = await response.json()
-    console.log({ data })
+    if (data.ok) {
+      console.log({ data })
+      alert("¡Congrats de registro exitoso!")
+      window.scrollTo(0, 0)
+      setCurrentStep(currentStep + 1)
+    }
   }
 
   const currentSection = formSections[currentStep]
   const isLastStep = currentStep === formSections.length - 1
 
   const nextStep = async () => {
-    const fieldsToValidate = currentSection.fields as Array<keyof z.infer<typeof formSchema>>
+    const fieldsToValidate = currentSection.fields as Array<keyof z.infer<typeof SuscriptorSchema>>
 
     const isValid = await form.trigger(fieldsToValidate)
     if (isValid && currentStep < formSections.length - 1) {
@@ -117,7 +115,7 @@ export default function StudentRegistrationForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="h-100">
               <CardContent className="space-y-6 py-6 px-0 h-3/4">
                 {currentSection.fields.map((fieldName) => {
-                  const field = fieldName as keyof z.infer<typeof formSchema>
+                  const field = fieldName as keyof z.infer<typeof SuscriptorSchema>
                   const label = formLabel.get(field)
                   const placeholder = formPlaceholder.get(field)
 
