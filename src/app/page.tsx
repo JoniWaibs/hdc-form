@@ -1,5 +1,6 @@
-"use client"
-import { useSearchParams } from 'next/navigation'
+'use client'
+
+import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -16,9 +17,12 @@ import { CardContent, CardFooter } from "@/components/ui/card"
 import { formLabel, formPlaceholder } from "./content/form"
 import { handleInputType } from "@/lib/utils"
 import { Resource } from "@/app/schema/resource"
+import { SplashLoaderModal } from '@/components/custom/splashLoaderModal'
 
 export default function SuscriptorRegistrationForm() {
+  const router = useRouter();
   const searchParams = useSearchParams()
+  const [loading, setLoading] = useState<boolean>(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [resource, setResource] = useState<Resource | null>(null)
   const resourceId = searchParams.get('resource_id')
@@ -54,33 +58,44 @@ export default function SuscriptorRegistrationForm() {
       fetchResource()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resourceId])
+  }, [])
 
   const fetchResource = async () => {
-    const response = await fetch(`/api/register?resource_id=${resourceId}`)
-    const { data } = await response.json()
-    console.log({ data })
+    try { 
+      const response = await fetch(`/api/resources?resource_id=${resourceId}`)
+      if(!response.ok) {
+        throw new Error('No se pudo obtener el recurso')
+      }
+      const { data } = await response.json()
     if(data) {
       setResource(data[0])
+    }
+  } catch (error) {
+      console.error('Error en /api/resources:', (error as Error).message)
     }
   }
 
   const onSubmit = async (values: z.infer<typeof SuscriptorSchema>) => {
-    console.log({ resource })
-    const response = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify({
-        suscriptor: values,
-        resource_id: resource?.id,
-      }),
-    })
-
-    const data = await response.json()
-    if (data.message) {
-      console.log({ data })
-      alert("¡Congrats de registro exitoso!")
-      window.scrollTo(0, 0)
-      setCurrentStep(currentStep + 1)
+    setLoading(true)
+    try { 
+      const response = await fetch("/api/suscription", {
+        method: "POST",
+        body: JSON.stringify({
+          suscriptor: values,
+          resource_id: resource?.id,
+        }),
+      })
+      
+      const data = await response.json();
+      if (data.redirect_url) {
+        router.push(data.redirect_url);
+      } else {
+        throw new Error('No se proporcionó una URL de redirección');
+      }
+    } catch (error) {
+      console.error('Error en /api/suscription:', (error as Error).message)
+    } finally {
+      clearForm()
     }
   }
 
@@ -109,12 +124,15 @@ export default function SuscriptorRegistrationForm() {
     setCurrentStep(0)
   }
 
+  if(loading) {
+    return <SplashLoaderModal open={loading} message="Un momento... ya casi estamos ✅" />
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 md:p-8">
       <div className="w-full max-w-3xl h-full">
         <div className="mb-8 flex justify-center h-2/4">
           <div className="h-16 w-auto">
-            {/* Replace with your company logo */}
             <div className="flex h-full items-center justify-center text-2xl font-bold">LOGO</div>
           </div>
         </div>

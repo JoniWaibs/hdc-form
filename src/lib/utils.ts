@@ -12,3 +12,6 @@ export const handleInputType = (field: string) => {
   }
   return false
 }
+export const getUrls = (url: string) => new Map<string, string>([
+  ["instagram", "https://www.instagram.com/hablemos.de.cancer/"]
+]).get(url)
