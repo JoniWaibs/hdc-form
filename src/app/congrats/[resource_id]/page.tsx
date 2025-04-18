@@ -1,16 +1,16 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, use, useEffect, useState } from 'react'
 import { CongratsScreen } from '@/components/custom/congratsScreen'
 import { Resource } from '@/app/schema'
 import { SplashLoaderModal } from '@/components/custom/splashLoaderModal'
-import { useSearchParams } from 'next/navigation'
+//import { useSearchParams } from 'next/navigation'
 
-export default function CongratsPage() {
-    const searchParams = useSearchParams()
+export default function CongratsPage({ params }: { params: Promise<{ resource_id: string }> }) {
+    const { resource_id: resourceId } = use(params)
+
     const [loading, setLoading] = useState<boolean>(true)
     const [resource, setResource] = useState<Resource | null>(null)
-    const resourceId = searchParams.get('resource_id')
 
   useEffect(() => {
     if(resourceId) {
@@ -40,11 +40,9 @@ export default function CongratsPage() {
   }
   }
 
-  if(loading || !resource) {
-    return <SplashLoaderModal open={loading} message="Un momento... ya casi estamos ✅" />
-  }
-
   return (
-    <CongratsScreen courseName={resource?.name || ''} />
+    <Suspense fallback={<SplashLoaderModal open={loading} message="Un momento... estamos procesando tus datos ✅" />}>
+      <CongratsScreen resourceName={resource?.name || ''} />
+    </Suspense>
   )
 }

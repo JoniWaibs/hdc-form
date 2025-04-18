@@ -1,6 +1,5 @@
 'use client'
 
-import Player from 'lottie-react'
 import { motion } from 'framer-motion'
 import successCheck from '@/app/assets/lottie/success-check.json'
 import wave from '@/app/assets/svg/wave-bg.svg'
@@ -8,19 +7,21 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { RRSSButton } from '@/components/custom/rrssButton'
 import { getUrls } from '@/lib/utils'
+import dynamic from 'next/dynamic'
+
+const Player = dynamic(() => import('lottie-react'), { ssr: false })
 
 type Props = {
-  courseName: string
+  resourceName: string
 }
 
-function CongratsScreen({ courseName }: Props) {
+function CongratsScreen({ resourceName }: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [LottiePlayer, setLottiePlayer] = useState<any>(null)
 
     useEffect(() => {
       if (!canvasRef.current) return
-      // Dinámicamente importamos canvas-confetti solo en el cliente
       import('canvas-confetti').then((module) => {
         const confetti = module.default
         const myConfetti = confetti.create(canvasRef.current!, {
@@ -75,7 +76,7 @@ function CongratsScreen({ courseName }: Props) {
       >
         <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 pb-6">¡Inscripción confirmada!</h1>
         <p className="text-gray-600 text-base sm:text-lg">
-          Ya estás inscripto en el curso <strong>{courseName}</strong>.<br />
+          Ya estás inscripto en el curso <strong>{resourceName}</strong>.<br />
           En breve recibirás un correo con más información y detalles de pago.
         </p>
       </motion.div>

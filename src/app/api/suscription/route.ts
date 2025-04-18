@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     
     //TODO: Launch welcome email with payment_mathods
 
-    return NextResponse.json({ message: 'Inscripción exitosa', data: response, redirect_url: `/congrats?resource_id=${body.resource_id}` }, { status: 201 })
+    return NextResponse.json({ message: 'Inscripción exitosa', data: response, redirect_url: `/congrats/${body.resource_id}` }, { status: 201 })
   } catch (error: unknown) {
     if (error instanceof ZodError) {
       return NextResponse.json(
