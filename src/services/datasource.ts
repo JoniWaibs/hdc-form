@@ -1,18 +1,7 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js'
-
+import { Supabase } from "@/lib/supabase";
 import { Suscriptor } from "@/app/schema";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-
-export class DataSource {
-  public supabase: SupabaseClient
-
-  constructor() {
-    this.supabase = createClient(supabaseUrl, supabaseAnonKey)
-  }
-
+export class DataSource extends Supabase {
   async getResource(id: string) {
     const { data, error } = await this.supabase.from('resources').select('*').eq('id', id)
     if (error) {

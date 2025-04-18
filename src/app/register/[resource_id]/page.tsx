@@ -24,7 +24,6 @@ export default function RegisterPage({ params }: { params: Promise<{ resource_id
   const [currentStep, setCurrentStep] = useState(0)
   const [resource, setResource] = useState<Resource | null>(null)
  
-
   const formSections = [
     { fields: ["name", "age", "identity_document"], title: "Comencemos con tus datos." },
     { fields: ["profession"], title: "Contanos sobre tu ocupación" },
@@ -128,13 +127,17 @@ export default function RegisterPage({ params }: { params: Promise<{ resource_id
   }
 
   return (
-    <Suspense fallback={<SplashLoaderModal open={loading} message="" />}>
+    <Suspense fallback={<SplashLoaderModal open={loading} message="Cargando..." />}>
       <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 md:p-8">
       <div className="w-full max-w-3xl h-full">
-        <div className="mb-8 flex justify-center h-2/4">
+        <div className="mb-8 flex flex-col text-center justify-center h-2/4">
           <div className="h-16 w-auto">
             <div className="flex h-full items-center justify-center text-2xl font-bold">LOGO</div>
           </div>
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800">{resource?.name}</h1>
+          </div>
+
         </div>
 
         <div className="w-full shadow-none h-2/4">

@@ -66,8 +66,7 @@ function CongratsScreen({ resourceName }: Props) {
           </motion.div>
         )
       }
-
-      {/* Contenido */}
+    
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -81,7 +80,6 @@ function CongratsScreen({ resourceName }: Props) {
         </p>
       </motion.div>
 
-      {/* CTA */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -91,7 +89,6 @@ function CongratsScreen({ resourceName }: Props) {
         <RRSSButton url={getUrls("instagram")!} />
       </motion.div>
 
-      {/* Ola decorativa */}
       <motion.div
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

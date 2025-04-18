@@ -39,7 +39,7 @@ export default function CongratsPage({ params }: { params: Promise<{ resource_id
   }
 
   return (
-    <Suspense fallback={<SplashLoaderModal open={loading} message="Un momento... estamos procesando tus datos ✅" />}>
+    <Suspense fallback={<SplashLoaderModal open={loading} message="Cargando..." />}>
       <CongratsScreen resourceName={resource?.name || ''} />
     </Suspense>
   )
