@@ -4,11 +4,9 @@ import { Suspense, use, useEffect, useState } from 'react'
 import { CongratsScreen } from '@/components/custom/congratsScreen'
 import { Resource } from '@/app/schema'
 import { SplashLoaderModal } from '@/components/custom/splashLoaderModal'
-//import { useSearchParams } from 'next/navigation'
 
 export default function CongratsPage({ params }: { params: Promise<{ resource_id: string }> }) {
     const { resource_id: resourceId } = use(params)
-
     const [loading, setLoading] = useState<boolean>(true)
     const [resource, setResource] = useState<Resource | null>(null)
 
