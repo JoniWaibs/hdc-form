@@ -13,4 +13,6 @@ export const SuscriptorSchema = z.object({
     how_did_you_hear: z.string().min(1, "(*)"),
     why_did_you_interested: z.string().min(1, "(*)"),
   })
+
+  export type Suscriptor = z.infer<typeof SuscriptorSchema>
   

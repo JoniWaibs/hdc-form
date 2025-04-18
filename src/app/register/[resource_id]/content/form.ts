@@ -5,7 +5,7 @@ export const formPlaceholder = new Map<string, string>([
 ]);
 
 export const formLabel = new Map<string, string>([
-  ["name", "Nombre"],
+  ["name", "Nombre y apellido"],
   ["email", "Email"],
   ["age", "Edad"],
   ["identity_document", "Documento de identidad"],
