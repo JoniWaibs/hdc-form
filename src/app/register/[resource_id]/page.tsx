@@ -16,6 +16,7 @@ import { formLabel, formPlaceholder } from "@/app/register/[resource_id]/content
 import { handleInputType } from "@/lib/utils"
 import { Resource } from "@/app/schema/resource"
 import { SplashLoaderModal } from '@/components/custom/splashLoaderModal'
+import { toast } from 'sonner'
 
 export default function RegisterPage({ params }: { params: Promise<{ resource_id: string }> }) {
     const { resource_id: resourceId } = use(params)
@@ -54,7 +55,7 @@ export default function RegisterPage({ params }: { params: Promise<{ resource_id
     if(resourceId) {
       fetchResource()
     }
-   
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchResource = async () => {
@@ -74,7 +75,7 @@ export default function RegisterPage({ params }: { params: Promise<{ resource_id
 
   const onSubmit = async (values: z.infer<typeof SuscriptorSchema>) => {
     setLoading(true)
-    try { 
+
       const response = await fetch("/api/suscription", {
         method: "POST",
         body: JSON.stringify({
@@ -82,18 +83,19 @@ export default function RegisterPage({ params }: { params: Promise<{ resource_id
           resource_id: resource?.id,
         }),
       })
-      
+
       const data = await response.json();
+
       if (data.redirect_url) {
-        router.push(data.redirect_url);
-      } else {
-        throw new Error('No se proporcionó una URL de redirección');
+        return router.push(data.redirect_url);
       }
-    } catch (error) {
-      console.error('Error en /api/suscription:', (error as Error).message)
-    } finally {
-      clearForm()
-    }
+
+      if(data.error && data.error.toString().includes('students_identity_document_key')) {
+        toast.error("Ya existe un registro con este correo electrónico.", {
+            duration: 3000,
+          })
+          clearForm()
+        }
   }
 
   const currentSection = formSections[currentStep]
@@ -119,8 +121,8 @@ export default function RegisterPage({ params }: { params: Promise<{ resource_id
   const clearForm = () => {
     form.reset()
     setCurrentStep(0)
+    setLoading(false)
   }
-
 
   if(loading) {
     return <SplashLoaderModal open={loading} message="Un momento... estamos procesando tus datos ✅" />
