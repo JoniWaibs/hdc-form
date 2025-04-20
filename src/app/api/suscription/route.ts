@@ -14,10 +14,6 @@ export async function POST(req: NextRequest) {
       resource_id: body.resource_id,
     })
 
-    if(response.status !== 201) {
-      return NextResponse.json({ error: 'No se pudo completar el registro. Intentá más tarde.' }, { status: 500 })
-    }
-    
     //TODO: Launch welcome email with payment_mathods
 
     return NextResponse.json({ message: 'Inscripción exitosa', data: response, redirect_url: `/congrats/${body.resource_id}` }, { status: 201 })
@@ -29,10 +25,8 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    console.error('Error en /api/register:', (error as Error).message)
-
     return NextResponse.json(
-      { error: `No se pudo completar el registro. Intentá más tarde. Error: ${(error as Error).message}` },
+      { error: `No se pudo completar el registro. Error: ${(error as Error).message}` },
       { status: 500 }
     )
   }
