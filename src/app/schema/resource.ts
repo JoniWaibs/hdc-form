@@ -9,7 +9,6 @@ export const ResourceSchema = z.object({
     name: z.string(),
     price: z.number(),
     start_date: z.string(),
-    url: z.string()
 })
 
 export type Resource = z.infer<typeof ResourceSchema>
