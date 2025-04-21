@@ -27,7 +27,7 @@ export class DataSource extends Supabase {
   };
 
   async createSuscriptor(payload: Suscriptor & { resource_id: string }) {
-    const { data, error } = await this.supabase.from('students').insert({
+    const { data, error, status } = await this.supabase.from('students').insert({
       ...payload,
       payment_confirmed: false,
     })
@@ -36,6 +36,6 @@ export class DataSource extends Supabase {
       throw error
     }
 
-    return data
+    return {data, status}
   }
 }
