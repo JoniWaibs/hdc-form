@@ -7,16 +7,32 @@ import {  ZodError } from "zod"
 export async function POST(req: NextRequest) { 
   try {
     const body: { suscriptor: Suscriptor, resource_id: string } = await req.json()
-    const data: Suscriptor = SuscriptorSchema.parse(body.suscriptor)
+    const suscriptorData: Suscriptor = SuscriptorSchema.parse(body.suscriptor)
     
-    const response = await new DataSource().createSuscriptor({
-      ...data,
+    const {data: responseData, status} = await new DataSource().createSuscriptor({
+      ...suscriptorData,
       resource_id: body.resource_id,
     })
 
-    //TODO: Launch welcome email with payment_mathods
+    if(status !== 201) {
+      return NextResponse.json({ error: 'No se pudo completar el registro' }, { status: 400 })
+    }
 
-    return NextResponse.json({ message: 'Inscripción exitosa', data: response, redirect_url: `/congrats/${body.resource_id}` }, { status: 201 })
+    const resource = await new DataSource().getResource(body.resource_id)
+    
+    if(resource.length > 0) {
+      await fetch(`${process.env.APP_URL}/api/notifier`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          suscriptor: suscriptorData,
+          resource: resource[0],
+          type: 'welcome'
+        })
+      })
+    }
+    
+    return NextResponse.json({ message: 'Inscripción exitosa', data: responseData, redirect_url: `/congrats/${body.resource_id}` }, { status: 201 })
   } catch (error: unknown) {
     if (error instanceof ZodError) {
       return NextResponse.json(
