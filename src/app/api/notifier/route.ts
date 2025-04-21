@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     try {
         await new EmailService().sendEmail({
-            to: 'joniwaibs@gmail.com',
+            to: body.suscriptor.email,
             subject: emailContent.subject,
             html: emailContent.html,
         })
