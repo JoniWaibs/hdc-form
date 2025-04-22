@@ -12,9 +12,9 @@ export const handleInputType = (field: string) => {
   }
   return false
 }
-export const getUrls = (url: string) => new Map<string, string>([
+export const getUrls = (rrss: string) => new Map<string, string>([
   ["instagram", "https://www.instagram.com/hablemos.de.cancer/"]
-]).get(url)
+]).get(rrss)
 
 export const getTimeByCountry = (country: string) => new Map<string, string>([
   ["Argentina", "10:00"],
