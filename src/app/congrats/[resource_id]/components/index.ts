@@ -1,2 +1,2 @@
-export * from './congratsScreen'
-export * from './rrssButton'
+export * from './CongratsScreen'
+export * from './RRSSButton'
