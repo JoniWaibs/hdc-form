@@ -6,7 +6,7 @@ async function getResource(resourceId: string): Promise<Resource | null> {
     try {
       const response = await fetch(
         `${process.env.APP_URL}/api/resources?resource_id=${resourceId}`,
-        { cache: 'no-store' }
+        { cache: 'no-store' } 
       );
       if (!response.ok) return null;
   
@@ -19,7 +19,7 @@ async function getResource(resourceId: string): Promise<Resource | null> {
   }
 
 
-export default async function RegisterPage({ params }: { params: { resource_id: string } }) {
+export default async function RegisterPage({ params }: { params: Promise<{ resource_id: string }> }) {
     const { resource_id } = await params
     const resource = await getResource(resource_id)
 
