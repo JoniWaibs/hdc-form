@@ -17,10 +17,11 @@ export class EmailService {
     html: string,
   }) {
     return this.resend.emails.send({
-      from: 'Hablemos de Cáncer <contacto@hablemosdecancer.com.ar>',
+      from: 'Hablemos de Cáncer <no-reply@hablemosdecancer.com.ar>',
       to,
       subject,
       html,
+      replyTo: 'contacto@hablemosdecancer.com.ar',
     });
   }
 }

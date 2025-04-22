@@ -1,5 +1,5 @@
 import { Resource, Suscriptor } from "@/app/schema";
-import { getTimeByCountry } from "@/lib/utils";
+import { getTimeByCountry, getUrls } from "@/lib/utils";
 
 
 export function getConfirmationEmail({ suscriptor, resource }: { suscriptor: Suscriptor; resource: Resource }) {
@@ -27,7 +27,7 @@ export function getConfirmationEmail({ suscriptor, resource }: { suscriptor: Sus
           <table role="presentation" style="width: 100%;">
             <tr>
               <td align="left" style="padding-top: 16px; text-align: center;">
-                <a href="https://www.instagram.com/hablemosdecancer"
+                <a href=${getUrls('instagram')}
                   target="_blank"
                   style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 9999px; color: white; background: linear-gradient(to right, #ec4899, #ef4444, #f59e0b); text-decoration: none; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s ease-in-out;">
                   Seguinos en Instagram

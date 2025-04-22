@@ -1,5 +1,5 @@
 import { Resource, Suscriptor } from "@/app/schema";
-import { getPaymentLinkByCountry } from "@/lib/utils";
+import { getPaymentLinkByCountry, getUrls } from "@/lib/utils";
 
 export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscriptor; resource: Resource }) {
     const { name: suscriptorName } = suscriptor;
@@ -11,7 +11,7 @@ export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscript
        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;">
   
         <div style="text-align: center; margin-bottom: 20px;">
-           <img src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png" alt="Hablemos de Cáncer" style="max-width: 180px; margin: 0 auto 20px;" />
+           <img src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets/HDC-2-mda-logo-05.png" alt="Hablemos de Cáncer" style="max-width: 180px; margin: 0 auto 20px;" />
         </div>
 
         <h2 style="font-size: 1.6em; margin-bottom: 10px; color: #333;">¡Hola ${suscriptorName}! 👋</h2>
@@ -37,7 +37,7 @@ export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscript
           <table role="presentation" style="width: 100%;">
             <tr>
               <td align="left" style="padding-top: 16px; text-align: center;">
-                <a href="https://www.instagram.com/hablemosdecancer"
+                <a href=${getUrls('instagram')}
                   target="_blank"
                   style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 9999px; color: white; background: linear-gradient(to right, #ec4899, #ef4444, #f59e0b); text-decoration: none; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s ease-in-out;">
                   Seguinos en Instagram
