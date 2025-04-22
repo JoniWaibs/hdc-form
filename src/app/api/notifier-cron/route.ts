@@ -2,6 +2,8 @@ import { Resource } from "@/app/schema"
 import { DataSource } from "@/services/datasource"
 import { parseISO, differenceInCalendarDays } from "date-fns"
 import { NextResponse } from "next/server"
+import { getReminderEmail } from "@/lib/emails/templates/reminder"
+import { EmailService } from "@/services/email"
 
 export async function GET() {
     const today = new Date()
@@ -26,17 +28,14 @@ export async function GET() {
             if (!suscriptors) {
                 return NextResponse.json({ message: 'No hay suscriptores para este curso' })
             }
-            
+
             for (const suscriptor of suscriptors) {
-              await fetch(`${process.env.APP_URL}/api/notifier`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  suscriptor,
-                  resource,
-                  type: 'reminder'
-                })
-              })
+              const emailContent = getReminderEmail({ suscriptor, resource })
+              await new EmailService().sendEmail({
+                to: suscriptor.email,
+                subject: emailContent.subject,
+                html: emailContent.html,
+            })
             }
           }
       

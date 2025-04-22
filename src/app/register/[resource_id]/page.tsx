@@ -24,10 +24,10 @@ async function getResource(resourceId: string): Promise<Resource | null> {
   
     if (resource) {
       return {
-        title: `Taller: ${resource.name}`, 
+        title: `Hablemos de Cáncer - ${resource.name}`, 
         description: `${resource.description}`,
         openGraph: {
-          title: `Taller: ${resource.name}`,
+          title: `Hablemos de Cáncer - ${resource.name}`,
           description: `${resource.description}`,
           url: `https://hablemosdecancer.com.ar/register/${resource.id}`,
           images: [
