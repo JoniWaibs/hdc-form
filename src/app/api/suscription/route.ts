@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       ...suscriptorData,
       resource_id: body.resource_id,
     })
-
+    console.log({responseData})
     if (status !== 201) {
       return NextResponse.json({ error: "No se pudo completar el registro" }, { status: 400 })
     }
@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
     (async () => {
       try {
         const resource = await new DataSource().getResource(body.resource_id)
+        console.log(resource[0])
         if (resource.length > 0) {
-          await fetch(`${process.env.APP_URL}/api/notifier`, {
+          const email =await fetch(`${process.env.APP_URL}/api/notifier`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
               type: "welcome",
             }),
           })
+          console.log({email})
         }
       } catch (err) {
         console.error(`Error al enviar el email de bienvenida: Error: ${(err as Error).message}`)
