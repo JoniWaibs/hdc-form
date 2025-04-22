@@ -27,21 +27,19 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
 
-    (async () => {
-      try {
-        const resource = await new DataSource().getResource(body.resource_id)
-        if (resource.length > 0) {
-          const emailContent = getWelcomeEmail({ suscriptor: body.suscriptor, resource: resource[0] })
-          await new EmailService().sendEmail({
-            to: body.suscriptor.email,
-            subject: emailContent.subject,
-            html: emailContent.html,
-        })
-        }
-      } catch (err) {
-        console.error(`Error al enviar el email de bienvenida: Error: ${(err as Error).message}`)
+    try {
+      const resource = await new DataSource().getResource(body.resource_id)
+      if (resource.length > 0) {
+        const emailContent = getWelcomeEmail({ suscriptor: body.suscriptor, resource: resource[0] })
+        await new EmailService().sendEmail({
+          to: body.suscriptor.email,
+          subject: emailContent.subject,
+          html: emailContent.html,
+      })
       }
-    })()
+    } catch (err) {
+      console.error(`Error al enviar el email de bienvenida: Error: ${(err as Error).message}`)
+    }
 
     return response
   } catch (error: unknown) {
