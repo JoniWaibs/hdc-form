@@ -1,18 +1,10 @@
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
 export class EmailService {
-  private transporter;
+  private resend: Resend
 
   constructor() {
-    this.transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT || '587'),
-        secure: false,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS
-        },
-      });
+    this.resend = new Resend(process.env.RESEND_API_KEY)
   }
 
   async sendEmail({
@@ -22,10 +14,10 @@ export class EmailService {
   }: {
     to: string;
     subject: string;
-    html: string;
+    html: string,
   }) {
-    return this.transporter.sendMail({
-      from: `"Hablemos de Cáncer"`,
+    return this.resend.emails.send({
+      from: 'Hablemos de Cáncer <contacto@hablemosdecancer.com.ar>',
       to,
       subject,
       html,
