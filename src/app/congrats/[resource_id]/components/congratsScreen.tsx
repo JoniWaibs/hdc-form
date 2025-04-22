@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { getUrls } from '@/lib/utils'
 import dynamic from 'next/dynamic'
-import { RRSSButton } from '@/app/congrats/[resource_id]/components'
+import { RRSSButton } from './RRSSButton'
 const Player = dynamic(() => import('lottie-react'), { ssr: false })
 
 function CongratsScreen({ resourceName }: {
