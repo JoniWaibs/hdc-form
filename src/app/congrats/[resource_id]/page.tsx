@@ -1,4 +1,4 @@
-import { CongratsScreen } from '@/app/congrats/[resource_id]/components'
+import { CongratsScreen } from './components/CongratsScreen'
 import { Resource } from '@/app/schema'
 
 async function getResource(resourceId: string): Promise<Resource | null> {
