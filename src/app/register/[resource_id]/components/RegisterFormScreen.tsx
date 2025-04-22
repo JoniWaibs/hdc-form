@@ -15,7 +15,7 @@ import { CardContent, CardFooter } from "@/components/ui/card"
 import { formLabel, formPlaceholder } from "@/app/register/[resource_id]/content/form"
 import { handleInputType } from "@/lib/utils"
 import { Resource } from "@/app/schema/resource"
-import { SplashLoaderModal } from '@/components/custom/splashLoaderModal'
+import { SplashLoaderModal } from '@/app/register/[resource_id]/components'
 import { toast } from 'sonner'
 import Image from 'next/image'
 
