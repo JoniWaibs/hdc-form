@@ -1,5 +1,7 @@
 import { Suscriptor, SuscriptorSchema } from "@/app/schema"
+import { getWelcomeEmail } from "@/lib/emails/templates/welcome"
 import { DataSource } from "@/services/datasource"
+import { EmailService } from "@/services/email"
 import { NextResponse, NextRequest } from "next/server"
 import { ZodError } from "zod"
 
@@ -29,15 +31,12 @@ export async function POST(req: NextRequest) {
       try {
         const resource = await new DataSource().getResource(body.resource_id)
         if (resource.length > 0) {
-         await fetch(`${process.env.APP_URL}/api/notifier`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              suscriptor: suscriptorData,
-              resource: resource[0],
-              type: "welcome",
-            }),
-          })
+          const emailContent = getWelcomeEmail({ suscriptor: body.suscriptor, resource: resource[0] })
+          await new EmailService().sendEmail({
+            to: body.suscriptor.email,
+            subject: emailContent.subject,
+            html: emailContent.html,
+        })
         }
       } catch (err) {
         console.error(`Error al enviar el email de bienvenida: Error: ${(err as Error).message}`)
