@@ -5,17 +5,14 @@ import successCheck from '@/app/assets/lottie/success-check.json'
 import wave from '@/app/assets/svg/wave-bg.svg'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { RRSSButton } from '@/components/custom/rrssButton'
 import { getUrls } from '@/lib/utils'
 import dynamic from 'next/dynamic'
-
+import { RRSSButton } from '@/app/congrats/[resource_id]/components'
 const Player = dynamic(() => import('lottie-react'), { ssr: false })
 
-type Props = {
+function CongratsScreen({ resourceName }: {
   resourceName: string
-}
-
-function CongratsScreen({ resourceName }: Props) {
+}) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [LottiePlayer, setLottiePlayer] = useState<any>(null)
