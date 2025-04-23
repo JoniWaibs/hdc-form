@@ -7,7 +7,7 @@ echo "Renombrando archivos problemáticos..."
 
 # Lista de archivos a renombrar: origen y destino
 declare -A FILES_TO_RENAME=(
-  ["app/congrats/[resource_id]/components/RRSSButton.tsx"]="app/congrats/[resource_id]/components/_RRSSButton.tsx"
+  ["/app/congrats/[resource_id]/components/RRSSButton.tsx"]="/app/congrats/[resource_id]/components/_RRSSButton.tsx"
   #["app/register/[resource_id]/components/splashLoaderModal.tsx"]="app/register/[resource_id]/components/SplashLoaderModal.tsx"
   #["app/register/[resource_id]/components/registerFormScreen.tsx"]="app/register/[resource_id]/components/RegisterFormScreen.tsx"
 )
