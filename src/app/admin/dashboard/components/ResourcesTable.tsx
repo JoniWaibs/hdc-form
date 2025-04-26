@@ -112,8 +112,8 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-              <DropdownMenuItem className="cursor-not-allowed pointer-events-none opacity-50">
-                <Link href={`/admin/resource/${resource.id}`} className="w-full cursor-not-allowed pointer-events-none">
+              <DropdownMenuItem>
+                <Link href={`/admin/resource/${resource.id}`}>
                   Ver detalles
                 </Link>
               </DropdownMenuItem>
