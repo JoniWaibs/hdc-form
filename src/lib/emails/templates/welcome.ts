@@ -1,5 +1,5 @@
 import { Resource, Suscriptor } from "@/app/schema";
-import { getPaymentLinkByCountry, getUrls } from "@/lib/utils";
+import { getPaymentAmountByCountry, getPaymentLinkByCountry, getUrls } from "@/lib/utils";
 
 export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscriptor; resource: Resource }) {
     const { name: suscriptorName } = suscriptor;
@@ -20,8 +20,9 @@ export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscript
         
         <p style="font-size: 1em; margin-bottom: 10px; color: #444;"><strong>Para completar tu inscripción, te pedimos que realices el pago mediante alguno de los siguientes métodos:</strong></p>
         
+        <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${getPaymentAmountByCountry(suscriptor.country.toLowerCase().trim(), resource.price)}</strong>.</p>
         <ul style="font-size: 1em; margin-bottom: 12px; padding-left: 20px; color: #444;">
-          ${getPaymentLinkByCountry(suscriptor.country)?.map((payment) => `<li><strong>${payment.name}</strong>: ${payment.link ? 'link' : 'alias'} 👉  ${payment.link ? `<a href="${payment.link}" target="_blank">${payment.link}</a>` : payment.alias}</li>`).join('')}
+          ${getPaymentLinkByCountry(suscriptor.country.toLowerCase().trim())?.map((payment) => `<li><strong>${payment.name}</strong>: ${payment.link ? 'link' : 'alias'} 👉  ${payment.link ? `<a href="${payment.link}" target="_blank">${payment.link}</a>` : payment.alias}</li>`).join('')}
         </ul>
 
          
