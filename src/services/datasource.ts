@@ -10,6 +10,15 @@ export class DataSource extends Supabase {
     return data
   }
 
+  async getResource(id: string) {
+    const { data, error } = await this.supabase.from('resources').select('*').eq('id', id)
+    if (error) {
+      throw error
+    }
+    return data
+  };
+
+
   async getSuscribers(resourceId: string) {
     const { data, error } = await this.supabase.from('subscribers').select('*').eq('resource_id', resourceId)
     if (error) {
@@ -18,13 +27,58 @@ export class DataSource extends Supabase {
     return data
   }
 
-  async getResource(id: string) {
-    const { data, error } = await this.supabase.from('resources').select('*').eq('id', id)
-    if (error) {
-      throw error
+  async getSubscriberResources({
+    resource_id,
+    subscriber_id,
+  }: {
+    resource_id?: string;
+    subscriber_id?: string;
+  } = {}) {
+    let query = this.supabase
+      .from('subscriber_resources')
+      .select(`
+        id,
+        payment_confirmed,
+        how_did_you_hear,
+        why_you_are_interested,
+        created_at,
+        subscriber:subscribers (
+          id,
+          name,
+          email,
+          identity_document,
+          city,
+          province,
+          country,
+          profession
+        ),
+        resource:resources (
+          id,
+          name,
+          description,
+          start_date,
+          end_date,
+          price,
+          meet_url
+        )
+      `);
+  
+    if (resource_id) {
+      query = query.eq('resource_id', resource_id);
     }
-    return data
-  };
+  
+    if (subscriber_id) {
+      query = query.eq('subscriber_id', subscriber_id);
+    }
+  
+    const { data, error } = await query;
+  
+    if (error) {
+      throw error;
+    }
+  
+    return data;
+  }
 
   async createSubscriber(payload: Subscriber) {
     const { data, error, status } = await this.supabase.from('subscribers').insert(payload).select('id')
@@ -61,4 +115,6 @@ export class DataSource extends Supabase {
     if (error) throw error;
     return data?.[0] ?? null;
   }
+
+  
 }
