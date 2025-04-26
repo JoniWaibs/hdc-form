@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
+import { format } from "date-fns"
 import { twMerge } from "tailwind-merge"
+import { es } from 'date-fns/locale';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -31,3 +33,14 @@ export const getPaymentLinkByCountry = (site: string) => new Map<string, {name: 
   ["Uruguay", [{name: "Prex", link: "https://www.prex.com.ar/"}, {name: "Paypal", link: "https://www.paypal.com/"}]],
   ["España", [{name: "Paypal", link: "paypal"}]],
 ]).get(site)
+
+
+export const formatResourceDate = (dateString: string): string => {
+  return format(new Date(dateString + "T00:00:00-03:00"), "d MMMM yyyy", { locale: es })
+};
+
+export const formatPrice = (price: number, currency: string): string => {
+  if (currency === "ARS") return price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
+  if (currency === "USD") return price.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
+  return price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
+};
