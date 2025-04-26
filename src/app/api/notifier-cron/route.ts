@@ -23,16 +23,16 @@ export async function GET() {
         }
 
         for (const resource of resourcesStartingTomorrow) {
-            const suscriptors = await new DataSource().getSuscribers(resource.id)
+            const subscribers = await new DataSource().getSuscribers(resource.id)
       
-            if (!suscriptors) {
-                return NextResponse.json({ message: 'No hay suscriptores para este curso' })
+            if (!subscribers) {
+                return NextResponse.json({ message: 'No hay subscriberes para este curso' })
             }
 
-            for (const suscriptor of suscriptors) {
-              const emailContent = getReminderEmail({ suscriptor, resource })
+            for (const subscriber of subscribers) {
+              const emailContent = getReminderEmail({ subscriber, resource })
               await new EmailService().sendEmail({
-                to: suscriptor.email,
+                to: subscriber.email,
                 subject: emailContent.subject,
                 html: emailContent.html,
             })
