@@ -1,8 +1,8 @@
-import { Resource, Suscriptor } from "@/app/schema";
+import { Resource, Subscriber } from "@/app/schema";
 import { getPaymentLinkByCountry, getUrls } from "@/lib/utils";
 
-export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscriptor; resource: Resource }) {
-    const { name: suscriptorName } = suscriptor;
+export function getWelcomeEmail({ subscriber, resource }: { subscriber: Subscriber; resource: Resource }) {
+    const { name: subscriberName } = subscriber;
     const { name: resourceName } = resource;
     
     return {
@@ -14,14 +14,14 @@ export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscript
            <img src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets/HDC-2-mda-logo-05.png" alt="Hablemos de Cáncer" style="max-width: 180px; margin: 0 auto 20px;" />
         </div>
 
-        <h2 style="font-size: 1.6em; margin-bottom: 10px; color: #333;">¡Hola ${suscriptorName}! 👋</h2>
+        <h2 style="font-size: 1.6em; margin-bottom: 10px; color: #333;">¡Hola ${subscriberName}! 👋</h2>
         
         <p style="font-size: 1em; margin-bottom: 12px; color: #444;">Gracias por inscribirte al taller <strong>${resourceName}</strong>. Estamos felices de tenerte a bordo 😊</p>
         
         <p style="font-size: 1em; margin-bottom: 10px; color: #444;"><strong>Para completar tu inscripción, te pedimos que realices el pago mediante alguno de los siguientes métodos:</strong></p>
         
         <ul style="font-size: 1em; margin-bottom: 12px; padding-left: 20px; color: #444;">
-          ${getPaymentLinkByCountry(suscriptor.country)?.map((payment) => `<li><strong>${payment.name}</strong>: ${payment.link ? 'link' : 'alias'} 👉  ${payment.link ? `<a href="${payment.link}" target="_blank">${payment.link}</a>` : payment.alias}</li>`).join('')}
+          ${getPaymentLinkByCountry(subscriber.country)?.map((payment) => `<li><strong>${payment.name}</strong>: ${payment.link ? 'link' : 'alias'} 👉  ${payment.link ? `<a href="${payment.link}" target="_blank">${payment.link}</a>` : payment.alias}</li>`).join('')}
         </ul>
 
          

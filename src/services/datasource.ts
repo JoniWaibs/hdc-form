@@ -1,5 +1,5 @@
 import { Supabase } from "@/lib/supabase";
-import { Suscriptor } from "@/app/schema";
+import { Subscriber } from "@/app/schema";
 
 export class DataSource extends Supabase {
   async getAllResources() {
@@ -11,7 +11,7 @@ export class DataSource extends Supabase {
   }
 
   async getSuscribers(resourceId: string) {
-    const { data, error } = await this.supabase.from('students').select('*').eq('resource_id', resourceId)
+    const { data, error } = await this.supabase.from('subscribers').select('*').eq('resource_id', resourceId)
     if (error) {
       throw error
     }
@@ -26,16 +26,39 @@ export class DataSource extends Supabase {
     return data
   };
 
-  async createSuscriptor(payload: Suscriptor & { resource_id: string }) {
-    const { data, error, status } = await this.supabase.from('students').insert({
-      ...payload,
-      payment_confirmed: false,
-    })
-
+  async createSubscriber(payload: Subscriber) {
+    const { data, error, status } = await this.supabase.from('subscribers').insert(payload).select('id')
+  
     if (error) {
       throw error
     }
+  
+    return { data, status }
+  }
 
-    return {data, status}
+  async createSubscriberResource(payload: {
+    subscriber_id: string;
+    resource_id: string;
+    how_did_you_hear: string;
+    why_you_are_interested: string;
+    payment_confirmed: boolean;
+  }) {
+    const { data, error, status } = await this.supabase
+      .from('subscriber_resources')
+      .insert(payload)
+      .select();
+  
+    if (error) throw error;
+    return { data, status };
+  }
+
+  async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
+    const { data, error } = await this.supabase
+      .from('subscribers')
+      .select('*')
+      .or(`email.eq.${email},identity_document.eq.${identity_document}`);
+  
+    if (error) throw error;
+    return data?.[0] ?? null;
   }
 }

@@ -5,7 +5,7 @@ import { Suspense, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { SuscriptorSchema } from "@/app/schema/suscriptor"
+import { SubscriberSchema, SubscriberWithHowDidYouHearSchema } from "@/app/schema"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -29,11 +29,11 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
     { fields: ["profession"], title: "Contanos sobre tu ocupación" },
     { fields: ["email", "phone"], title: "¿Cómo podemos contactarte?" },
     { fields: ["city", "province", "country"], title: "¿Dónde  vivís?" },
-    { fields: ["how_did_you_hear", "why_did_you_interested"], title: "Últimas preguntas" },
+    { fields: ["how_did_you_hear", "why_you_are_interested"], title: "Últimas preguntas" },
   ]
 
-  const form = useForm<z.infer<typeof SuscriptorSchema>>({
-    resolver: zodResolver(SuscriptorSchema),
+  const form = useForm<z.infer<typeof SubscriberWithHowDidYouHearSchema>>({
+    resolver: zodResolver(SubscriberWithHowDidYouHearSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -43,23 +43,27 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
       province: "",
       country: "",
       profession: "",
-      how_did_you_hear: "",
       identity_document: "",
-      why_did_you_interested: "",
+      how_did_you_hear: "",
+      why_you_are_interested: "",
     },
     mode: "onChange",
   })
 
-  const onSubmit = async (values: z.infer<typeof SuscriptorSchema>) => {
+  const onSubmit = async (values: z.infer<typeof SubscriberWithHowDidYouHearSchema>) => {
     setLoading(true)
+    
+    const { how_did_you_hear, why_you_are_interested, ...subscriber } = values
 
-      const response = await fetch("/api/suscription", {
-        method: "POST",
-        body: JSON.stringify({
-          suscriptor: values,
-          resource_id: resource?.id,
-        }),
-      })
+    const response = await fetch("/api/suscription", {
+      method: "POST",
+      body: JSON.stringify({
+        subscriber,
+        resource_id: resource?.id,
+        how_did_you_hear,
+        why_you_are_interested,
+      }),
+    })
 
       const data = await response.json();
 
@@ -79,7 +83,7 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
   const isLastStep = currentStep === formSections.length - 1
 
   const nextStep = async () => {
-    const fieldsToValidate = currentSection.fields as Array<keyof z.infer<typeof SuscriptorSchema>>
+    const fieldsToValidate = currentSection.fields as Array<keyof z.infer<typeof SubscriberSchema>>
 
     const isValid = await form.trigger(fieldsToValidate)
     if (isValid && currentStep < formSections.length - 1) {
@@ -141,7 +145,7 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
             <form onSubmit={form.handleSubmit(onSubmit)} className="h-100">
               <CardContent className="space-y-6 py-6 px-0 h-3/4">
                 {currentSection.fields.map((fieldName) => {
-                  const field = fieldName as keyof z.infer<typeof SuscriptorSchema>
+                  const field = fieldName as keyof z.infer<typeof SubscriberSchema>
                   const label = formLabel.get(field)
                   const placeholder = formPlaceholder.get(field)
 
