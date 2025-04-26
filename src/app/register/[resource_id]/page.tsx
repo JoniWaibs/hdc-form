@@ -5,7 +5,7 @@ import RegisterFormScreen from './components/RegisterFormScreen'
 async function getResource(resourceId: string): Promise<Resource | null> {
     try {
       const response = await fetch(
-        `${process.env.APP_URL}/api/resources?resource_id=${resourceId}`,
+        `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`,
         { cache: 'no-store' } 
       );
       if (!response.ok) return null;
