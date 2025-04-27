@@ -18,7 +18,7 @@ export function getConfirmationEmail({ suscriptor, resource }: { suscriptor: Sus
         <p style="font-size: 1em; margin-bottom: 10px;">Aquí está el enlace de acceso al taller:</p>
         <p style="font-size: 1em; margin-bottom: 10px;"><a href="${meetUrl}" target="_blank" style="color: #2563eb;">🔗 ${meetUrl}</a></p>
         <br/>
-        <p style="font-size: 1em; margin-bottom: 10px;">El mismo se llevará a cabo el <strong>${resourceDateFormatted}</strong> a las <strong>${getTimeByCountry(country)}</strong> en tu país. Comenzará puntualmente, así que te recomendamos ingresar unos minutos antes.</p>
+        <p style="font-size: 1em; margin-bottom: 10px;">El mismo se llevará a cabo el <strong>${resourceDateFormatted}</strong> a las <strong>${getTimeByCountry(country.toLowerCase().trim())}</strong> en tu país. Comenzará puntualmente, así que te recomendamos ingresar unos minutos antes.</p>
         <br/>
         <p style="font-size: 1em; margin-bottom: 10px;">¡Nos vemos pronto!</p>
         <p style="font-size: 1em;">El equipo de <strong>Hablemos de Cáncer</strong></p>

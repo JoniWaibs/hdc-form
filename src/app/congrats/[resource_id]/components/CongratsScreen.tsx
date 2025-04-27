@@ -73,8 +73,11 @@ function CongratsScreen({ resourceName }: {
         <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 pb-6">¡Inscripción confirmada!</h1>
         <p className="text-gray-600 text-base sm:text-lg">
           Ya estás inscripto en el curso <strong>{resourceName}</strong>.<br />
-          En breve recibirás un correo con más información y detalles de pago.
+          En breve recibirás un correo con más información y detalles de pago. 
         </p>
+        <strong>
+          No olvides revisar tu carpeta de spam o correo no deseado.
+        </strong>
       </motion.div>
 
       <motion.div
