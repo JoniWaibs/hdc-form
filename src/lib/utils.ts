@@ -3,6 +3,15 @@ import { format } from "date-fns"
 import { twMerge } from "tailwind-merge"
 import { es } from 'date-fns/locale';
 
+export interface PaymentLink {
+  name: string;
+  owner: string;
+  cvu?: string;
+  account?: string;
+  alias?: string;
+  link?: string;
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -50,13 +59,39 @@ export const getPaymentAmountByCountry = (country: string, price: number) => {
   return paymentMap.get(country) || formatPrice(40, "USD");
 }
 
+const mercadopago: PaymentLink = {
+  name: "Mercado Pago",
+  owner: "Maria Florencia Martinez",
+  cvu: "0000003100027698476876",
+  alias: "maflorencia.m.mp",
+}
+
+const global66: PaymentLink = {
+  name: "Global66",
+  owner: "Jonatan Ariel Waibsnaider",
+  account: "8331003380",
+  alias: "@JONWAI1",
+}
+
+const prex: PaymentLink = {
+  name: "Prex",
+  owner: "Jonatan Ariel Waibsnaider",
+  account: "1767995",
+}
+
+const paypal: PaymentLink = {
+  name: "Paypal",
+  owner: "Maria Florencia Martinez",
+  link: "https://www.paypal.me/maflorenciamartinez"
+}
+
 export const getPaymentLinkByCountry = (site: string) => {
-  const paymentLinks = new Map<string, {name: string, link?: string, alias?: string}[]>([
-    ["argentina", [{name: "Mercado Pago", link: "https://www.mercadopago.com.ar"}, {name: "Transferencia bancaria", alias: "alias"}, {name: "Paypal", link: "https://www.paypal.com/"}, {name: "Prex", link: "https://www.prex.com.ar/"}]],
-    ["chile", [{name: "Global66", link: "https://www.global66.cl"}, {name: "Paypal", link: "https://www.paypal.com/"}]],
-    ["colombia", [{name: "Paypal", link: "https://www.paypal.com/"}]],
-    ["uruguay", [{name: "Prex", link: "https://www.prex.com.ar/"}, {name: "Paypal", link: "https://www.paypal.com/"}]],
-    ["españa", [{name: "Paypal", link: "paypal"}]],
+  const paymentLinks = new Map<string, PaymentLink[]>([
+    ["argentina", [ mercadopago ]],
+    ["chile", [ global66 ]],
+    ["colombia", [ paypal ]],
+    ["uruguay", [ prex ]],
+    ["españa", [ paypal ]],
   ]);
-  return paymentLinks.get(site) || [{name: "Paypal", link: "https://www.paypal.com/"}];
+  return paymentLinks.get(site) || [paypal];
 }

@@ -22,10 +22,16 @@ export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscript
         
         <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${getPaymentAmountByCountry(suscriptor.country.toLowerCase().trim(), resource.price)}</strong>.</p>
         <ul style="font-size: 1em; margin-bottom: 12px; padding-left: 20px; color: #444;">
-          ${getPaymentLinkByCountry(suscriptor.country.toLowerCase().trim())?.map((payment) => `<li><strong>${payment.name}</strong>: ${payment.link ? 'link' : 'alias'} 👉  ${payment.link ? `<a href="${payment.link}" target="_blank">${payment.link}</a>` : payment.alias}</li>`).join('')}
-        </ul>
-
-         
+          ${getPaymentLinkByCountry(suscriptor.country.toLowerCase().trim())?.map((payment) => {
+            const paymentDetails = [];
+            if ('owner' in payment) paymentDetails.push(`<li>Titular 👉 ${payment.owner}</li>`);
+            if ('alias' in payment) paymentDetails.push(`<li>Alias 👉 ${payment.alias}</li>`);
+            if ('cvu' in payment) paymentDetails.push(`<li>CVU 👉 ${payment.cvu}</li>`);
+            if ('account' in payment) paymentDetails.push(`<li>Cuenta 👉 ${payment.account}</li>`);
+            if ('link' in payment) paymentDetails.push(`<li>Link 👉 <a href="${payment.link}" target="_blank">${payment.link}</a></li>`);
+            return `<li>Plataforma 👉 <strong>${payment.name}</strong></li>` + paymentDetails.join('');
+          }).join('')}
+        </ul>  
 
         <p style="font-size: 1em; margin-bottom: 12px; color: #444;">Una vez realizada la transferencia, por favor enviá el comprobante a <strong>contacto@hablemosdecancer.com.ar</strong>.</p>
         
