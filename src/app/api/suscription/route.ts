@@ -1,4 +1,4 @@
-import { Subscriber, SubscriberSchema } from "@/app/schema";
+import { SubscriberResourcePostSchema } from "@/app/schema";
 import { getWelcomeEmail } from "@/lib/emails/templates/welcome";
 import { DataSource } from "@/services/datasource";
 import { EmailService } from "@/services/email";
@@ -7,27 +7,24 @@ import { ZodError } from "zod";
 
 export async function POST(req: NextRequest) {
   try {
-    const body: {
-      subscriber: Subscriber;
-      resource_id: string;
-      how_did_you_hear: string;
-      why_you_are_interested: string;
-    } = await req.json();
+    const rawBody = await req.json();
 
-    const subscriberData: Subscriber = SubscriberSchema.parse(body.subscriber);
+    console.log("📦 Body recibido en POST /subscriber-resource:", JSON.stringify(rawBody, null, 2));
+
+    const body = SubscriberResourcePostSchema.parse(rawBody);
 
     const datasource = new DataSource();
 
-    let subscriber = await datasource.findSubscriberByEmailOrDocument(subscriberData.email, subscriberData.identity_document);
-    console.log(subscriber)
+    let subscriber = await datasource.findSubscriberByEmailOrDocument(body.subscriber.email, body.subscriber.identity_document);
+
     if (!subscriber) {
-      const { data: createdSubscriber, status } = await datasource.createSubscriber(subscriberData);
+      const { data: createdSubscriber, status } = await datasource.createSubscriber(body.subscriber);
       if (status !== 201 || !createdSubscriber || createdSubscriber.length === 0) {
         return NextResponse.json({ error: "No se pudo registrar el suscriptor" }, { status: 400 });
       }
       subscriber = createdSubscriber[0];
     }
-    console.log({'subscriber': subscriber, 'body': body})
+
     try {
       await datasource.createSubscriberResource({
         subscriber_id: subscriber.id,

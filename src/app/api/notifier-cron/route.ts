@@ -27,7 +27,7 @@ export async function GET() {
     for (const resource of resourcesStartingTomorrow) {
       const subscriberResources = await datasource.getSubscriberResources({ resource_id: resource.id });
 
-      const confirmedSubscribers = subscriberResources.filter(subscriberResource => subscriberResource.payment_confirmed);
+      const confirmedSubscribers = subscriberResources.filter(subscriberResource => subscriberResource);
 
       if (confirmedSubscribers.length === 0) {
         console.log(`No hay suscriptores confirmados para el curso ${resource.name}`);
@@ -35,7 +35,7 @@ export async function GET() {
       }
 
       for (const subscriberResource of confirmedSubscribers) {
-        const subscriber = await datasource.getSubscriberById(subscriberResource.subscriber.id);
+        const subscriber = await datasource.getSubscriberById(subscriberResource.subscriber.id!);
 
         if (!subscriber) {
           console.warn(`No se encontró suscriptor con id ${subscriberResource.subscriber.id}`);

@@ -1,5 +1,5 @@
 import { Supabase } from "@/lib/supabase";
-import { Resource, Subscriber, SubscriberResource } from "@/app/schema";
+import { Resource, Subscriber, SubscriberResourcePost } from "@/app/schema";
 
 export class DataSource extends Supabase {
   async getAllResources(): Promise<Resource[]> {
@@ -33,7 +33,7 @@ export class DataSource extends Supabase {
   }: {
     resource_id?: string;
     subscriber_id?: string;
-  } = {}): Promise<SubscriberResource[]> {
+  } = {}): Promise<SubscriberResourcePost[]> {
     let query = this.supabase
       .from('subscriber_resources')
       .select(`
@@ -77,7 +77,7 @@ export class DataSource extends Supabase {
       throw error;
     }
   
-    return data as unknown as SubscriberResource[];
+    return data as unknown as SubscriberResourcePost[];
   }
 
   async createSubscriber(payload: Subscriber) {
