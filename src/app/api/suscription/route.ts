@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       }
       subscriber = createdSubscriber[0];
     }
-    console.log({subscriber, 'body': body})
+    console.log({'subscriber': subscriber, 'body': body})
     try {
       await datasource.createSubscriberResource({
         subscriber_id: subscriber.id,

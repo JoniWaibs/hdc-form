@@ -95,8 +95,9 @@ export class DataSource extends Supabase {
     resource_id: string;
     how_did_you_hear: string;
     why_you_are_interested: string;
-    payment_confirmed?: boolean;
+    payment_confirmed: boolean;
   }) {
+    console.log('DDBB', {payload})
     try {
       const { data, error } = await this.supabase.from('subscriber_resources').insert([
         {

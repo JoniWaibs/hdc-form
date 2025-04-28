@@ -1,7 +1,8 @@
 import { z } from "zod"
 
 export const SubscriberSchema = z.object({
-    name: z.string().min(1, "(*)"),
+    id: z.string(),
+  name: z.string().min(1, "(*)"),
     email: z.string().email("Email inválido"),
     identity_document: z.string().min(1, "(*)"),
     age: z.string().min(1, "(*)"),
@@ -12,7 +13,7 @@ export const SubscriberSchema = z.object({
     profession: z.string().min(1, "(*)"),
   })
 
-  export type Subscriber = z.infer<typeof SubscriberSchema>
+  export type Subscriber = z.infer<typeof SubscriberSchema & { id: string }>
 
   export const SubscriberWithHowDidYouHearSchema = SubscriberSchema.extend({
     how_did_you_hear: z.string().min(1, "(*)"),

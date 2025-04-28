@@ -62,7 +62,7 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
       },
       body: JSON.stringify({
         subscriber,
-        resource_id: resource?.id,
+        resource_id: resource.id,
         how_did_you_hear,
         why_you_are_interested,
       }),
