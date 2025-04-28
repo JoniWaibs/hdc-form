@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const datasource = new DataSource();
 
     let subscriber = await datasource.findSubscriberByEmailOrDocument(subscriberData.email, subscriberData.identity_document);
-
+    console.log(subscriber)
     if (!subscriber) {
       const { data: createdSubscriber, status } = await datasource.createSubscriber(subscriberData);
       if (status !== 201 || !createdSubscriber || createdSubscriber.length === 0) {
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       }
       subscriber = createdSubscriber[0];
     }
-
+    console.log(subscriber)
     try {
       await datasource.createSubscriberResource({
         subscriber_id: subscriber.id,
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       if (message.includes("Ya estás inscripto en este recurso")) {
         return NextResponse.json({ error: message }, { status: 409 });
       }
-      return NextResponse.json({ error: 'Error al crear la relacion entre suscriptor y recurso' }, { status: 400 });
+      return NextResponse.json({ error: `Error al crear la relacion entre suscriptor y recurso. Error: ${message}` }, { status: 400 });
     }
 
     const response = NextResponse.json(
