@@ -53,9 +53,9 @@ export async function POST(req: NextRequest) {
     );
 
     try {
-      const resource = await datasource.getResource(body.resource_id);
-      if (resource.length > 0) {
-        const emailContent = getWelcomeEmail({ subscriber: body.subscriber, resource: resource[0] });
+      const resource = await datasource.getResourceById(body.resource_id);
+      if (resource) {
+        const emailContent = getWelcomeEmail({ subscriber: body.subscriber, resource });
         await new EmailService().sendEmail({
           to: body.subscriber.email,
           subject: emailContent.subject,

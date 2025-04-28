@@ -1,8 +1,8 @@
 import { Supabase } from "@/lib/supabase";
-import { Subscriber } from "@/app/schema";
+import { Resource, Subscriber, SubscriberResource } from "@/app/schema";
 
 export class DataSource extends Supabase {
-  async getAllResources() {
+  async getAllResources(): Promise<Resource[]> {
     const { data, error } = await this.supabase.from('resources').select('*')
     if (error) {
       throw error
@@ -10,21 +10,21 @@ export class DataSource extends Supabase {
     return data
   }
 
-  async getResource(id: string) {
+  async getResourceById(id: string): Promise<Resource | null> {
     const { data, error } = await this.supabase.from('resources').select('*').eq('id', id)
     if (error) {
       throw error
     }
-    return data
+    return data?.[0] ?? null
   };
 
 
-  async getSuscribers(resourceId: string) {
-    const { data, error } = await this.supabase.from('subscribers').select('*').eq('resource_id', resourceId)
+  async getSubscriberById(subscriberId: string): Promise<Subscriber | null> {
+    const { data, error } = await this.supabase.from('subscribers').select('*').eq('id', subscriberId)
     if (error) {
       throw error
     }
-    return data
+    return data?.[0] ?? null
   }
 
   async getSubscriberResources({
@@ -33,7 +33,7 @@ export class DataSource extends Supabase {
   }: {
     resource_id?: string;
     subscriber_id?: string;
-  } = {}) {
+  } = {}): Promise<SubscriberResource[]> {
     let query = this.supabase
       .from('subscriber_resources')
       .select(`
@@ -77,7 +77,7 @@ export class DataSource extends Supabase {
       throw error;
     }
   
-    return data;
+    return data as unknown as SubscriberResource[];
   }
 
   async createSubscriber(payload: Subscriber) {
@@ -120,9 +120,9 @@ export class DataSource extends Supabase {
       throw new Error(`Error al crear la suscripción: ${(err as Error).message}`);
     }
   }
-  
 
-  async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
+
+  async findSubscriberByEmailOrDocument(email: string, identity_document: string): Promise<Subscriber | null> {
     const { data, error } = await this.supabase
       .from('subscribers')
       .select('*')
