@@ -22,25 +22,27 @@ export async function POST(req: NextRequest) {
 
     if (!subscriber) {
       const { data: createdSubscriber, status } = await datasource.createSubscriber(subscriberData);
-      if (status !== 201) {
+      if (status !== 201 || !createdSubscriber || createdSubscriber.length === 0) {
         return NextResponse.json({ error: "No se pudo registrar el suscriptor" }, { status: 400 });
       }
       subscriber = createdSubscriber[0];
     }
 
-    const { data: subscriberResource, status: subscriberResourceStatus } = await datasource.createSubscriberResource({
-      subscriber_id: subscriber.id,
-      resource_id: body.resource_id,
-      how_did_you_hear: body.how_did_you_hear,
-      why_you_are_interested: body.why_you_are_interested,
-      payment_confirmed: false,
-    });
-
-    if (subscriberResourceStatus !== 201) {
-      return NextResponse.json({ error: "No se pudo registrar la inscripción" }, { status: 400 });
+    try {
+      await datasource.createSubscriberResource({
+        subscriber_id: subscriber.id,
+        resource_id: body.resource_id,
+        how_did_you_hear: body.how_did_you_hear,
+        why_you_are_interested: body.why_you_are_interested,
+        payment_confirmed: false,
+      });
+    } catch (err) {
+      const message = (err as Error).message;
+      if (message.includes("Ya estás inscripto en este recurso")) {
+        return NextResponse.json({ error: message }, { status: 409 });
+      }
+      return NextResponse.json({ error: 'Error al crear la relacion entre suscriptor y recurso' }, { status: 400 });
     }
-
-    console.log(subscriberResource)
 
     const response = NextResponse.json(
       {

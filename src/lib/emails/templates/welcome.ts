@@ -20,7 +20,7 @@ export function getWelcomeEmail({ subscriber, resource }: { subscriber: Subscrib
         
         <p style="font-size: 1em; margin-bottom: 10px; color: #444;"><strong>Para completar tu inscripción, te pedimos que realices el pago mediante alguno de los siguientes métodos:</strong></p>
         
-        <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${getPaymentAmountByCountry(suscriptor.country.toLowerCase().trim(), resource.price)}</strong>.</p>
+        <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${getPaymentAmountByCountry(subscriber.country.toLowerCase().trim(), resource.price)}</strong>.</p>
         <ul style="font-size: 1em; margin-bottom: 12px; padding-left: 20px; color: #444;">
           ${getPaymentLinkByCountry(subscriber.country.toLowerCase().trim())?.map((payment) => {
             const paymentDetails = [];

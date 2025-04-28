@@ -64,19 +64,19 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
         why_you_are_interested,
       }),
     })
-
       const data = await response.json();
 
       if (data.redirect_url) {
         return router.push(data.redirect_url);
       }
 
-      if(data.error && data.error.toString().includes('students_identity_document_key')) {
-        toast.error("Ya existe un registro con este correo electrónico.", {
-            duration: 3000,
-          })
-          clearForm()
-        }
+      if(data.error && data.error.toString().includes('Ya estás inscripto en este recurso')) {
+        toast.error(data.error.toString(), {
+          duration: 3000,
+        })
+        clearForm()
+      }
+
   }
 
   const currentSection = formSections[currentStep]

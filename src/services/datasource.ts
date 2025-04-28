@@ -95,16 +95,32 @@ export class DataSource extends Supabase {
     resource_id: string;
     how_did_you_hear: string;
     why_you_are_interested: string;
-    payment_confirmed: boolean;
+    payment_confirmed?: boolean;
   }) {
-    const { data, error, status } = await this.supabase
-      .from('subscriber_resources')
-      .insert(payload)
-      .select();
+    try {
+      const { data, error } = await this.supabase.from('subscriber_resources').insert([
+        {
+          subscriber_id: payload.subscriber_id,
+          resource_id: payload.resource_id,
+          how_did_you_hear: payload.how_did_you_hear,
+          why_you_are_interested: payload.why_you_are_interested,
+          payment_confirmed: payload.payment_confirmed ?? false,
+        }
+      ]);
   
-    if (error) throw error;
-    return { data, status };
+      if (error) {
+        if (error.code === '23505') {
+          throw new Error('Ya estás inscripto en este recurso.');
+        }
+        throw error;
+      }
+  
+      return { data };
+    } catch (err) {
+      throw new Error(`Error al crear la suscripción: ${(err as Error).message}`);
+    }
   }
+  
 
   async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
     const { data, error } = await this.supabase
@@ -115,6 +131,4 @@ export class DataSource extends Supabase {
     if (error) throw error;
     return data?.[0] ?? null;
   }
-
-  
 }
