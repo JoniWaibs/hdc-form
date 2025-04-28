@@ -1,6 +1,5 @@
 "use client"
 
-import { format } from "date-fns"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   type ColumnDef,
@@ -28,7 +27,7 @@ import {
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Resource } from "@/app/schema"
-import { formatPrice } from "@/lib/utils"
+import { formatPrice, formatResourceDate } from "@/lib/utils"
 
 interface ResourcesTableProps {
   resources: Resource[]
@@ -68,7 +67,7 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
           </div>
         )
       },
-      cell: ({ row }) => <div>{format(new Date(row.getValue("start_date")), "PPP")}</div>,
+      cell: ({ row }) => <div>{formatResourceDate(row.getValue("start_date"))}</div>,
     },
     {
       accessorKey: "price",

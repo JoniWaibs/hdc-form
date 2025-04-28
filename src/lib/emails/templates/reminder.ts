@@ -14,7 +14,7 @@ export function getReminderEmail({ subscriber, resource }: { subscriber: Subscri
           <p style="font-size: 1em; margin-bottom: 10px;">Hola <strong>${subscriberName}</strong>, te recordamos que mañana es el taller <strong>${resourceName}</strong> 🧠💬</p>
           <p style="font-size: 1em; margin-bottom: 10px;">Recordá tener a mano este enlace para conectarte al Meet:</p>
           <p style="font-size: 1em; margin-bottom: 10px;"><a href="${meetUrl}" target="_blank" style="color: #2563eb; word-break: break-word;">🔗 ${meetUrl}</a></p>
-          <p style="font-size: 1em; margin-bottom: 10px;">El evento comienza a las <strong>${getTimeByCountry(country)}</strong> de tu país. ¡Te esperamos puntual!</p>
+          <p style="font-size: 1em; margin-bottom: 10px;">El evento comienza a las <strong>${getTimeByCountry(country.toLowerCase().trim())}</strong> de tu país. ¡Te esperamos puntual!</p>
           <br/>
           <p style="font-size: 1em;">Con cariño,</p>
           <p style="font-size: 1em;">El equipo de <strong>Hablemos de Cáncer</strong></p>
