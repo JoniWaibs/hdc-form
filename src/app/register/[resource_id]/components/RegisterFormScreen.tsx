@@ -57,6 +57,9 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
 
     const response = await fetch("/api/suscription", {
       method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         subscriber,
         resource_id: resource?.id,
