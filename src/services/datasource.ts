@@ -122,7 +122,7 @@ export class DataSource extends Supabase {
   }
 
 
-  async findSubscriberByEmailOrDocument(email: string, identity_document: string): Promise<Subscriber | null> {
+  async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
     const { data, error } = await this.supabase
       .from('subscribers')
       .select('*')
