@@ -8,7 +8,10 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Hablemos de cancer",
-  description: "Inscribete a al curso Acompañar tambien puede doler",
+  description: "Plataforma de formaciones",
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
