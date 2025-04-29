@@ -83,7 +83,7 @@ export class DataSource extends Supabase {
 
   async createSubscriber(payload: Subscriber) {
     const { data, error, status } = await this.supabase.from('subscribers').insert(payload).select('id')
-    console.log('DDBB createSubscriber', {data, error, status})
+
     if (error) {
       throw error
     }
@@ -98,7 +98,7 @@ export class DataSource extends Supabase {
     why_you_are_interested: string;
     payment_confirmed: boolean;
   }) {
-    console.log('DDBB, createSubscriberResource', {payload})
+
     try {
       const { data, error } = await this.supabase.from('subscriber_resources').insert([
         {
@@ -124,7 +124,6 @@ export class DataSource extends Supabase {
   }
 
   async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
-    console.log('DDBB, findSubscriberByEmailOrDocument', {email, identity_document})
     const { data, error } = await this.supabase
       .from('subscribers')
       .select('*')
