@@ -1,2 +1,2 @@
 export * from "./resource"
-export * from "./suscriptor"
+export * from "./subscriber"

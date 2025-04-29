@@ -17,7 +17,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const handleInputType = (field: string) => {
-  const availableTextAreas = ["how_did_you_hear", "why_did_you_interested"]
+  const availableTextAreas = ["how_did_you_hear", "why_you_are_interested"]
   if (availableTextAreas.includes(field)) {
     return true
   }

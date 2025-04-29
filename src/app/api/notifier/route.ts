@@ -1,4 +1,4 @@
-import { Resource, Suscriptor } from "@/app/schema"
+import { Resource, Subscriber } from "@/app/schema"
 import { getConfirmationEmail } from "@/lib/emails/templates/confirmation"
 import { getReminderEmail } from "@/lib/emails/templates/reminder"
 import { getWelcomeEmail } from "@/lib/emails/templates/welcome"
@@ -6,19 +6,19 @@ import { EmailService } from "@/services/email"
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {
-    const body: { suscriptor: Suscriptor, resource: Resource, type: string } = await req.json()
+    const body: { subscriber: Subscriber, resource: Resource, type: string } = await req.json()
 
     const emailContentByType = new Map([
-        ['welcome', getWelcomeEmail({ suscriptor: body.suscriptor, resource: body.resource })],
-        ['reminder', getReminderEmail({ suscriptor: body.suscriptor, resource: body.resource })],
-        ['confirmation', getConfirmationEmail({ suscriptor: body.suscriptor, resource: body.resource })],
+        ['welcome', getWelcomeEmail({ subscriber: body.subscriber, resource: body.resource })],
+        ['reminder', getReminderEmail({ subscriber: body.subscriber, resource: body.resource })],
+        ['confirmation', getConfirmationEmail({ subscriber: body.subscriber, resource: body.resource })],
     ])
 
     const emailContent = emailContentByType.get(body.type)!
 
     try {
         await new EmailService().sendEmail({
-            to: body.suscriptor.email,
+            to: body.subscriber.email,
             subject: emailContent.subject,
             html: emailContent.html,
         })

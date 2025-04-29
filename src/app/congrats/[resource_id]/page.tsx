@@ -10,7 +10,7 @@ async function getResource(resourceId: string): Promise<Resource | null> {
     if (!response.ok) return null;
 
     const { data } = await response.json();
-    return data?.[0] || null;
+    return data || null;
   } catch (error) {
     console.error("Error al obtener recurso:", error);
     return null;
@@ -20,7 +20,7 @@ async function getResource(resourceId: string): Promise<Resource | null> {
 export default async function CongratsPage({ params }: { params: Promise<{ resource_id: string }> }) {
   const { resource_id } = await params
   const resource = await getResource(resource_id)
-
+  
   if (!resource) {
       return (
         <div className="p-8 text-center text-red-500">

@@ -1,8 +1,8 @@
-import { Resource, Suscriptor } from "@/app/schema";
+import { Resource, Subscriber } from "@/app/schema";
 import { getPaymentAmountByCountry, getPaymentLinkByCountry, getUrls } from "@/lib/utils";
 
-export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscriptor; resource: Resource }) {
-    const { name: suscriptorName } = suscriptor;
+export function getWelcomeEmail({ subscriber, resource }: { subscriber: Subscriber; resource: Resource }) {
+    const { name: subscriberName } = subscriber;
     const { name: resourceName } = resource;
     
     return {
@@ -14,15 +14,15 @@ export function getWelcomeEmail({ suscriptor, resource }: { suscriptor: Suscript
            <img src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets/HDC-2-mda-logo-05.png" alt="Hablemos de Cáncer" style="max-width: 180px; margin: 0 auto 20px;" />
         </div>
 
-        <h2 style="font-size: 1.6em; margin-bottom: 10px; color: #333;">¡Hola ${suscriptorName}! 👋</h2>
+        <h2 style="font-size: 1.6em; margin-bottom: 10px; color: #333;">¡Hola ${subscriberName}! 👋</h2>
         
         <p style="font-size: 1em; margin-bottom: 12px; color: #444;">Gracias por inscribirte al taller <strong>${resourceName}</strong>. Estamos felices de tenerte a bordo 😊</p>
         
         <p style="font-size: 1em; margin-bottom: 10px; color: #444;"><strong>Para completar tu inscripción, te pedimos que realices el pago mediante alguno de los siguientes métodos:</strong></p>
         
-        <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${getPaymentAmountByCountry(suscriptor.country.toLowerCase().trim(), resource.price)}</strong>.</p>
+        <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${getPaymentAmountByCountry(subscriber.country.toLowerCase().trim(), resource.price)}</strong>.</p>
         <ul style="font-size: 1em; margin-bottom: 12px; padding-left: 20px; color: #444;">
-          ${getPaymentLinkByCountry(suscriptor.country.toLowerCase().trim())?.map((payment) => {
+          ${getPaymentLinkByCountry(subscriber.country.toLowerCase().trim())?.map((payment) => {
             const paymentDetails = [];
             if ('owner' in payment) paymentDetails.push(`<li>Titular 👉 ${payment.owner}</li>`);
             if ('alias' in payment) paymentDetails.push(`<li>Alias 👉 ${payment.alias}</li>`);

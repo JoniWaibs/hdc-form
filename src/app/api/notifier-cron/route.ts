@@ -1,47 +1,64 @@
-import { Resource } from "@/app/schema"
-import { DataSource } from "@/services/datasource"
-import { parseISO, differenceInCalendarDays } from "date-fns"
-import { NextResponse } from "next/server"
-import { getReminderEmail } from "@/lib/emails/templates/reminder"
-import { EmailService } from "@/services/email"
+import { DataSource } from "@/services/datasource";
+import { parseISO, differenceInCalendarDays } from "date-fns";
+import { NextResponse } from "next/server";
+import { getReminderEmail } from "@/lib/emails/templates/reminder";
+import { EmailService } from "@/services/email";
+
 
 export async function GET() {
-    const today = new Date()
-    const tomorrow = new Date(today)
-    tomorrow.setDate(today.getDate() + 1)
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
 
-    try {
-       const resources = await new DataSource().getAllResources()
-    
-        const resourcesStartingTomorrow = resources.filter((resource: Resource) => {
-            const startDate = parseISO(resource.start_date)
-            return differenceInCalendarDays(startDate, tomorrow) === 0
-        })
+  const datasource = new DataSource();
 
-        if (resourcesStartingTomorrow.length === 0) {
-            return NextResponse.json({ message: 'No hay cursos para mañana' })
+  try {
+    const resources = await datasource.getAllResources();
+
+    const resourcesStartingTomorrow = resources.filter(resource => {
+      const startDate = parseISO(resource.start_date);
+      return differenceInCalendarDays(startDate, tomorrow) === 0;
+    });
+
+    if (resourcesStartingTomorrow.length === 0) {
+      return NextResponse.json({ message: "No hay cursos que comiencen mañana" });
+    }
+
+    for (const resource of resourcesStartingTomorrow) {
+      const subscriberResources = await datasource.getSubscriberResources({ resource_id: resource.id });
+
+      const confirmedSubscribers = subscriberResources.filter(subscriberResource => subscriberResource);
+
+      if (confirmedSubscribers.length === 0) {
+        console.log(`No hay suscriptores confirmados para el curso ${resource.name}`);
+        continue;
+      }
+
+      for (const subscriberResource of confirmedSubscribers) {
+        const subscriber = await datasource.getSubscriberById(subscriberResource.subscriber.id!);
+
+        if (!subscriber) {
+          console.warn(`No se encontró suscriptor con id ${subscriberResource.subscriber.id}`);
+          continue;
         }
 
-        for (const resource of resourcesStartingTomorrow) {
-            const suscriptors = await new DataSource().getSuscribers(resource.id)
-      
-            if (!suscriptors) {
-                return NextResponse.json({ message: 'No hay suscriptores para este curso' })
-            }
-
-            for (const suscriptor of suscriptors) {
-              const emailContent = getReminderEmail({ suscriptor, resource })
-              await new EmailService().sendEmail({
-                to: suscriptor.email,
-                subject: emailContent.subject,
-                html: emailContent.html,
-            })
-            }
-          }
-      
-          return NextResponse.json({ message: 'Peticion de recordatorios enviada correctamente' })
-
-    } catch (error) {
-        return NextResponse.json({ error: (error as Error).message }, { status: 500 })
+        const emailContent = getReminderEmail({ subscriber: subscriber[0], resource });
+        try {
+          await new EmailService().sendEmail({
+            to: subscriber[0].email,
+            subject: emailContent.subject,
+            html: emailContent.html,
+          });
+        } catch (emailError) {
+          console.error(`Error enviando email a ${subscriber[0].email}:`, (emailError as Error).message);
+        }
+      }
     }
+
+    return NextResponse.json({ message: "Recordatorios enviados correctamente" });
+
+  } catch (error) {
+    console.error("Error general:", error);
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  }
 }

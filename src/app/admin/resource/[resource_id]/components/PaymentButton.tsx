@@ -14,7 +14,7 @@ interface PaymentButtonProps {
 export function PaymentButton({ studentId, resourceId, onPaymentMarked }: PaymentButtonProps) {
   const [isPending, setIsPending] = useState(false)
   const [isPaid, setIsPaid] = useState(false)
-    console.log(studentId, resourceId)
+    console.log('TODO: marcar como pagado',studentId, resourceId)
   const handleMarkAsPaid = async () => {
     setIsPending(true)
 
