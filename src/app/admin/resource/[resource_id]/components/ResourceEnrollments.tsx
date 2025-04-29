@@ -73,7 +73,7 @@ export function ResourceEnrollments({ resourceId }: { resourceId: string }) {
                         studentId={student.id}
                         resourceId={resourceId}
                         onPaymentMarked={(studentId) => {
-                          console.log(`Pago marcado para el estudiante ${studentId}`)
+                          console.log(`TODO: Pago marcado para el estudiante ${studentId}`)
                           // Aquí puedes actualizar el estado local si lo necesitas
                         }}
                       />

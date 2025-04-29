@@ -9,8 +9,6 @@ export async function POST(req: NextRequest) {
   try {
     const rawBody = await req.json();
 
-    console.log("📦 Body recibido en POST /subscriber-resource:", JSON.stringify(rawBody, null, 2));
-
     const body = SubscriberResourcePostSchema.parse(rawBody);
 
     const datasource = new DataSource();
@@ -24,7 +22,7 @@ export async function POST(req: NextRequest) {
       }
       subscriber = createdSubscriber;
     }
-    console.log('subscriber', {subscriber})
+
     try {
       await datasource.createSubscriberResource({
         subscriber_id: subscriber[0].id,
