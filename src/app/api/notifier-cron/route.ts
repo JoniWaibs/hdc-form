@@ -42,15 +42,15 @@ export async function GET() {
           continue;
         }
 
-        const emailContent = getReminderEmail({ subscriber, resource });
+        const emailContent = getReminderEmail({ subscriber: subscriber[0], resource });
         try {
           await new EmailService().sendEmail({
-            to: subscriber.email,
+            to: subscriber[0].email,
             subject: emailContent.subject,
             html: emailContent.html,
           });
         } catch (emailError) {
-          console.error(`Error enviando email a ${subscriber.email}:`, (emailError as Error).message);
+          console.error(`Error enviando email a ${subscriber[0].email}:`, (emailError as Error).message);
         }
       }
     }

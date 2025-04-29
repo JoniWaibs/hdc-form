@@ -17,17 +17,17 @@ export async function POST(req: NextRequest) {
 
     let subscriber = await datasource.findSubscriberByEmailOrDocument(body.subscriber.email, body.subscriber.identity_document);
 
-    if (!subscriber) {
+    if (!subscriber.length) {
       const { data: createdSubscriber, status } = await datasource.createSubscriber(body.subscriber);
       if (status !== 201 || !createdSubscriber || createdSubscriber.length === 0) {
         return NextResponse.json({ error: "No se pudo registrar el suscriptor" }, { status: 400 });
       }
-      subscriber = createdSubscriber[0];
+      subscriber = createdSubscriber;
     }
-
+    console.log('subscriber', {subscriber})
     try {
       await datasource.createSubscriberResource({
-        subscriber_id: subscriber.id,
+        subscriber_id: subscriber[0].id,
         resource_id: body.resource_id,
         how_did_you_hear: body.how_did_you_hear,
         why_you_are_interested: body.why_you_are_interested,
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     try {
       const resource = await datasource.getResourceById(body.resource_id);
       if (resource) {
-        const emailContent = getWelcomeEmail({ subscriber: body.subscriber, resource });
+        const emailContent = getWelcomeEmail({ subscriber: body.subscriber, resource: resource[0] });
         await new EmailService().sendEmail({
           to: body.subscriber.email,
           subject: emailContent.subject,

@@ -1,5 +1,5 @@
 import { Supabase } from "@/lib/supabase";
-import { Resource, ResourceSchema, Subscriber, SubscriberResourcePost } from "@/app/schema";
+import { Resource, Subscriber, SubscriberResourcePost } from "@/app/schema";
 
 export class DataSource extends Supabase {
   async getAllResources(): Promise<Resource[]> {
@@ -10,33 +10,22 @@ export class DataSource extends Supabase {
     return data
   }
 
-  async getResourceById(id: string): Promise<Resource | null> {
+  async getResourceById(id: string) {
     const { data, error } = await this.supabase.from('resources').select('*').eq('id', id)
     if (error) {
       throw error
     }
   
-    const resource = data?.[0] ?? null;
-  
-    if (resource) {
-      try {
-        return ResourceSchema.parse(resource);
-      } catch (e) {
-        console.error('Error de validación de Resource:', e);
-        return null;
-      }
-    }
-  
-    return null;
+    return data;
   };
 
 
-  async getSubscriberById(subscriberId: string): Promise<Subscriber | null> {
+  async getSubscriberById(subscriberId: string) {
     const { data, error } = await this.supabase.from('subscribers').select('*').eq('id', subscriberId)
     if (error) {
       throw error
     }
-    return data?.[0] ?? null
+    return data;
   }
 
   async getSubscriberResources({
@@ -94,7 +83,7 @@ export class DataSource extends Supabase {
 
   async createSubscriber(payload: Subscriber) {
     const { data, error, status } = await this.supabase.from('subscribers').insert(payload).select('id')
-  
+    console.log('DDBB createSubscriber', {data, error, status})
     if (error) {
       throw error
     }
@@ -109,7 +98,7 @@ export class DataSource extends Supabase {
     why_you_are_interested: string;
     payment_confirmed: boolean;
   }) {
-    console.log('DDBB', {payload})
+    console.log('DDBB, createSubscriberResource', {payload})
     try {
       const { data, error } = await this.supabase.from('subscriber_resources').insert([
         {
@@ -135,12 +124,14 @@ export class DataSource extends Supabase {
   }
 
   async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
+    console.log('DDBB, findSubscriberByEmailOrDocument', {email, identity_document})
     const { data, error } = await this.supabase
       .from('subscribers')
       .select('*')
       .or(`email.eq.${email},identity_document.eq.${identity_document}`);
   
     if (error) throw error;
-    return data?.[0] ?? null;
+
+    return data;
   }
 }

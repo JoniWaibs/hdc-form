@@ -49,7 +49,7 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
     },
     mode: "onChange",
   })
-  console.log({resource})
+  console.log('form', {resource})
 
   const onSubmit = async (values: SubscriberWithHowDidYouHear) => {
     setLoading(true)
