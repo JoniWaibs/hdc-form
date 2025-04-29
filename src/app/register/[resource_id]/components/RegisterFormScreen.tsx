@@ -49,12 +49,12 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
     },
     mode: "onChange",
   })
+  console.log({resource})
 
   const onSubmit = async (values: SubscriberWithHowDidYouHear) => {
     setLoading(true)
     
     const { how_did_you_hear, why_you_are_interested, ...subscriber } = values
-    
     const response = await fetch("/api/suscription", {
       method: "POST",
       headers: {
