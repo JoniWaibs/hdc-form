@@ -5,7 +5,7 @@ import { Suspense, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { SubscriberSchema, SubscriberWithHowDidYouHearSchema } from "@/app/schema"
+import { SubscriberSchema, SubscriberWithHowDidYouHear, SubscriberWithHowDidYouHearSchema } from "@/app/schema"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -32,7 +32,7 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
     { fields: ["how_did_you_hear", "why_you_are_interested"], title: "Últimas preguntas" },
   ]
 
-  const form = useForm<z.infer<typeof SubscriberWithHowDidYouHearSchema>>({
+  const form = useForm<SubscriberWithHowDidYouHear>({
     resolver: zodResolver(SubscriberWithHowDidYouHearSchema),
     defaultValues: {
       name: "",
@@ -50,11 +50,11 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
     mode: "onChange",
   })
 
-  const onSubmit = async (values: z.infer<typeof SubscriberWithHowDidYouHearSchema>) => {
+  const onSubmit = async (values: SubscriberWithHowDidYouHear) => {
     setLoading(true)
     
     const { how_did_you_hear, why_you_are_interested, ...subscriber } = values
-
+    console.log({resource})
     const response = await fetch("/api/suscription", {
       method: "POST",
       headers: {

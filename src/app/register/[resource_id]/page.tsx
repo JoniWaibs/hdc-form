@@ -16,38 +16,37 @@ async function getResource(resourceId: string): Promise<Resource | null> {
       console.error("Error al obtener recurso:", error);
       return null;
     }
-  }
+}
 
-  export async function generateMetadata({ params }: { params: Promise<{ resource_id: string }> }) {
-    const { resource_id } = await params
-    const resource = await getResource(resource_id);
-  
-    if (resource) {
-      return {
-        title: `Hablemos de Cáncer - ${resource.name}`, 
-        description: `${resource.description}`,
-        openGraph: {
-          title: `Hablemos de Cáncer - ${resource.name}`,
-          description: `${resource.description}`,
-          url: `https://hablemosdecancer.com.ar/register/${resource.id}`,
-          images: [
-            {
-              url: 'https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png',
-              width: 800,
-              height: 600,
-              alt: `${resource.name}`,
-            },
-          ],
-        },
-      };
-    }
-  
+export async function generateMetadata({ params }: { params: Promise<{ resource_id: string }> }) {
+  const { resource_id } = await params
+  const resource = await getResource(resource_id);
+
+  if (resource) {
     return {
-      title: "Recurso no encontrado",
-      description: "No pudimos encontrar el recurso que buscas.",
+      title: `Hablemos de Cáncer - ${resource.name}`, 
+      description: `${resource.description}`,
+      openGraph: {
+        title: `Hablemos de Cáncer - ${resource.name}`,
+        description: `${resource.description}`,
+        url: `https://hablemosdecancer.com.ar/register/${resource.id}`,
+        images: [
+          {
+            url: 'https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png',
+            width: 800,
+            height: 600,
+            alt: `${resource.name}`,
+          },
+        ],
+      },
     };
   }
 
+  return {
+    title: "Recurso no encontrado",
+    description: "No pudimos encontrar el recurso que buscas.",
+  };
+}
 
 export default async function RegisterPage({ params }: { params: Promise<{ resource_id: string }> }) {
     const { resource_id } = await params
