@@ -10,7 +10,8 @@ async function getResource(resourceId: string): Promise<Resource | null> {
     if (!response.ok) return null;
 
     const { data } = await response.json();
-    return data || null;
+    console.log('congrats', {data})
+    return data?.[0] || null;
   } catch (error) {
     console.error("Error al obtener recurso:", error);
     return null;
