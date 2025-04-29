@@ -1,5 +1,5 @@
 import { Supabase } from "@/lib/supabase";
-import { Resource, Subscriber, SubscriberResourcePost } from "@/app/schema";
+import { Resource, ResourceSchema, Subscriber, SubscriberResourcePost } from "@/app/schema";
 
 export class DataSource extends Supabase {
   async getAllResources(): Promise<Resource[]> {
@@ -15,7 +15,19 @@ export class DataSource extends Supabase {
     if (error) {
       throw error
     }
-    return data?.[0] ?? null
+  
+    const resource = data?.[0] ?? null;
+  
+    if (resource) {
+      try {
+        return ResourceSchema.parse(resource);
+      } catch (e) {
+        console.error('Error de validación de Resource:', e);
+        return null;
+      }
+    }
+  
+    return null;
   };
 
 
@@ -121,7 +133,6 @@ export class DataSource extends Supabase {
       throw new Error(`Error al crear la suscripción: ${(err as Error).message}`);
     }
   }
-
 
   async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
     const { data, error } = await this.supabase
