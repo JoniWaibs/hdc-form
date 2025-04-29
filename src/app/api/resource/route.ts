@@ -1,3 +1,4 @@
+import { Resource } from "@/app/schema"
 import { DataSource } from "@/services/datasource"
 import { NextResponse, NextRequest } from "next/server"
 
@@ -8,7 +9,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'El id del recurso es requerido' }, { status: 400 })
     }
     try { 
-      const response =  await new DataSource().getResourceById(resourceId)
+      const response: Resource[] =  await new DataSource().getResourceById(resourceId)
       return NextResponse.json({ message: `Recurso ${response?.[0].name} obtenido`, data: response?.[0] })
     } catch (error) {
       console.error('Error en /api/register:', (error as Error).message)
