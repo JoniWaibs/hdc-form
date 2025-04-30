@@ -9,8 +9,9 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Hablemos de cancer",
   description: "Plataforma de formaciones",
+  manifest: "/site.webmanifest",
   icons: {
-    icon: '/favicon.png',
+    icon: '/favicon.ico',
   },
 };
 
