@@ -7,11 +7,17 @@ import { Toaster } from "@/components/ui/sonner"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Hablemos de cancer",
+  title: "Hablemos de cáncer",
   description: "Plataforma de formaciones",
-  manifest: "/site.webmanifest",
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: "/favicon.ico" },                        
+      { url: "/favicon-32x32.png", sizes: "32x32" },  
+      { url: "/favicon-16x16.png", sizes: "16x16" },
+      { url: "/apple-touch-icon.png", rel: "apple-touch-icon" },
+      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ]
   },
 };
 
