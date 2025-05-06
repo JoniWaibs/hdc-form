@@ -27,6 +27,7 @@ export const SubscriberResourcePostSchema = z.object({
   resource_id: z.string().uuid(),
   how_did_you_hear: z.string(),
   why_you_are_interested: z.string(),
+  payment_confirmed: z.boolean(),
 });
 
 export type SubscriberResourcePost = z.infer<typeof SubscriberResourcePostSchema>
