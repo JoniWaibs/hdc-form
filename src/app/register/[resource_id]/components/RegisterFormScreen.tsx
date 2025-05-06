@@ -150,10 +150,11 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
                   const field = fieldName as keyof z.infer<typeof SubscriberSchema>
                   const label = formLabel.get(field)
                   const placeholder = formPlaceholder.get(field)
-
+                  const errorMessage = form.formState.errors[field]?.message;
+                  //console.log(form.formState.errors, errorMessage)
                   return (
                     <FormField
-                      key={field}
+                      key={`${currentStep}-${fieldName}`}
                       control={form.control}
                       name={field}
                       render={({ field }) => (
@@ -161,13 +162,15 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
                           <div className="flex justify-between text-center">
                           <FormLabel className="text-sm">
                             {label!.charAt(0).toUpperCase() + label!.slice(1)}
-                          <FormMessage  />
+                            {(form.formState.isSubmitted && errorMessage) && (
+                              <FormMessage>{errorMessage}</FormMessage>
+                            )}
                           </FormLabel>
-                          {
+                          {/*
                             field.name === "phone" && (
                               <span className="text-xs text-muted-foreground"></span>
                             )
-                          }
+                          */}
                           </div>
 
                           <FormControl>
@@ -178,6 +181,7 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
                                 <Input placeholder={`${placeholder || `Ingresá tu ${label!.toLowerCase()}`}`} {...field} className="h-12 text-base" />
                               )
                             }
+                           
                           </FormControl>
                         </FormItem>
                       )}
