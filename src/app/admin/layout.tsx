@@ -22,8 +22,8 @@ import { BarChart3, BookOpen, Calendar, CreditCard, FileText, Home, Settings, Us
 import { UserNav } from "@/app/admin/dashboard/components/UserNav"
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard",
-  description: "Panel de administración",
+  title: "Hablemos de cáncer",
+  description: "Dashboard de administración",
 }
 
 const sidebarDashboardItems = [
