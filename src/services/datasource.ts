@@ -1,31 +1,77 @@
 import { Supabase } from "@/lib/supabase";
-import { Resource, Subscriber, SubscriberResourcePost } from "@/app/schema";
+import { Resource, ResourceSchema, Subscriber, SubscriberResourcePost, SubscriberResourcePostSchema, SubscriberSchema } from "@/app/schema";
+import { ZodSchema } from "zod";
+
+const safeParseOrNull = <T>(schema: ZodSchema<T>, data: unknown): T | null => {
+  const parsed = schema.safeParse(data);
+  return parsed.success ? parsed.data : null;
+}
+
+const safeParseArrayOrEmpty = <T>(schema: ZodSchema<T>, data: unknown): T[] => {
+  const parsed = schema.array().safeParse(data);
+  return parsed.success ? parsed.data : [];
+}
+
 
 export class DataSource extends Supabase {
   async getAllResources(): Promise<Resource[]> {
-    const { data, error } = await this.supabase.from('resources').select('*')
-    if (error) {
-      throw error
-    }
-    return data
+    const { data, error } = await this.supabase
+      .from('resources')
+      .select('*');
+
+    if (error) throw error;
+    return safeParseArrayOrEmpty(ResourceSchema, data);
   }
 
-  async getResourceById(id: string) {
-    const { data, error } = await this.supabase.from('resources').select('*').eq('id', id)
-    if (error) {
-      throw error
+  async getResourceByCondition(params: {
+    id?: string
+    name?: string
+  }): Promise<Resource | null> {
+    const { id, name } = params
+  
+    const filters: string[] = []
+    if (id) filters.push(`id.eq.${id}`)
+    if (name) filters.push(`name.eq.${name}`)
+  
+    if (filters.length === 0) {
+      throw new Error('Debes proporcionar al menos un criterio de búsqueda')
     }
   
-    return data;
-  };
+    const { data, error } = await this.supabase
+      .from('resources')
+      .select('*')
+      .or(filters.join(',')) // aplica OR entre todos
+  
+    if (error) throw error
+  
+    return safeParseOrNull(ResourceSchema, data?.[0])
+  }
 
-
-  async getSubscriberById(subscriberId: string) {
-    const { data, error } = await this.supabase.from('subscribers').select('*').eq('id', subscriberId)
-    if (error) {
-      throw error
+  async getSubscriberByCondition(params: {
+    id?: string
+    email?: string
+    identity_document?: string
+  }): Promise<Subscriber | null> {
+    const { id, email, identity_document } = params
+  
+    const filters: string[] = []
+    
+    if (id) filters.push(`id.eq.${id}`)
+    if (email) filters.push(`email.eq.${email}`)
+    if (identity_document) filters.push(`identity_document.eq.${identity_document}`)
+  
+    if (filters.length === 0) {
+      throw new Error('Debes proporcionar al menos un criterio de búsqueda')
     }
-    return data;
+  
+    const { data, error } = await this.supabase
+      .from('subscribers')
+      .select('*')
+      .or(filters.join(','))
+  
+    if (error) throw error
+  
+    return safeParseOrNull(SubscriberSchema, data?.[0])
   }
 
   async getSubscriberResources({
@@ -81,56 +127,32 @@ export class DataSource extends Supabase {
     return data as unknown as SubscriberResourcePost[];
   }
 
-  async createSubscriber(payload: Subscriber) {
-    const { data, error, status } = await this.supabase.from('subscribers').insert(payload).select('id')
+  async createSubscriber(subscriber: Subscriber) {
+    const { data, error, status } = await this.supabase
+      .from('subscribers')
+      .insert(subscriber)
+      .select();
 
     if (error) {
-      throw error
+      throw error;
     }
-  
-    return { data, status }
+
+    return { data: safeParseArrayOrEmpty(SubscriberSchema, data), status };
   }
 
-  async createSubscriberResource(payload: {
-    subscriber_id: string;
-    resource_id: string;
-    how_did_you_hear: string;
-    why_you_are_interested: string;
-    payment_confirmed: boolean;
-  }) {
+  async createSubscriberResource(subscriberResource: SubscriberResourcePost) {
+    const { data, error, status } = await this.supabase
+      .from('subscriber_resources')
+      .insert([subscriberResource])
+      .select();
 
-    try {
-      const { data, error } = await this.supabase.from('subscriber_resources').insert([
-        {
-          subscriber_id: payload.subscriber_id,
-          resource_id: payload.resource_id,
-          how_did_you_hear: payload.how_did_you_hear,
-          why_you_are_interested: payload.why_you_are_interested,
-          payment_confirmed: payload.payment_confirmed ?? false,
-        }
-      ]);
-  
-      if (error) {
-        if (error.code === '23505') {
-          throw new Error('Ya estás inscripto en este recurso.');
-        }
-        throw error;
+    if (error) {
+      if (error.code === '23505') {
+        throw new Error('Ya estás inscripto en este recurso.');
       }
-  
-      return { data };
-    } catch (err) {
-      throw new Error(`Error al crear la suscripción: ${(err as Error).message}`);
+      throw error;
     }
-  }
 
-  async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
-    const { data, error } = await this.supabase
-      .from('subscribers')
-      .select('*')
-      .or(`email.eq.${email},identity_document.eq.${identity_document}`);
-  
-    if (error) throw error;
-
-    return data;
+    return { data: safeParseArrayOrEmpty(SubscriberResourcePostSchema, data), status };
   }
 }
