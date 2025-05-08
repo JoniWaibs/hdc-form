@@ -8,7 +8,6 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Hablemos de cáncer",
-  description: "Plataforma de formaciones",
   icons: {
     icon: [
       { url: "/favicon.ico" },                        
