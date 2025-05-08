@@ -23,14 +23,28 @@ export class DataSource extends Supabase {
     return safeParseArrayOrEmpty(ResourceSchema, data);
   }
 
-  async getResourceById(id: string): Promise<Resource | null> {
+  async getResourceByCondition(params: {
+    id?: string
+    name?: string
+  }): Promise<Resource | null> {
+    const { id, name } = params
+  
+    const filters: string[] = []
+    if (id) filters.push(`id.eq.${id}`)
+    if (name) filters.push(`name.eq.${name}`)
+  
+    if (filters.length === 0) {
+      throw new Error('Debes proporcionar al menos un criterio de búsqueda')
+    }
+  
     const { data, error } = await this.supabase
       .from('resources')
       .select('*')
-      .eq('id', id);
-
-    if (error) throw error;
-    return safeParseOrNull(ResourceSchema, data?.[0]);
+      .or(filters.join(',')) // aplica OR entre todos
+  
+    if (error) throw error
+  
+    return safeParseOrNull(ResourceSchema, data?.[0])
   }
 
   async getSubscriberByCondition(params: {
@@ -58,16 +72,6 @@ export class DataSource extends Supabase {
     if (error) throw error
   
     return safeParseOrNull(SubscriberSchema, data?.[0])
-  }
-
-  async getSubscriberById(subscriberId: string): Promise<Subscriber | null> {
-    const { data, error } = await this.supabase
-      .from('subscribers')
-      .select('*')
-      .eq('id', subscriberId);
-
-    if (error) throw error;
-    return safeParseOrNull(SubscriberSchema, data?.[0]);
   }
 
   async getSubscriberResources({
@@ -150,15 +154,5 @@ export class DataSource extends Supabase {
     }
 
     return { data: safeParseArrayOrEmpty(SubscriberResourcePostSchema, data), status };
-  }
-
-  async findSubscriberByEmailOrDocument(email: string, identity_document: string): Promise<Subscriber | null> {
-    const { data, error } = await this.supabase
-      .from('subscribers')
-      .select('*')
-      .or(`email.eq.${email},identity_document.eq.${identity_document}`);
-
-    if (error) throw error;
-    return safeParseOrNull(SubscriberSchema, data?.[0]);
   }
 }
