@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -10,11 +10,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { SlidersHorizontal } from "lucide-react"
+} from "@/components/ui/dropdown-menu";
+import { SlidersHorizontal } from "lucide-react";
 
 export function ResourcesFilters() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -37,12 +37,18 @@ export function ResourcesFilters() {
           <DropdownMenuSeparator />
           <DropdownMenuLabel>Ordenar por</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuCheckboxItem checked>Más recientes</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>Precio: Mayor a menor</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>Precio: Menor a mayor</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked>
+            Más recientes
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem>
+            Precio: Mayor a menor
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem>
+            Precio: Menor a mayor
+          </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem>Más inscritos</DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

@@ -1,22 +1,22 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "package.json",
-        "use": "@vercel/next"
-      }
-    ],
-    "git": {
-      "deploymentEnabled": {
-        "main": true,
-        "fix/*": false,
-        "feature/*": false
-      }
-    },
-    "crons": [
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "fix/*": false,
+      "feature/*": false
+    }
+  },
+  "crons": [
     {
       "path": "/api/notifier-cron",
       "schedule": "0 12 * * *"
     }
   ]
-  }
+}

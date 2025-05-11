@@ -13,10 +13,10 @@ describe("Supabase", () => {
     jest.resetModules();
     jest.clearAllMocks();
     process.env = {
-        ...originalEnv,
-        NEXT_PUBLIC_SUPABASE_URL: "https://test-url.supabase.co",
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: "test-anon-key",
-      };
+      ...originalEnv,
+      NEXT_PUBLIC_SUPABASE_URL: "https://test-url.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "test-anon-key",
+    };
   });
 
   afterEach(() => {
@@ -28,7 +28,7 @@ describe("Supabase", () => {
     new Supabase();
     expect(mockCreateClient).toHaveBeenCalledWith(
       "https://test-url.supabase.co",
-      "test-anon-key"
+      "test-anon-key",
     );
   });
 });
