@@ -1,11 +1,11 @@
-import { CongratsScreen } from './components/CongratsScreen'
-import { Resource } from '@/app/schema'
+import { CongratsScreen } from "./components/CongratsScreen";
+import { Resource } from "@/app/schema";
 
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {
     const response = await fetch(
       `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`,
-      { cache: 'no-store' } 
+      { cache: "no-store" },
     );
     if (!response.ok) return null;
 
@@ -17,20 +17,21 @@ async function getResource(resourceId: string): Promise<Resource | null> {
   }
 }
 
-export default async function CongratsPage({ params }: { params: Promise<{ resource_id: string }> }) {
-  const { resource_id } = await params
-  const resource = await getResource(resource_id)
-  
+export default async function CongratsPage({
+  params,
+}: {
+  params: Promise<{ resource_id: string }>;
+}) {
+  const { resource_id } = await params;
+  const resource = await getResource(resource_id);
+
   if (!resource) {
-      return (
-        <div className="p-8 text-center text-red-500">
-          No se pudo encontrar el recurso solicitado.
-        </div>
-      )
-    }
+    return (
+      <div className="p-8 text-center text-red-500">
+        No se pudo encontrar el recurso solicitado.
+      </div>
+    );
+  }
 
-
-  return (
-      <CongratsScreen resourceName={resource?.name || ''} />
-  )
+  return <CongratsScreen resourceName={resource?.name || ""} />;
 }

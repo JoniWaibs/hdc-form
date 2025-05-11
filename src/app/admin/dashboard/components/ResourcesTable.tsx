@@ -1,6 +1,13 @@
-"use client"
+"use client";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   type ColumnDef,
   flexRender,
@@ -11,11 +18,11 @@ import {
   useReactTable,
   type ColumnFiltersState,
   getFilteredRowModel,
-} from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useState } from "react"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+} from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,20 +30,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { Resource } from "@/app/schema"
-import { formatPrice, formatResourceDate } from "@/lib/utils"
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Resource } from "@/app/schema";
+import { formatPrice, formatResourceDate } from "@/lib/utils";
 
 interface ResourcesTableProps {
-  resources: Resource[]
-  actionLink?: string
+  resources: Resource[];
+  actionLink?: string;
 }
 
 export function ResourcesTable({ resources }: ResourcesTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const columns: ColumnDef<Resource>[] = [
     {
@@ -50,9 +57,11 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
             Nombre
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </div>
-        )
+        );
       },
-      cell: ({ row }) => <div className="font-medium">{row.getValue("name")}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">{row.getValue("name")}</div>
+      ),
     },
     {
       accessorKey: "start_date",
@@ -65,9 +74,11 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
             Fecha de Inicio
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </div>
-        )
+        );
       },
-      cell: ({ row }) => <div>{formatResourceDate(row.getValue("start_date"))}</div>,
+      cell: ({ row }) => (
+        <div>{formatResourceDate(row.getValue("start_date"))}</div>
+      ),
     },
     {
       accessorKey: "price",
@@ -80,27 +91,31 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
             Precio
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </div>
-        )
+        );
       },
       cell: ({ row }) => {
-        const price = Number.parseFloat(row.getValue("price"))
-        return <div className="font-medium">{formatPrice(price, "ARS")}</div>
+        const price = Number.parseFloat(row.getValue("price"));
+        return <div className="font-medium">{formatPrice(price, "ARS")}</div>;
       },
     },
     {
       accessorKey: "status",
       header: "Estado",
       cell: ({ row }) => {
-        const startDate = new Date(row.getValue("start_date"))
-        const isActive = startDate <= new Date()
-        return <Badge variant={isActive ? "default" : "secondary"}>{isActive ? "Activo" : "Pendiente"}</Badge>
+        const startDate = new Date(row.getValue("start_date"));
+        const isActive = startDate <= new Date();
+        return (
+          <Badge variant={isActive ? "default" : "secondary"}>
+            {isActive ? "Activo" : "Pendiente"}
+          </Badge>
+        );
       },
     },
     {
       id: "actions",
       header: "Mas",
       cell: ({ row }) => {
-        const resource = row.original
+        const resource = row.original;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -125,10 +140,10 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )
+        );
       },
     },
-  ]
+  ];
 
   const table = useReactTable({
     data: resources,
@@ -143,7 +158,7 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
       sorting,
       columnFilters,
     },
-  })
+  });
 
   return (
     <div>
@@ -151,7 +166,9 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
         <Input
           placeholder="Filtrar recursos..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+          onChange={(event) =>
+            table.getColumn("name")?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
       </div>
@@ -163,9 +180,14 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -173,17 +195,26 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="p-2 truncate" key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No hay resultados.
                 </TableCell>
               </TableRow>
@@ -204,11 +235,16 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
           >
             Anterior
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
             Siguiente
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }

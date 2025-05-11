@@ -1,7 +1,7 @@
-import type React from "react"
-import type { Metadata } from "next"
-import Link from "next/link"
-import Image from "next/image"
+import type React from "react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
 
 import {
   SidebarProvider,
@@ -17,14 +17,23 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { BarChart3, BookOpen, Calendar, CreditCard, FileText, Home, Settings, Users } from "lucide-react"
-import { UserNav } from "@/app/admin/dashboard/components/UserNav"
+} from "@/components/ui/sidebar";
+import {
+  BarChart3,
+  BookOpen,
+  Calendar,
+  CreditCard,
+  FileText,
+  Home,
+  Settings,
+  Users,
+} from "lucide-react";
+import { UserNav } from "@/app/admin/dashboard/components/UserNav";
 
 export const metadata: Metadata = {
   title: "Hablemos de cáncer",
   description: "Dashboard de administración",
-}
+};
 
 const sidebarDashboardItems = [
   {
@@ -51,7 +60,7 @@ const sidebarDashboardItems = [
     icon: Calendar,
     disabled: true,
   },
-]
+];
 
 const sidebarAdminItems = [
   {
@@ -78,12 +87,12 @@ const sidebarAdminItems = [
     icon: Settings,
     disabled: true,
   },
-]
+];
 
 export default function AdminLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <SidebarProvider>
@@ -94,9 +103,23 @@ export default function AdminLayout({
             <SidebarGroupContent>
               <SidebarMenu>
                 {sidebarDashboardItems.map((item) => (
-                  <SidebarMenuItem key={item.label} className={item.disabled ? "opacity-50" : ""}>
-                    <SidebarMenuButton asChild tooltip={item.label} disabled={item.disabled}>
-                      <Link href={item.href} className={item.disabled ? "cursor-not-allowed pointer-events-none" : ""}>
+                  <SidebarMenuItem
+                    key={item.label}
+                    className={item.disabled ? "opacity-50" : ""}
+                  >
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={item.label}
+                      disabled={item.disabled}
+                    >
+                      <Link
+                        href={item.href}
+                        className={
+                          item.disabled
+                            ? "cursor-not-allowed pointer-events-none"
+                            : ""
+                        }
+                      >
                         <item.icon className="h-4 w-4" />
                         <span>{item.label}</span>
                       </Link>
@@ -111,9 +134,23 @@ export default function AdminLayout({
             <SidebarGroupContent>
               <SidebarMenu>
                 {sidebarAdminItems.map((item) => (
-                  <SidebarMenuItem key={item.label} className={item.disabled ? "opacity-50" : ""}>
-                    <SidebarMenuButton asChild tooltip={item.label} disabled={item.disabled}>
-                      <Link href={item.href} className={item.disabled ? "cursor-not-allowed pointer-events-none" : ""}>
+                  <SidebarMenuItem
+                    key={item.label}
+                    className={item.disabled ? "opacity-50" : ""}
+                  >
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={item.label}
+                      disabled={item.disabled}
+                    >
+                      <Link
+                        href={item.href}
+                        className={
+                          item.disabled
+                            ? "cursor-not-allowed pointer-events-none"
+                            : ""
+                        }
+                      >
                         <item.icon className="h-4 w-4" />
                         <span>{item.label}</span>
                       </Link>
@@ -126,7 +163,7 @@ export default function AdminLayout({
         </SidebarContent>
         <SidebarFooter className="border-t border-border">
           <div className="flex items-center justify-between p-4">
-            <p>Hablemos   de Cáncer 2025</p>
+            <p>Hablemos de Cáncer 2025</p>
           </div>
         </SidebarFooter>
         <SidebarRail />
@@ -150,5 +187,5 @@ export default function AdminLayout({
         {children}
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

@@ -1,49 +1,55 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { CheckCircle, Loader2 } from "lucide-react"
-import { SubscriberResource } from "@/app/schema"
-import { TooltipProvider, TooltipTrigger, TooltipContent, Tooltip } from "@/components/ui/tooltip"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, Loader2 } from "lucide-react";
+import { SubscriberResource } from "@/app/schema";
+import {
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+  Tooltip,
+} from "@/components/ui/tooltip";
 
 interface PaymentButtonProps {
-  subscriberResource: SubscriberResource
+  subscriberResource: SubscriberResource;
 }
 
 export function PaymentButton({ subscriberResource }: PaymentButtonProps) {
-  const [isPending, setIsPending] = useState(false)
-  const [isPaid, setIsPaid] = useState(false)
+  const [isPending, setIsPending] = useState(false);
+  const [isPaid, setIsPaid] = useState(false);
 
   const handleMarkAsPaid = async () => {
-    setIsPending(true)
+    setIsPending(true);
 
     try {
-      const response = await fetch('/api/subscriber-resources', {
-        method: 'PATCH',
+      const response = await fetch("/api/subscriber-resources", {
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           subscriber_resource: subscriberResource,
-          payment_confirmed: true
+          payment_confirmed: true,
         }),
       });
 
       if (!response.ok) {
         const result = await response.json();
-        throw new Error(result.error || 'Error al actualizar el estado de pago');
+        throw new Error(
+          result.error || "Error al actualizar el estado de pago",
+        );
       }
 
-      setIsPaid(true)
+      setIsPaid(true);
       const result = await response.json();
-      console.log('Payment marked as confirmed:', result);
-   
+      console.log("Payment marked as confirmed:", result);
     } catch (error) {
-      console.error("Error al marcar como pagado:", error)
+      console.error("Error al marcar como pagado:", error);
     } finally {
-      setIsPending(false)
+      setIsPending(false);
     }
-  }
+  };
 
   if (isPaid) {
     return (
@@ -60,7 +66,7 @@ export function PaymentButton({ subscriberResource }: PaymentButtonProps) {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-    )
+    );
   }
 
   return (
@@ -80,5 +86,5 @@ export function PaymentButton({ subscriberResource }: PaymentButtonProps) {
         "Marcar pagado"
       )}
     </Button>
-  )
+  );
 }

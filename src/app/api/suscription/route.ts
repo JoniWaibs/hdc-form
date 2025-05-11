@@ -13,12 +13,23 @@ export async function POST(req: NextRequest) {
 
     const datasource = new DataSource();
 
-    let subscriber = await datasource.findSubscriberByEmailOrDocument(body.subscriber.email, body.subscriber.identity_document);
+    let subscriber = await datasource.findSubscriberByEmailOrDocument(
+      body.subscriber.email,
+      body.subscriber.identity_document,
+    );
 
     if (!subscriber.length) {
-      const { data: createdSubscriber, status } = await datasource.createSubscriber(body.subscriber);
-      if (status !== 201 || !createdSubscriber || createdSubscriber.length === 0) {
-        return NextResponse.json({ error: "No se pudo registrar el suscriptor" }, { status: 400 });
+      const { data: createdSubscriber, status } =
+        await datasource.createSubscriber(body.subscriber);
+      if (
+        status !== 201 ||
+        !createdSubscriber ||
+        createdSubscriber.length === 0
+      ) {
+        return NextResponse.json(
+          { error: "No se pudo registrar el suscriptor" },
+          { status: 400 },
+        );
       }
       subscriber = createdSubscriber;
     }
@@ -33,7 +44,9 @@ export async function POST(req: NextRequest) {
       });
     } catch (err) {
       const message = (err as Error).message;
-      const statusCode = message.includes("Ya estás inscripto en este recurso") ? 409 : 400;
+      const statusCode = message.includes("Ya estás inscripto en este recurso")
+        ? 409
+        : 400;
       return NextResponse.json({ error: message }, { status: statusCode });
     }
 
@@ -42,13 +55,16 @@ export async function POST(req: NextRequest) {
         message: "Inscripción exitosa",
         redirect_url: `/congrats/${body.resource_id}`,
       },
-      { status: 201 }
+      { status: 201 },
     );
 
     try {
       const resource = await datasource.getResourceById(body.resource_id);
       if (resource) {
-        const emailContent = getWelcomeEmail({ subscriber: body.subscriber, resource: resource[0] });
+        const emailContent = getWelcomeEmail({
+          subscriber: body.subscriber,
+          resource: resource[0],
+        });
         await new EmailService().sendEmail({
           to: body.subscriber.email,
           subject: emailContent.subject,
@@ -56,20 +72,25 @@ export async function POST(req: NextRequest) {
         });
       }
     } catch (err) {
-      console.error(`Error al enviar el email de bienvenida: ${(err as Error).message}`);
+      console.error(
+        `Error al enviar el email de bienvenida: ${(err as Error).message}`,
+      );
     }
 
     return response;
   } catch (error: unknown) {
     if (error instanceof ZodError) {
-      return NextResponse.json({ error: "Datos inválidos", issues: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { error: "Datos inválidos", issues: error.errors },
+        { status: 400 },
+      );
     }
 
     return NextResponse.json(
       {
         error: `No se pudo completar el registro. Error: ${(error as Error).message}`,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

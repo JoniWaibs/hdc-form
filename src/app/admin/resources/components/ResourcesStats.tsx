@@ -1,14 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Activity, DollarSign, Users, NotebookText } from "lucide-react"
-import type { Resource } from "@/app/schema"
-import { formatPrice } from "@/lib/utils"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Activity, DollarSign, Users, NotebookText } from "lucide-react";
+import type { Resource } from "@/app/schema";
+import { formatPrice } from "@/lib/utils";
 
 interface ResourcesStatsProps {
-  resources: (Resource & { enrollments: number })[]
+  resources: (Resource & { enrollments: number })[];
 }
 
 export function ResourcesStats({ resources }: ResourcesStatsProps) {
-  const totalResources = resources.length
+  const totalResources = resources.length;
   //const totalRevenue = resources.reduce((sum, resource) => sum + (resource.price || 0), 0)
   //const totalEnrollments = resources.reduce((sum, resource) => sum + resource.enrollments, 0)
   //const avgPrice = totalResources > 0 ? totalRevenue / totalResources : 0
@@ -26,7 +26,9 @@ export function ResourcesStats({ resources }: ResourcesStatsProps) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Ingresos Totales</CardTitle>
+          <CardTitle className="text-sm font-medium">
+            Ingresos Totales
+          </CardTitle>
           <DollarSign className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -35,7 +37,9 @@ export function ResourcesStats({ resources }: ResourcesStatsProps) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Inscriptos</CardTitle>
+          <CardTitle className="text-sm font-medium">
+            Total Inscriptos
+          </CardTitle>
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -52,5 +56,5 @@ export function ResourcesStats({ resources }: ResourcesStatsProps) {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

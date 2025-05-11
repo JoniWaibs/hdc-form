@@ -1,8 +1,8 @@
-import { Suspense } from "react"
-import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Suspense } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,20 +10,20 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { ResourceEnrollments } from "@/app/admin/resource/[resource_id]/components/ResourceEnrollments"
-import { ResourceSkeleton } from "@/app/admin/resource/[resource_id]/components/ResourceSkeleton"
-import { Resource, SubscriberResourcesList } from "@/app/schema"
-import { SubscribersComments } from "./components/SubscribersComments"
-import { ResourceInfo } from "./components/ResourceInfo"
+} from "@/components/ui/breadcrumb";
+import { ResourceEnrollments } from "@/app/admin/resource/[resource_id]/components/ResourceEnrollments";
+import { ResourceSkeleton } from "@/app/admin/resource/[resource_id]/components/ResourceSkeleton";
+import { Resource, SubscriberResourcesList } from "@/app/schema";
+import { SubscribersComments } from "./components/SubscribersComments";
+import { ResourceInfo } from "./components/ResourceInfo";
 
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {
     const response = await fetch(
       `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`,
       {
-        cache: 'no-store',
-      }
+        cache: "no-store",
+      },
     );
     if (!response.ok) return null;
 
@@ -36,13 +36,15 @@ async function getResource(resourceId: string): Promise<Resource | null> {
   }
 }
 
-async function getSubscriberResources(resourceId: string): Promise<SubscriberResourcesList | null> {
+async function getSubscriberResources(
+  resourceId: string,
+): Promise<SubscriberResourcesList | null> {
   try {
     const response = await fetch(
       `${process.env.APP_URL}/api/subscriber-resources?resource_id=${resourceId}`,
       {
-        cache: 'no-store',
-      }
+        cache: "no-store",
+      },
     );
 
     if (!response.ok) return null;
@@ -55,8 +57,12 @@ async function getSubscriberResources(resourceId: string): Promise<SubscriberRes
   }
 }
 
-export default async function ResourceDashboard({ params }: { params: Promise<{ resource_id: string }> }) {
-  const { resource_id } = await params
+export default async function ResourceDashboard({
+  params,
+}: {
+  params: Promise<{ resource_id: string }>;
+}) {
+  const { resource_id } = await params;
   const [resource, subscriberResources] = await Promise.all([
     getResource(resource_id),
     getSubscriberResources(resource_id),
@@ -67,18 +73,18 @@ export default async function ResourceDashboard({ params }: { params: Promise<{ 
       <div className="p-8 text-center text-red-500">
         No se pudo encontrar el recurso solicitado.
       </div>
-    )
+    );
   }
 
-  if(!subscriberResources) {
+  if (!subscriberResources) {
     return (
       <div className="p-8 text-center text-red-500">
         No se pudo encontrar los inscritos del recurso solicitado.
       </div>
-    )
+    );
   }
 
-  const isActive = new Date(resource.start_date) <= new Date()
+  const isActive = new Date(resource.start_date) <= new Date();
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -87,11 +93,15 @@ export default async function ResourceDashboard({ params }: { params: Promise<{ 
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/dashboard">
+                  Dashboard
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/resources">Recursos</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/resources">
+                  Recursos
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -100,8 +110,12 @@ export default async function ResourceDashboard({ params }: { params: Promise<{ 
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex items-center gap-2 mt-2">
-            <h1 className="text-3xl font-bold tracking-tight">{resource.name}</h1>
-            <Badge variant={isActive ? "default" : "secondary"}>{isActive ? "Activo" : "Pendiente"}</Badge>
+            <h1 className="text-3xl font-bold tracking-tight">
+              {resource.name}
+            </h1>
+            <Badge variant={isActive ? "default" : "secondary"}>
+              {isActive ? "Activo" : "Pendiente"}
+            </Badge>
           </div>
           <p className="mt-1 text-muted-foreground">{resource.description}</p>
         </div>
@@ -114,7 +128,10 @@ export default async function ResourceDashboard({ params }: { params: Promise<{ 
       </div>
 
       <Suspense fallback={<ResourceSkeleton />}>
-        <ResourceInfo resource={resource} subscriberResources={subscriberResources} />
+        <ResourceInfo
+          resource={resource}
+          subscriberResources={subscriberResources}
+        />
       </Suspense>
 
       <Suspense fallback={<ResourceSkeleton />}>
@@ -125,5 +142,5 @@ export default async function ResourceDashboard({ params }: { params: Promise<{ 
         <SubscribersComments subscriberResources={subscriberResources} />
       </Suspense>
     </div>
-  )
+  );
 }

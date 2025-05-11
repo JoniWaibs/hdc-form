@@ -1,14 +1,17 @@
-'use client'
+"use client";
 
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
-import { Loader2 } from 'lucide-react'
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Loader2 } from "lucide-react";
 
 interface SplashLoaderModalProps {
-  open: boolean
-  message?: string
+  open: boolean;
+  message?: string;
 }
 
-export const SplashLoaderModal = ({ open, message = 'Cargando...' }: SplashLoaderModalProps) => {
+export const SplashLoaderModal = ({
+  open,
+  message = "Cargando...",
+}: SplashLoaderModalProps) => {
   return (
     <Dialog open={open}>
       <DialogContent className="flex flex-col items-center gap-4 p-8">
@@ -18,5 +21,5 @@ export const SplashLoaderModal = ({ open, message = 'Cargando...' }: SplashLoade
         <p className="text-sm text-muted-foreground">{message}</p>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

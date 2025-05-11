@@ -1,6 +1,6 @@
-import { z } from 'zod';
-import { SubscriberSchema } from './subscriber';
-import { ResourceSchema } from './resource';
+import { z } from "zod";
+import { SubscriberSchema } from "./subscriber";
+import { ResourceSchema } from "./resource";
 
 export const SubscriberResourcesSchema = z.object({
   id: z.string(),
@@ -15,4 +15,6 @@ export const SubscriberResourcesSchema = z.object({
 
 export type SubscriberResource = z.infer<typeof SubscriberResourcesSchema>;
 export const subscriberResourcesListSchema = z.array(SubscriberResourcesSchema);
-export type SubscriberResourcesList = z.infer<typeof subscriberResourcesListSchema>
+export type SubscriberResourcesList = z.infer<
+  typeof subscriberResourcesListSchema
+>;

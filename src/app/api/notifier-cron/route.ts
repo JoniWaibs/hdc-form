@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 import { getReminderEmail } from "@/lib/emails/templates/reminder";
 import { EmailService } from "@/services/email";
 
-
 export async function GET() {
   const today = new Date();
   const tomorrow = new Date(today);
@@ -15,34 +14,49 @@ export async function GET() {
   try {
     const resources = await datasource.getAllResources();
 
-    const resourcesStartingTomorrow = resources.filter(resource => {
+    const resourcesStartingTomorrow = resources.filter((resource) => {
       const startDate = parseISO(resource.start_date);
       return differenceInCalendarDays(startDate, tomorrow) === 0;
     });
 
     if (resourcesStartingTomorrow.length === 0) {
-      return NextResponse.json({ message: "No hay cursos que comiencen mañana" });
+      return NextResponse.json({
+        message: "No hay cursos que comiencen mañana",
+      });
     }
 
     for (const resource of resourcesStartingTomorrow) {
-      const subscriberResources = await datasource.getSubscriberResources({ resource_id: resource.id });
+      const subscriberResources = await datasource.getSubscriberResources({
+        resource_id: resource.id,
+      });
 
-      const confirmedSubscribers = subscriberResources.filter(subscriberResource => subscriberResource);
+      const confirmedSubscribers = subscriberResources.filter(
+        (subscriberResource) => subscriberResource,
+      );
 
       if (confirmedSubscribers.length === 0) {
-        console.warn(`No hay suscriptores confirmados para el curso ${resource.name}`);
+        console.warn(
+          `No hay suscriptores confirmados para el curso ${resource.name}`,
+        );
         continue;
       }
 
       for (const subscriberResource of confirmedSubscribers) {
-        const subscriber = await datasource.getSubscriberById(subscriberResource.subscriber.id!);
+        const subscriber = await datasource.getSubscriberById(
+          subscriberResource.subscriber.id!,
+        );
 
         if (!subscriber) {
-          console.warn(`No se encontró suscriptor con id ${subscriberResource.subscriber.id}`);
+          console.warn(
+            `No se encontró suscriptor con id ${subscriberResource.subscriber.id}`,
+          );
           continue;
         }
 
-        const emailContent = getReminderEmail({ subscriber: subscriber[0], resource });
+        const emailContent = getReminderEmail({
+          subscriber: subscriber[0],
+          resource,
+        });
         try {
           await new EmailService().sendEmail({
             to: subscriber[0].email,
@@ -50,15 +64,22 @@ export async function GET() {
             html: emailContent.html,
           });
         } catch (emailError) {
-          console.error(`Error enviando email a ${subscriber[0].email}:`, (emailError as Error).message);
+          console.error(
+            `Error enviando email a ${subscriber[0].email}:`,
+            (emailError as Error).message,
+          );
         }
       }
     }
 
-    return NextResponse.json({ message: "Recordatorios enviados correctamente" });
-
+    return NextResponse.json({
+      message: "Recordatorios enviados correctamente",
+    });
   } catch (error) {
     console.error("Error general:", error);
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 500 },
+    );
   }
 }

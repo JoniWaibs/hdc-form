@@ -1,41 +1,49 @@
-import { Suspense } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Suspense } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { RecentResources } from "@/app/admin/dashboard/components/RecentResources"
-import { Overview } from "@/app/admin/dashboard/components/Overview"
-import { ResourcesTable } from "@/app/admin/dashboard/components/ResourcesTable"
-import { DashboardSkeleton } from "@/app/admin/dashboard/components/DashboardSkeleton"
-import { Resource } from "@/app/schema"
-import { ResourcesStats } from "@/app/admin/resources/components/ResourcesStats"
+import { RecentResources } from "@/app/admin/dashboard/components/RecentResources";
+import { Overview } from "@/app/admin/dashboard/components/Overview";
+import { ResourcesTable } from "@/app/admin/dashboard/components/ResourcesTable";
+import { DashboardSkeleton } from "@/app/admin/dashboard/components/DashboardSkeleton";
+import { Resource } from "@/app/schema";
+import { ResourcesStats } from "@/app/admin/resources/components/ResourcesStats";
 
 async function getResources(): Promise<Resource[] | null> {
   try {
-    const response = await fetch(`${process.env.APP_URL}/api/resources`, { cache: "no-store" })
-    if (!response.ok) return null
-    const { data } = await response.json()
-    return data || null
+    const response = await fetch(`${process.env.APP_URL}/api/resources`, {
+      cache: "no-store",
+    });
+    if (!response.ok) return null;
+    const { data } = await response.json();
+    return data || null;
   } catch (error) {
-    console.error("Error al obtener recursos:", error)
-    return null
+    console.error("Error al obtener recursos:", error);
+    return null;
   }
 }
 
 export default async function AdminDashboard() {
-  const resources = await getResources()
+  const resources = await getResources();
 
   if (!resources) {
     return (
       <div className="flex h-[50vh] w-full items-center justify-center">
         <p className="text-muted-foreground">No se pudo obtener los recursos</p>
       </div>
-    )
+    );
   }
 
   const resourcesWithEnrollments = resources.map((resource) => ({
     ...resource,
     enrollments: Math.floor(Math.random() * 100) + 1, // Número aleatorio entre 1 y 100
-  }))
+  }));
 
   return (
     <>
@@ -66,7 +74,9 @@ export default async function AdminDashboard() {
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Recursos Recientes</CardTitle>
-                  <CardDescription>Has agregado {resources.length} recurso(s) recientemente.</CardDescription>
+                  <CardDescription>
+                    Has agregado {resources.length} recurso(s) recientemente.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RecentResources resources={resources.slice(0, 5)} />
@@ -78,7 +88,9 @@ export default async function AdminDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>Todos los Recursos</CardTitle>
-                <CardDescription>Administra tus recursos desde aquí.</CardDescription>
+                <CardDescription>
+                  Administra tus recursos desde aquí.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <Suspense fallback={<DashboardSkeleton />}>
@@ -91,7 +103,9 @@ export default async function AdminDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>Analíticas</CardTitle>
-                <CardDescription>Visualiza el rendimiento de tus recursos.</CardDescription>
+                <CardDescription>
+                  Visualiza el rendimiento de tus recursos.
+                </CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
                 <Overview />
@@ -101,5 +115,5 @@ export default async function AdminDashboard() {
         </Tabs>
       </div>
     </>
-  )
+  );
 }
