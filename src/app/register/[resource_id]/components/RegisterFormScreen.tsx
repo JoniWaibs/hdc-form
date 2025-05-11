@@ -66,6 +66,7 @@ export default function RegisterFormScreen({ resource }: { resource: Resource })
         why_you_are_interested,
       }),
     })
+    
       const data = await response.json();
 
       if (data.redirect_url) {

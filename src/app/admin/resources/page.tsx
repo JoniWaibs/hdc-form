@@ -24,6 +24,7 @@ async function getResources(): Promise<Resource[] | null> {
   }
 }
 
+
 export default async function ResourcesPage() {
   const resources = await getResources()
 
@@ -37,7 +38,7 @@ export default async function ResourcesPage() {
 
   const resourcesWithEnrollments = resources.map((resource) => ({
     ...resource,
-    enrollments: Math.floor(Math.random() * 100) + 1, // Número aleatorio entre 1 y 100
+    enrollments: Math.floor(Math.random() * 100) + 1, // TODO: sumar cuandtos suscriptores hay para cada recurso
   }))
 
   return (
@@ -63,7 +64,7 @@ export default async function ResourcesPage() {
         </CardHeader>
         <CardContent>
           <Suspense fallback={<DashboardSkeleton />}>
-            <ResourcesTable resources={resourcesWithEnrollments} actionLink="/admin/resource" />
+            <ResourcesTable resources={resources} actionLink="/admin/resource" />
           </Suspense>
         </CardContent>
       </Card>

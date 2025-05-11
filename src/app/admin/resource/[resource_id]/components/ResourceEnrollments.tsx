@@ -1,36 +1,52 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
-import { PaymentButton } from "./PaymentButton"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CheckCircle, Search } from "lucide-react";
+import { PaymentButton } from "./PaymentButton";
+import { SubscriberResourcesList } from "@/app/schema";
+import { capitalizeFirstLetter } from "@/lib/utils";
 
-export function ResourceEnrollments({ resourceId }: { resourceId: string }) {
-  const [searchQuery, setSearchQuery] = useState("")
+export function ResourceEnrollments({
+  subscriberResources,
+}: {
+  subscriberResources: SubscriberResourcesList;
+}) {
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Datos simulados de estudiantes inscritos
-  const students = Array.from({ length: 10 }).map((_, index) => ({
-    id: `student-${index + 1}`,
-    name: `Estudiante ${index + 1}`,
-    email: `estudiante${index + 1}@ejemplo.com`,
-    country: "Argentina",
-    payment: "Pendiente",
-  }))
-
-  const filteredStudents = students.filter(
-    (student) =>
-      student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      student.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  const filteredSubscriptors = subscriberResources.filter(
+    (subscriberResource) =>
+      subscriberResource.subscriber.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      subscriberResource.subscriber.email
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+  );
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Estudiantes Inscritos</CardTitle>
-        <CardDescription>Lista de estudiantes inscritos en este recurso.</CardDescription>
+        <CardDescription>
+          Lista de estudiantes inscritos en este recurso.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-2 mb-4">
@@ -44,7 +60,9 @@ export function ResourceEnrollments({ resourceId }: { resourceId: string }) {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button variant="outline" disabled>Exportar</Button>
+          <Button variant="outline" disabled>
+            Exportar
+          </Button>
         </div>
 
         <div className="rounded-md border">
@@ -54,29 +72,54 @@ export function ResourceEnrollments({ resourceId }: { resourceId: string }) {
                 <TableHead>Suscriptor</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Pais</TableHead>
-                <TableHead>Pago</TableHead>
+                <TableHead>Ciudad</TableHead>
+                <TableHead>Profesion</TableHead>
                 <TableHead>Pago realizado</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredStudents.length > 0 ? (
-                filteredStudents.map((student) => (
-                  <TableRow key={student.id}>
+              {filteredSubscriptors.length > 0 ? (
+                filteredSubscriptors.map((subscriberResource) => (
+                  <TableRow key={subscriberResource.id}>
                     <TableCell>
-                        {student.name}
+                      {capitalizeFirstLetter(
+                        subscriberResource.subscriber.name
+                      )}
                     </TableCell>
-                    <TableCell>{student.email}</TableCell>
-                    <TableCell>{student.country}</TableCell>
-                    <TableCell>{student.payment}</TableCell>
                     <TableCell>
-                    <PaymentButton
-                        studentId={student.id}
-                        resourceId={resourceId}
-                        onPaymentMarked={(studentId) => {
-                          console.log(`TODO: Pago marcado para el estudiante ${studentId}`)
-                          // Aquí puedes actualizar el estado local si lo necesitas
-                        }}
-                      />
+                      {subscriberResource.subscriber.email.toLocaleLowerCase()}
+                    </TableCell>
+                    <TableCell>
+                      {capitalizeFirstLetter(
+                        subscriberResource.subscriber.country
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {capitalizeFirstLetter(
+                        subscriberResource.subscriber.city
+                      )}
+                    </TableCell>
+                    <TableCell
+                      className="truncate max-w-[150px]"
+                      title={capitalizeFirstLetter(
+                        subscriberResource.subscriber.profession
+                      )}
+                    >
+                      {capitalizeFirstLetter(
+                        subscriberResource.subscriber.profession
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {subscriberResource.payment_confirmed ? (
+                        <div className="flex items-center gap-2 text-green-600">
+                          <CheckCircle className="h-4 w-4 mr-1" />
+                          Pagado
+                        </div>
+                      ) : (
+                        <PaymentButton
+                          subscriberResource={subscriberResource}
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
                 ))
@@ -92,5 +135,5 @@ export function ResourceEnrollments({ resourceId }: { resourceId: string }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

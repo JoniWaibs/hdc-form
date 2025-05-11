@@ -23,6 +23,14 @@ export const handleInputType = (field: string) => {
   }
   return false
 }
+
+export const capitalizeFirstLetter = (string: string) => {
+  const capitalizedWords = string.split(' ').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  );
+  return capitalizedWords.join(' ');
+}
+
 export const getUrls = (rrss: string) => new Map<string, string>([
   ["instagram", "https://www.instagram.com/hablemos.de.cancer/"]
 ]).get(rrss)
