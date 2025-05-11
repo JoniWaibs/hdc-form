@@ -3,32 +3,41 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, Loader2 } from "lucide-react"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { SubscriberResource } from "@/app/schema"
+import { TooltipProvider, TooltipTrigger, TooltipContent, Tooltip } from "@/components/ui/tooltip"
 
 interface PaymentButtonProps {
-  studentId: string
-  resourceId: string
-  onPaymentMarked?: (studentId: string) => void
+  subscriberResource: SubscriberResource
 }
 
-export function PaymentButton({ studentId, resourceId, onPaymentMarked }: PaymentButtonProps) {
+export function PaymentButton({ subscriberResource }: PaymentButtonProps) {
   const [isPending, setIsPending] = useState(false)
   const [isPaid, setIsPaid] = useState(false)
-    console.log('TODO: marcar como pagado',studentId, resourceId)
+
   const handleMarkAsPaid = async () => {
     setIsPending(true)
 
     try {
-      // Aquí iría la llamada a tu función para marcar como pagado
-      // Esta parte la implementarás tú
+      const response = await fetch('/api/subscriber-resources', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subscriber_resource: subscriberResource,
+          payment_confirmed: true
+        }),
+      });
 
-      // Simulamos un delay para mostrar el estado de carga
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || 'Error al actualizar el estado de pago');
+      }
 
       setIsPaid(true)
-      if (onPaymentMarked) {
-        onPaymentMarked(studentId)
-      }
+      const result = await response.json();
+      console.log('Payment marked as confirmed:', result);
+   
     } catch (error) {
       console.error("Error al marcar como pagado:", error)
     } finally {
@@ -41,10 +50,10 @@ export function PaymentButton({ studentId, resourceId, onPaymentMarked }: Paymen
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="sm" className="text-green-500" disabled>
+            <div className="flex items-center gap-2 text-green-600">
               <CheckCircle className="h-4 w-4 mr-1" />
               Pagado
-            </Button>
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <p>Pago confirmado</p>

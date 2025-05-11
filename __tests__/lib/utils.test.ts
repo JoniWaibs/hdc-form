@@ -19,7 +19,7 @@ describe('cn function', () => {
 describe('handleInputType function', () => {
   it('should return true for textarea fields', () => {
     expect(handleInputType('how_did_you_hear')).toBe(true)
-    expect(handleInputType('why_did_you_interested')).toBe(true)
+    expect(handleInputType('why_you_are_interested')).toBe(true)
   })
 
   it('should return false for non-textarea fields', () => {

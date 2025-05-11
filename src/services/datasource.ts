@@ -1,5 +1,5 @@
 import { Supabase } from "@/lib/supabase";
-import { Resource, Subscriber, SubscriberResourcePost } from "@/app/schema";
+import { Resource, Subscriber, SubscriberResourcesList } from "@/app/schema";
 
 export class DataSource extends Supabase {
   async getAllResources(): Promise<Resource[]> {
@@ -19,7 +19,6 @@ export class DataSource extends Supabase {
     return data;
   };
 
-
   async getSubscriberById(subscriberId: string) {
     const { data, error } = await this.supabase.from('subscribers').select('*').eq('id', subscriberId)
     if (error) {
@@ -34,7 +33,7 @@ export class DataSource extends Supabase {
   }: {
     resource_id?: string;
     subscriber_id?: string;
-  } = {}): Promise<SubscriberResourcePost[]> {
+  } = {}): Promise<SubscriberResourcesList> {
     let query = this.supabase
       .from('subscriber_resources')
       .select(`
@@ -43,11 +42,14 @@ export class DataSource extends Supabase {
         how_did_you_hear,
         why_you_are_interested,
         created_at,
+        updated_at,
         subscriber:subscribers (
           id,
           name,
           email,
           identity_document,
+          age,
+          phone,
           city,
           province,
           country,
@@ -60,10 +62,10 @@ export class DataSource extends Supabase {
           start_date,
           end_date,
           price,
-          meet_url
+          meet_url,
+          created_at
         )
       `);
-  
     if (resource_id) {
       query = query.eq('resource_id', resource_id);
     }
@@ -73,12 +75,11 @@ export class DataSource extends Supabase {
     }
   
     const { data, error } = await query;
-  
     if (error) {
       throw error;
     }
   
-    return data as unknown as SubscriberResourcePost[];
+    return data as unknown as SubscriberResourcesList;
   }
 
   async createSubscriber(payload: Subscriber) {
@@ -122,6 +123,33 @@ export class DataSource extends Supabase {
       throw new Error(`Error al crear la suscripción: ${(err as Error).message}`);
     }
   }
+
+  async updateSubscriberResource(
+    subscriberResourceId: string,
+    payload: {
+      payment_confirmed: boolean;
+    }
+  ) {
+    try {
+      const { data, error } = await this.supabase
+        .from('subscriber_resources')
+        .update({
+          ...payload,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', subscriberResourceId)
+        .select();
+
+      if (error) {
+        throw error;
+      }
+
+      return { data, status: 200 };
+    } catch (err) {
+      throw new Error(`Error al actualizar la suscripción: ${(err as Error).message}`);
+    }
+  }
+
 
   async findSubscriberByEmailOrDocument(email: string, identity_document: string) {
     const { data, error } = await this.supabase

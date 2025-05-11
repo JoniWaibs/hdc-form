@@ -30,7 +30,7 @@ export async function GET() {
       const confirmedSubscribers = subscriberResources.filter(subscriberResource => subscriberResource);
 
       if (confirmedSubscribers.length === 0) {
-        console.log(`No hay suscriptores confirmados para el curso ${resource.name}`);
+        console.warn(`No hay suscriptores confirmados para el curso ${resource.name}`);
         continue;
       }
 

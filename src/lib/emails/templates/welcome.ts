@@ -1,12 +1,12 @@
 import { Resource, Subscriber } from "@/app/schema";
-import { getPaymentAmountByCountry, getPaymentLinkByCountry, getUrls } from "@/lib/utils";
+import { capitalizeFirstLetter, getPaymentAmountByCountry, getPaymentLinkByCountry, getUrls } from "@/lib/utils";
 
 export function getWelcomeEmail({ subscriber, resource }: { subscriber: Subscriber; resource: Resource }) {
     const { name: subscriberName } = subscriber;
     const { name: resourceName } = resource;
     
     return {
-      subject: `¡Gracias por inscribirte al taller ${resourceName}!`,
+      subject: `¡Gracias por inscribirte al taller ${capitalizeFirstLetter(resourceName)}!`,
       html: `
        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;">
   
@@ -14,9 +14,9 @@ export function getWelcomeEmail({ subscriber, resource }: { subscriber: Subscrib
            <img src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets/HDC-2-mda-logo-05.png" alt="Hablemos de Cáncer" style="max-width: 180px; margin: 0 auto 20px;" />
         </div>
 
-        <h2 style="font-size: 1.6em; margin-bottom: 10px; color: #333;">¡Hola ${subscriberName}! 👋</h2>
+        <h2 style="font-size: 1.6em; margin-bottom: 10px; color: #333;">¡Hola ${capitalizeFirstLetter(subscriberName)}! 👋</h2>
         
-        <p style="font-size: 1em; margin-bottom: 12px; color: #444;">Gracias por inscribirte al taller <strong>${resourceName}</strong>. Estamos felices de tenerte a bordo 😊</p>
+        <p style="font-size: 1em; margin-bottom: 12px; color: #444;">Gracias por inscribirte al taller <strong>${capitalizeFirstLetter(resourceName)}</strong>. Estamos felices de tenerte a bordo 😊</p>
         
         <p style="font-size: 1em; margin-bottom: 10px; color: #444;"><strong>Para completar tu inscripción, te pedimos que realices el pago mediante alguno de los siguientes métodos:</strong></p>
         
