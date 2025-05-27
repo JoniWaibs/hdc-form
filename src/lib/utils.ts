@@ -121,3 +121,14 @@ export const getPaymentLinkByCountry = (site: string) => {
   ]);
   return paymentLinks.get(site) || [paypal];
 };
+
+/**
+ * Convierte una fecha a formato YYYY-MM-DD asegurando que se use la fecha local correcta
+ * @param date Fecha a convertir
+ * @returns string en formato YYYY-MM-DD
+ */
+export function toLocalDateString(date: Date): string {
+  const timezoneOffset = date.getTimezoneOffset() * 60000; // offset en milisegundos
+  const localDate = new Date(date.getTime() - timezoneOffset);
+  return localDate.toISOString().split("T")[0];
+}

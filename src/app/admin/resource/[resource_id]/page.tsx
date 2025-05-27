@@ -13,13 +13,12 @@ import { Resource, SubscriberResourcesList } from "@/app/schema";
 import { SubscribersComments } from "./components/SubscribersComments";
 import { ResourceInfo } from "./components/ResourceInfo";
 
+export const dynamic = "force-dynamic";
+
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {
     const response = await fetch(
       `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`,
-      {
-        cache: "no-store",
-      },
     );
     if (!response.ok) return null;
 

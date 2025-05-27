@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { es } from "date-fns/locale";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +42,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { cn } from "@/lib/utils";
+import { cn, toLocalDateString } from "@/lib/utils";
 
 const ResourceSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),
@@ -75,6 +76,7 @@ export default function NewResourcePage() {
   });
 
   const onSubmit = async (data: ResourceFormValues) => {
+    console.log(data);
     try {
       setIsLoading(true);
 
@@ -98,53 +100,63 @@ export default function NewResourcePage() {
   };
 
   return (
-    <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="flex-1 space-y-6 p-6 md:p-8">
+      <div className="flex items-center justify-between space-y-2">
+        <div className="space-y-0.5">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/dashboard">
+                <BreadcrumbLink
+                  href="/admin/dashboard"
+                  className="text-muted-foreground hover:text-primary"
+                >
                   Dashboard
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/resources">
-                  recursos
+                <BreadcrumbLink
+                  href="/admin/resources"
+                  className="text-muted-foreground hover:text-primary"
+                >
+                  Recursos
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          <div className="flex flex-col gap-2 mt-2">
-            <h1 className="text-3xl font-bold tracking-tight">
-              Crear nuevo recurso
-            </h1>
-            <p className="text-muted-foreground">
-              Completa la información para crear un nuevo recurso educativo.
-            </p>
-          </div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Crear nuevo recurso
+          </h1>
+          <p className="text-[15px] text-muted-foreground">
+            Completa la información para crear un nuevo recurso educativo.
+          </p>
         </div>
       </div>
 
       <Card className="max-w-4xl">
-        <CardHeader>
-          <CardTitle>Información del recurso</CardTitle>
-          <CardDescription>
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl">Información del recurso</CardTitle>
+          <CardDescription className="text-[15px]">
             Proporciona todos los detalles necesarios para el nuevo recurso.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nombre del recurso</FormLabel>
+                    <FormLabel className="text-base">
+                      Nombre del recurso
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Curso de Programación" {...field} />
+                      <Input
+                        placeholder="Curso de Programación"
+                        className="h-11"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -156,11 +168,11 @@ export default function NewResourcePage() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descripción</FormLabel>
+                    <FormLabel className="text-base">Descripción</FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Describe el contenido y objetivos del recurso..."
-                        className="min-h-[100px]"
+                        className="min-h-[120px] resize-none"
                         {...field}
                         value={field.value || ""}
                       />
@@ -170,45 +182,50 @@ export default function NewResourcePage() {
                 )}
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="start_date"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Fecha de Inicio</FormLabel>
+                      <FormLabel className="text-base">
+                        Fecha de Inicio
+                      </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-full pl-3 text-left font-normal",
+                                "h-11 w-full pl-3 text-left font-normal",
                                 !field.value && "text-muted-foreground",
                               )}
                             >
                               {field.value ? (
-                                format(new Date(field.value), "PPP")
+                                format(
+                                  new Date(field.value + "T12:00:00"),
+                                  "PPP",
+                                  {
+                                    locale: es,
+                                  },
+                                )
                               ) : (
                                 <span>Selecciona una fecha</span>
                               )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              <CalendarIcon className="ml-auto h-5 w-5 opacity-50" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
-                            mode="single"
                             selected={
                               field.value
-                                ? new Date(field.value + "T00:00:00")
+                                ? new Date(field.value + "T12:00:00")
                                 : undefined
                             }
                             onSelect={(date) => {
                               if (date) {
-                                field.onChange(
-                                  date.toISOString().split("T")[0],
-                                );
+                                field.onChange(toLocalDateString(date));
                               }
                             }}
                             disabled={(date) => date < new Date()}
@@ -226,39 +243,42 @@ export default function NewResourcePage() {
                   name="end_date"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Fecha de Fin</FormLabel>
+                      <FormLabel className="text-base">Fecha de Fin</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-full pl-3 text-left font-normal",
+                                "h-11 w-full pl-3 text-left font-normal",
                                 !field.value && "text-muted-foreground",
                               )}
                             >
                               {field.value ? (
-                                format(new Date(field.value), "PPP")
+                                format(
+                                  new Date(field.value + "T12:00:00"),
+                                  "PPP",
+                                  {
+                                    locale: es,
+                                  },
+                                )
                               ) : (
                                 <span>Selecciona una fecha</span>
                               )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              <CalendarIcon className="ml-auto h-5 w-5 opacity-50" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
-                            mode="single"
                             selected={
                               field.value
-                                ? new Date(field.value + "T00:00:00")
+                                ? new Date(field.value + "T12:00:00")
                                 : undefined
                             }
                             onSelect={(date) => {
                               if (date) {
-                                field.onChange(
-                                  date.toISOString().split("T")[0],
-                                );
+                                field.onChange(toLocalDateString(date));
                               }
                             }}
                             disabled={(date) => {
@@ -277,17 +297,18 @@ export default function NewResourcePage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="price"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Precio</FormLabel>
+                      <FormLabel className="text-base">Precio</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="0.00"
+                          className="h-11"
                           {...field}
                           onChange={(e) =>
                             field.onChange(
@@ -306,11 +327,14 @@ export default function NewResourcePage() {
                   name="session_count"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Número de Sesiones</FormLabel>
+                      <FormLabel className="text-base">
+                        Número de Sesiones
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           placeholder="1"
+                          className="h-11"
                           {...field}
                           onChange={(e) =>
                             field.onChange(Number.parseInt(e.target.value) || 1)
@@ -328,15 +352,18 @@ export default function NewResourcePage() {
                 name="meet_url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>URL de la Reunión</FormLabel>
+                    <FormLabel className="text-base">
+                      URL de la Reunión
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="url"
                         placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                        className="h-11"
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-[13px]">
                       Enlace para acceder a las sesiones virtuales
                     </FormDescription>
                     <FormMessage />
@@ -349,16 +376,18 @@ export default function NewResourcePage() {
                 name="disclaimer"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descargo de Responsabilidad</FormLabel>
+                    <FormLabel className="text-base">
+                      Descargo de Responsabilidad
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Términos y condiciones adicionales..."
-                        className="min-h-[80px]"
+                        className="min-h-[100px] resize-none"
                         {...field}
                         value={field.value || ""}
                       />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-[13px]">
                       Información legal o términos específicos del recurso
                     </FormDescription>
                     <FormMessage />
@@ -372,11 +401,19 @@ export default function NewResourcePage() {
                   variant="outline"
                   asChild
                   disabled={isLoading}
+                  className="h-11"
                 >
                   <Link href="/admin/resources">Cancelar</Link>
                 </Button>
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? "Creando..." : "Crear recurso"}
+                <Button type="submit" disabled={isLoading} className="h-11">
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creando...
+                    </>
+                  ) : (
+                    "Crear recurso"
+                  )}
                 </Button>
               </div>
             </form>
