@@ -75,7 +75,6 @@ export default function NewResourcePage() {
   });
 
   const onSubmit = async (data: ResourceFormValues) => {
-    console.log("Datos del nuevo recurso:", data);
     try {
       setIsLoading(true);
 
@@ -89,7 +88,7 @@ export default function NewResourcePage() {
         console.log("recurso creado exitosamente");
         router.push("/admin/resources");
       } else {
-        console.error("Error al crear recurso:", result.error);
+        throw new Error("Error al crear recurso");
       }
     } catch (error) {
       console.error("Error al crear recurso:", error);
