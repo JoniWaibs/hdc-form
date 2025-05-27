@@ -9,6 +9,12 @@ export const ResourceSchema = z.object({
   created_at: z.string().optional().nullable(),
   price: z.number(),
   meet_url: z.string(),
+  session_count: z.number().default(1),
+  disclaimer: z.string().nullable(),
 });
 
 export type Resource = z.infer<typeof ResourceSchema>;
+
+export const ResourcePostSchema = ResourceSchema.omit({ id: true });
+
+export type ResourcePost = z.infer<typeof ResourcePostSchema>;

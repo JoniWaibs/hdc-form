@@ -1,7 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 
 import {
   SidebarProvider,
@@ -40,7 +39,7 @@ const sidebarDashboardItems = [
     label: "Dashboard",
     href: "/admin/dashboard",
     icon: Home,
-    disabled: false,
+    disabled: true,
   },
   {
     label: "Recursos",
@@ -171,15 +170,6 @@ export default function AdminLayout({
       <SidebarInset>
         <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
           <SidebarTrigger />
-          <div className="relative h-6 w-24 md:hidden">
-            <Image
-              src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png"
-              alt="Logo"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
           <div className="ml-auto flex items-center space-x-4">
             <UserNav />
           </div>

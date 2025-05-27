@@ -1,14 +1,10 @@
 import { Suspense } from "react";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ResourceEnrollments } from "@/app/admin/resource/[resource_id]/components/ResourceEnrollments";
@@ -79,7 +75,7 @@ export default async function ResourceDashboard({
   if (!subscriberResources) {
     return (
       <div className="p-8 text-center text-red-500">
-        No se pudo encontrar los inscritos del recurso solicitado.
+        No se pudo encontrar el listado de inscritos en este recurso.
       </div>
     );
   }
@@ -103,28 +99,18 @@ export default async function ResourceDashboard({
                   Recursos
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{resource.name}</BreadcrumbPage>
-              </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex items-center gap-2 mt-2">
             <h1 className="text-3xl font-bold tracking-tight">
               {resource.name}
             </h1>
-            <Badge variant={isActive ? "default" : "secondary"}>
+            <Badge variant={isActive ? "secondary" : "default"}>
               {isActive ? "Activo" : "Pendiente"}
             </Badge>
           </div>
           <p className="mt-1 text-muted-foreground">{resource.description}</p>
         </div>
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/admin/resources">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Volver
-          </Link>
-        </Button>
       </div>
 
       <Suspense fallback={<ResourceSkeleton />}>

@@ -1,4 +1,4 @@
-import { Resource } from "@/app/schema";
+import { Resource, ResourcePostSchema } from "@/app/schema";
 import { DataSource } from "@/services/datasource";
 import { NextResponse } from "next/server";
 
@@ -18,5 +18,23 @@ export async function GET() {
       },
       { status: 500 },
     );
+  }
+}
+
+export async function POST(request: Request) {
+  const data = await request.json();
+  const resource = ResourcePostSchema.parse(data);
+  const datasource = new DataSource();
+  try {
+    const response = await datasource.createResource(resource);
+
+    return NextResponse.json({
+      message: "Recurso creado",
+      data: response,
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Error en /api/resources:", (error as Error).message);
+    return NextResponse.json(error);
   }
 }
