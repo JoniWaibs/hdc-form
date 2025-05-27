@@ -15,11 +15,11 @@ import { DashboardSkeleton } from "@/app/admin/dashboard/components/DashboardSke
 import { Resource } from "@/app/schema";
 import { ResourcesStats } from "@/app/admin/resources/components/ResourcesStats";
 
+export const dynamic = "force-dynamic";
+
 async function getResources(): Promise<Resource[] | null> {
   try {
-    const response = await fetch(`${process.env.APP_URL}/api/resources`, {
-      cache: "no-store",
-    });
+    const response = await fetch(`${process.env.APP_URL}/api/resources`);
     if (!response.ok) return null;
     const { data } = await response.json();
     return data || null;

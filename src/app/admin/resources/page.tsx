@@ -6,11 +6,11 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 async function getResources(): Promise<Resource[] | null> {
   try {
-    const response = await fetch(`${process.env.APP_URL}/api/resources`, {
-      cache: "no-store",
-    });
+    const response = await fetch(`${process.env.APP_URL}/api/resources`);
     if (!response.ok) return null;
     const { data } = await response.json();
     return data || null;
