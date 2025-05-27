@@ -229,7 +229,11 @@ export default function NewResourcePage() {
                               }
                             }}
                             disabled={(date) => date < new Date()}
-                            initialFocus
+                            defaultMonth={
+                              field.value
+                                ? new Date(field.value + "T12:00:00")
+                                : new Date()
+                            }
                           />
                         </PopoverContent>
                       </Popover>
@@ -287,7 +291,11 @@ export default function NewResourcePage() {
                                 ? date < new Date(startDate)
                                 : date < new Date();
                             }}
-                            initialFocus
+                            defaultMonth={
+                              field.value
+                                ? new Date(field.value + "T12:00:00")
+                                : new Date()
+                            }
                           />
                         </PopoverContent>
                       </Popover>
