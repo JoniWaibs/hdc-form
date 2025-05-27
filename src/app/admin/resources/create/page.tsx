@@ -88,7 +88,7 @@ export default function NewResourcePage() {
         console.log("recurso creado exitosamente");
         router.push("/admin/resources");
       } else {
-        throw new Error("Error al crear recurso");
+        console.error("Error al crear recurso:", result.error);
       }
     } catch (error) {
       console.error("Error al crear recurso:", error);
@@ -184,7 +184,7 @@ export default function NewResourcePage() {
                               variant={"outline"}
                               className={cn(
                                 "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
@@ -207,7 +207,7 @@ export default function NewResourcePage() {
                             onSelect={(date) => {
                               if (date) {
                                 field.onChange(
-                                  date.toISOString().split("T")[0],
+                                  date.toISOString().split("T")[0]
                                 );
                               }
                             }}
@@ -234,7 +234,7 @@ export default function NewResourcePage() {
                               variant={"outline"}
                               className={cn(
                                 "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
@@ -257,7 +257,7 @@ export default function NewResourcePage() {
                             onSelect={(date) => {
                               if (date) {
                                 field.onChange(
-                                  date.toISOString().split("T")[0],
+                                  date.toISOString().split("T")[0]
                                 );
                               }
                             }}
@@ -291,7 +291,7 @@ export default function NewResourcePage() {
                           {...field}
                           onChange={(e) =>
                             field.onChange(
-                              Number.parseFloat(e.target.value) || 0,
+                              Number.parseFloat(e.target.value) || 0
                             )
                           }
                         />
