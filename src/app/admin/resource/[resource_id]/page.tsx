@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {
     const response = await fetch(
-      `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`
+      `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`,
     );
     if (!response.ok) return null;
 

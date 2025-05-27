@@ -130,5 +130,5 @@ export const getPaymentLinkByCountry = (site: string) => {
 export function toLocalDateString(date: Date): string {
   const timezoneOffset = date.getTimezoneOffset() * 60000; // offset en milisegundos
   const localDate = new Date(date.getTime() - timezoneOffset);
-  return localDate.toISOString().split('T')[0];
+  return localDate.toISOString().split("T")[0];
 }
