@@ -7,18 +7,15 @@ import { DayPicker, type DayPickerSingleProps } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-export type CalendarProps = Omit<DayPickerSingleProps, "mode">;
-
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
   selected,
   ...props
-}: CalendarProps) {
+}: DayPickerSingleProps) {
   return (
     <DayPicker
-      mode="single"
       selected={selected}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}

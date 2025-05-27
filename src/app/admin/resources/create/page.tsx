@@ -218,6 +218,7 @@ export default function NewResourcePage() {
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
+                            mode="single"
                             selected={
                               field.value
                                 ? new Date(field.value + "T12:00:00")
@@ -275,6 +276,7 @@ export default function NewResourcePage() {
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
+                            mode="single"
                             selected={
                               field.value
                                 ? new Date(field.value + "T12:00:00")
