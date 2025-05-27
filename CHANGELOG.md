@@ -1,19 +1,40 @@
 # Changelog
 
-Todos los cambios notables en este proyecto serán documentados en este archivo.
+All notable changes to this project will be documented in this file.
 
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Changed
-- Implementada actualización en tiempo real para la página de recursos
-- Modificada la configuración de rutas API para soportar datos dinámicos
-- Optimizada la configuración de Next.js para manejo de datos en tiempo real
-- Resueltos problemas de build relacionados con el uso dinámico del servidor
+- Implemented real-time updates for resources page
+- Modified API route configuration to support dynamic data
+- Optimized Next.js configuration for real-time data handling
+- Resolved build issues related to dynamic server usage
 
 ### Technical
-- Agregado `dynamic = "force-dynamic"` en la página de recursos
-- Removida la caché y revalidación en endpoints de recursos
-- Actualizada la configuración de fetch para mantener datos frescos
+- Added `dynamic = "force-dynamic"` in resources page
+- Removed cache and revalidation in resource endpoints
+- Updated fetch configuration to maintain fresh data
+
+## [Unreleased]
+
+### Added
+
+- Resource API with CRUD operations
+- New resource management page
+- Enhanced UX improvements
+- Comprehensive test coverage
+
+### Changed
+
+- Improved Jest configuration
+- Enhanced form validations
+- Optimized database queries
+
+### Technical
+
+- Type-safe operations implementation
+- Better error handling
+- Performance optimizations
