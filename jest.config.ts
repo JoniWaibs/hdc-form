@@ -2,7 +2,7 @@
 import nextJest from "next/jest";
 
 const createJestConfig = nextJest({
-  dir: "./", // path a tu proyecto
+  dir: "./",
 });
 
 const customJestConfig = {

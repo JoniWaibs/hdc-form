@@ -1,5 +1,10 @@
 import { Supabase } from "@/lib/supabase";
-import { Resource, Subscriber, SubscriberResourcesList } from "@/app/schema";
+import {
+  Resource,
+  ResourcePost,
+  Subscriber,
+  SubscriberResourcesList,
+} from "@/app/schema";
 
 export class DataSource extends Supabase {
   async getAllResources(): Promise<Resource[]> {
@@ -84,6 +89,19 @@ export class DataSource extends Supabase {
     }
 
     return data as unknown as SubscriberResourcesList;
+  }
+
+  async createResource(payload: ResourcePost) {
+    const { data, error } = await this.supabase
+      .from("resources")
+      .insert(payload)
+      .select("id");
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   }
 
   async createSubscriber(payload: Subscriber) {

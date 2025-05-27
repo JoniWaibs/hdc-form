@@ -43,9 +43,9 @@ export function ResourceEnrollments({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Estudiantes Inscritos</CardTitle>
+        <CardTitle>Suscriptores</CardTitle>
         <CardDescription>
-          Lista de estudiantes inscritos en este recurso.
+          Lista de suscriptores en este recurso.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -54,7 +54,7 @@ export function ResourceEnrollments({
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Buscar estudiantes..."
+              placeholder="Buscar suscriptores..."
               className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -126,7 +126,7 @@ export function ResourceEnrollments({
               ) : (
                 <TableRow>
                   <TableCell colSpan={4} className="h-24 text-center">
-                    No se encontraron estudiantes.
+                    No se encontraron suscriptores.
                   </TableCell>
                 </TableRow>
               )}
