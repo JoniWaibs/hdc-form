@@ -198,7 +198,7 @@ export default function NewResourcePage() {
                               variant={"outline"}
                               className={cn(
                                 "h-11 w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
@@ -207,7 +207,7 @@ export default function NewResourcePage() {
                                   "PPP",
                                   {
                                     locale: es,
-                                  },
+                                  }
                                 )
                               ) : (
                                 <span>Selecciona una fecha</span>
@@ -229,7 +229,11 @@ export default function NewResourcePage() {
                               }
                             }}
                             disabled={(date) => date < new Date()}
-                            initialFocus
+                            defaultMonth={
+                              field.value
+                                ? new Date(field.value + "T12:00:00")
+                                : new Date()
+                            }
                           />
                         </PopoverContent>
                       </Popover>
@@ -251,7 +255,7 @@ export default function NewResourcePage() {
                               variant={"outline"}
                               className={cn(
                                 "h-11 w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
@@ -260,7 +264,7 @@ export default function NewResourcePage() {
                                   "PPP",
                                   {
                                     locale: es,
-                                  },
+                                  }
                                 )
                               ) : (
                                 <span>Selecciona una fecha</span>
@@ -287,7 +291,11 @@ export default function NewResourcePage() {
                                 ? date < new Date(startDate)
                                 : date < new Date();
                             }}
-                            initialFocus
+                            defaultMonth={
+                              field.value
+                                ? new Date(field.value + "T12:00:00")
+                                : new Date()
+                            }
                           />
                         </PopoverContent>
                       </Popover>
@@ -312,7 +320,7 @@ export default function NewResourcePage() {
                           {...field}
                           onChange={(e) =>
                             field.onChange(
-                              Number.parseFloat(e.target.value) || 0,
+                              Number.parseFloat(e.target.value) || 0
                             )
                           }
                         />
