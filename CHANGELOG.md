@@ -8,12 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Resource API with CRUD operations
 - New resource management page
 - Enhanced UX improvements
 - Comprehensive test coverage
 
 ### Changed
+
 - Implemented real-time updates for resources page
 - Modified API route configuration to support dynamic data
 - Optimized Next.js configuration for real-time data handling
@@ -23,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimized database queries
 
 ### Technical
+
 - Added `dynamic = "force-dynamic"` in resources page
 - Removed cache and revalidation in resource endpoints
 - Updated fetch configuration to maintain fresh data
