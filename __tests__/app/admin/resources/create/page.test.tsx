@@ -28,10 +28,10 @@ describe("NewResourcePage", () => {
     expect(screen.getByLabelText("Fecha de Inicio")).toBeInTheDocument();
     expect(screen.getByLabelText("Fecha de Fin")).toBeInTheDocument();
     expect(screen.getByLabelText("Precio")).toBeInTheDocument();
-    expect(screen.getByLabelText("Número de Sesiones")).toBeInTheDocument();
+    expect(screen.getByLabelText("Cantidad de Encuentros")).toBeInTheDocument();
     expect(screen.getByLabelText("URL de la Reunión")).toBeInTheDocument();
     expect(
-      screen.getByLabelText("Descargo de Responsabilidad"),
+      screen.getByLabelText("Descargo de Responsabilidad")
     ).toBeInTheDocument();
   });
 
@@ -51,12 +51,11 @@ describe("NewResourcePage", () => {
     global.fetch = jest.fn().mockImplementationOnce(() =>
       Promise.resolve({
         json: () => Promise.resolve({ status: 200 }),
-      }),
+      })
     );
 
     render(<NewResourcePage />);
 
-    // Fill form fields
     fireEvent.change(screen.getByLabelText("Nombre del recurso"), {
       target: { value: "Test Resource" },
     });
@@ -69,11 +68,10 @@ describe("NewResourcePage", () => {
       target: { value: "100" },
     });
 
-    fireEvent.change(screen.getByLabelText("Número de Sesiones"), {
+    fireEvent.change(screen.getByLabelText("Cantidad de Encuentros"), {
       target: { value: "5" },
     });
 
-    // Submit form
     const submitButton = screen.getByText("Crear recurso");
     fireEvent.click(submitButton);
 
@@ -93,12 +91,11 @@ describe("NewResourcePage", () => {
     global.fetch = jest.fn().mockImplementationOnce(() =>
       Promise.resolve({
         json: () => Promise.resolve({ status: 400, error: "API Error" }),
-      }),
+      })
     );
 
     render(<NewResourcePage />);
 
-    // Fill required fields
     fireEvent.change(screen.getByLabelText("Nombre del recurso"), {
       target: { value: "Test Resource" },
     });
@@ -107,14 +104,13 @@ describe("NewResourcePage", () => {
       target: { value: "https://meet.google.com/test" },
     });
 
-    // Submit form
     const submitButton = screen.getByText("Crear recurso");
     fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalledWith(
         "Error al crear recurso:",
-        "API Error",
+        "API Error"
       );
     });
 
