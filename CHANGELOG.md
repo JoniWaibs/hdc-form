@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved Jest configuration
 - Enhanced form validations
 - Optimized database queries
+- Updated UI text from "Número de Sesiones" to "Cantidad de Encuentros"
+- Enhanced ResourcesCards layout and responsiveness
+- Improved date display in resource cards
+- Migrated calendar component to use DayPicker directly
 
 ### Technical
 
@@ -32,3 +36,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Type-safe operations implementation
 - Better error handling
 - Performance optimizations
+- Removed redundant calendar component and integrated DayPicker directly
+- Improved grid layout for resource cards
