@@ -49,7 +49,7 @@ export function ResourcesCards({
                       <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                       <span>
                         {capitalizeFirstLetter(
-                          formatResourceDate(resource.start_date)
+                          formatResourceDate(resource.start_date),
                         )}
                       </span>
                     </div>
@@ -59,7 +59,7 @@ export function ResourcesCards({
                           <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                           <span>
                             {capitalizeFirstLetter(
-                              formatResourceDate(resource.end_date)
+                              formatResourceDate(resource.end_date),
                             )}
                           </span>
                         </div>
@@ -83,7 +83,7 @@ export function ResourcesCards({
                       {
                         subscriberResources?.filter(
                           (subscriberResource) =>
-                            subscriberResource.resource.id === resource.id
+                            subscriberResource.resource.id === resource.id,
                         ).length
                       }{" "}
                       inscritos
@@ -94,7 +94,7 @@ export function ResourcesCards({
                       {
                         subscriberResources?.filter(
                           (subscriberResource) =>
-                            subscriberResource.payment_confirmed
+                            subscriberResource.payment_confirmed,
                         ).length
                       }{" "}
                       confirmados
@@ -115,7 +115,7 @@ export function ResourcesCards({
                     onClick={() => {
                       navigator.clipboard
                         .writeText(
-                          `${window.location.origin}/resources/${resource.id}`
+                          `${window.location.origin}/resources/${resource.id}`,
                         )
                         .then(() => {
                           toast.success("Enlace copiado");
@@ -133,7 +133,7 @@ export function ResourcesCards({
                     className="flex-1"
                     onClick={() => {
                       const url = `https://wa.me/?text=${encodeURIComponent(
-                        `¡Inscríbete en este recurso! ${window.location.origin}/resources/${resource.id}`
+                        `¡Inscríbete en este recurso! ${window.location.origin}/resources/${resource.id}`,
                       )}`;
                       window.open(url, "_blank");
                     }}
