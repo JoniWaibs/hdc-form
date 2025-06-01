@@ -1,6 +1,6 @@
 import { render, waitFor, fireEvent, screen } from "@testing-library/react";
 import { useRouter } from "next/navigation";
-import NewResourcePage from "@/app/admin/resources/create/page";
+import NewResourcePage from "@/app/admin/resource/create/page";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
@@ -81,7 +81,7 @@ describe("NewResourcePage", () => {
         body: expect.any(String),
       });
 
-      expect(mockPush).toHaveBeenCalledWith("/admin/resources");
+      expect(mockPush).toHaveBeenCalledWith("/admin/resource/list");
     });
   });
 

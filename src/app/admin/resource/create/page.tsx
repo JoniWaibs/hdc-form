@@ -88,7 +88,7 @@ export default function NewResourcePage() {
 
       if (result.status === 200) {
         console.log("recurso creado exitosamente");
-        return router.push("/admin/resources");
+        return router.push("/admin/resource/list");
       } else {
         console.error("Error al crear recurso:", result.error);
       }
@@ -116,7 +116,7 @@ export default function NewResourcePage() {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink
-                  href="/admin/resources"
+                  href="/admin/resource/list"
                   className="text-muted-foreground hover:text-primary"
                 >
                   Recursos
@@ -485,7 +485,7 @@ export default function NewResourcePage() {
                   disabled={isLoading}
                   className="h-11"
                 >
-                  <Link href="/admin/resources">Cancelar</Link>
+                  <Link href="/admin/resource/list">Cancelar</Link>
                 </Button>
                 <Button type="submit" disabled={isLoading} className="h-11">
                   {isLoading ? (

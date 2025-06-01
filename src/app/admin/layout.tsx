@@ -43,7 +43,7 @@ const sidebarDashboardItems = [
   },
   {
     label: "Recursos",
-    href: "/admin/resources",
+    href: "/admin/resource/list",
     icon: BookOpen,
     disabled: false,
   },

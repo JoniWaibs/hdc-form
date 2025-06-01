@@ -1,6 +1,6 @@
-import { ResourcesHeader } from "@/app/admin/resources/components/ResourcesHeader";
-import { ResourcesFilters } from "@/app/admin/resources/components/ResourcesFilters";
-import { ResourcesCards } from "@/app/admin/resources/components/ResourcesCards";
+import { ResourcesHeader } from "@/app/admin/resource/components/ResourcesHeader";
+import { ResourcesFilters } from "@/app/admin/resource/components/ResourcesFilters";
+import { ResourcesCards } from "@/app/admin/resource/components/ResourcesCards";
 import type { Resource, SubscriberResourcesList } from "@/app/schema";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -59,7 +59,7 @@ export default async function ResourcesPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <ResourcesFilters />
         <Button asChild>
-          <Link href="/admin/resources/create">
+          <Link href="/admin/resource/create">
             <PlusCircle className="mr-2 h-4 w-4" />
             Nuevo Recurso
           </Link>
