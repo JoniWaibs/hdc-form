@@ -125,7 +125,7 @@ export function ResourceEnrollments({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} className="h-24 text-center">
+                  <TableCell colSpan={4} className="h-24 text-left">
                     No se encontraron suscriptores.
                   </TableCell>
                 </TableRow>

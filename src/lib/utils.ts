@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { es } from "date-fns/locale";
+import { Resource } from "@/app/schema";
 
 export interface PaymentLink {
   name: string;
@@ -132,3 +133,32 @@ export function toLocalDateString(date: Date): string {
   const localDate = new Date(date.getTime() - timezoneOffset);
   return localDate.toISOString().split("T")[0];
 }
+
+export const getResourceStatus = (
+  resource: Resource,
+): {
+  text: string;
+  variant: "default" | "destructive" | "outline" | "secondary";
+} => {
+  const isFinished = new Date(resource.end_date) <= new Date();
+  const isPending = new Date(resource.start_date) > new Date();
+
+  const resourceStatusMap = {
+    finished: {
+      text: "Finalizado",
+      variant: "outline" as const,
+    },
+    active: {
+      text: "Activo",
+      variant: "default" as const,
+    },
+    pending: {
+      text: "Pendiente",
+      variant: "default" as const,
+    },
+  };
+
+  return resourceStatusMap[
+    isFinished ? "finished" : isPending ? "pending" : "active"
+  ];
+};

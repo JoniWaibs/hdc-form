@@ -1,13 +1,17 @@
-# Jest Consistency Rule
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Consistency rules for Jest testing
+globs: "**/*.{test,spec}.{ts,tsx,js,jsx}"
+alwaysApply: true
+---
 
-## Description
-En proyectos que utilizan Jest, se debe emplear `test()` en lugar de `it()` para definir casos de prueba. Además, cuando existan múltiples pruebas con estructuras similares, se debe utilizar `test.each` para evitar repeticiones y mejorar la claridad.
+# Jest Testing Standards
 
-## Globs
-**/*.{test,spec}.{ts,tsx,js,jsx}
-
-## Instructions
-- Reemplazar todas las instancias de `it()` por `test()`.
-- Identificar patrones repetitivos en los casos de prueba y refactorizarlos utilizando `test.each` con una matriz de casos.
-- Asegurarse de que los nombres de las pruebas sean descriptivos y claros.
-- Utilizar `describe()` para agrupar pruebas relacionadas cuando sea apropiado.
+- Replace all instances of `it()` with `test()`.
+- Identify repetitive test patterns and refactor them using `test.each` with a test cases array.
+- Ensure test names are descriptive and clear.
+- Use `describe()` to group related tests when appropriate.
