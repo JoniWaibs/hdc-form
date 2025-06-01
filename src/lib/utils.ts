@@ -135,7 +135,7 @@ export function toLocalDateString(date: Date): string {
 }
 
 export const getResourceStatus = (
-  resource: Resource
+  resource: Resource,
 ): {
   text: string;
   variant: "default" | "destructive" | "outline" | "secondary";
