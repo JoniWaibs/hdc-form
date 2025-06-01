@@ -1,17 +1,20 @@
 # Hablemos Dd Cancer Form - Healthcare Resource Management
 
 ## Overview
+
 HDC Form is a comprehensive web application designed to manage healthcare resources, sessions, and encounters. It provides an intuitive interface for healthcare professionals to manage their resources, schedule sessions, and track patient encounters efficiently.
 
 ## 🚀 Features
 
 - **Resource Management**
+
   - Create and manage healthcare resources
   - Track session dates and status
   - Monitor resource utilization
   - Real-time status updates
 
 - **Session Tracking**
+
   - Schedule and manage healthcare sessions
   - Track encounter quantities
   - Manage session pricing
@@ -26,6 +29,7 @@ HDC Form is a comprehensive web application designed to manage healthcare resour
 ## 🛠️ Tech Stack
 
 - **Frontend**
+
   - [Next.js 14](https://nextjs.org/) - React framework with App Router
   - [TypeScript](https://www.typescriptlang.org/) - Type safety
   - [Tailwind CSS](https://tailwindcss.com/) - Styling
@@ -35,11 +39,13 @@ HDC Form is a comprehensive web application designed to manage healthcare resour
   - [TanStack Table](https://tanstack.com/table) - Table management
 
 - **Backend**
+
   - [Next.js API Routes](https://nextjs.org/docs/api-routes/introduction) - API endpoints
   - [Prisma](https://www.prisma.io/) - Database ORM
   - [PostgreSQL](https://www.postgresql.org/) - Database
 
 - **Testing**
+
   - [Jest](https://jestjs.io/) - Unit testing
   - [React Testing Library](https://testing-library.com/react) - Component testing
 
@@ -50,28 +56,34 @@ HDC Form is a comprehensive web application designed to manage healthcare resour
 ## 🚦 Getting Started
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/JoniWaibs/hdc-form.git
    cd hdc-form
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    ```
+
    Fill in the required environment variables in `.env.local`
 
 4. **Run database migrations**
+
    ```bash
    npx prisma migrate dev
    ```
 
 5. **Start the development server**
+
    ```bash
    npm run dev
    ```
