@@ -34,7 +34,11 @@ import {
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Resource } from "@/app/schema";
-import { formatPrice, formatResourceDate } from "@/lib/utils";
+import {
+  formatPrice,
+  formatResourceDate,
+  getResourceStatus,
+} from "@/lib/utils";
 
 interface ResourcesTableProps {
   resources: Resource[];
@@ -102,12 +106,9 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
       accessorKey: "status",
       header: "Estado",
       cell: ({ row }) => {
-        const startDate = new Date(row.getValue("start_date"));
-        const isActive = startDate <= new Date();
+        const resourceStatus = getResourceStatus(row.original);
         return (
-          <Badge variant={isActive ? "default" : "secondary"}>
-            {isActive ? "Activo" : "Pendiente"}
-          </Badge>
+          <Badge variant={resourceStatus.variant}>{resourceStatus.text}</Badge>
         );
       },
     },

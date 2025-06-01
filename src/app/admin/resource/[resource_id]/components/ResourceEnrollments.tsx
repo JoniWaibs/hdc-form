@@ -83,7 +83,7 @@ export function ResourceEnrollments({
                   <TableRow key={subscriberResource.id}>
                     <TableCell>
                       {capitalizeFirstLetter(
-                        subscriberResource.subscriber.name,
+                        subscriberResource.subscriber.name
                       )}
                     </TableCell>
                     <TableCell>
@@ -91,22 +91,22 @@ export function ResourceEnrollments({
                     </TableCell>
                     <TableCell>
                       {capitalizeFirstLetter(
-                        subscriberResource.subscriber.country,
+                        subscriberResource.subscriber.country
                       )}
                     </TableCell>
                     <TableCell>
                       {capitalizeFirstLetter(
-                        subscriberResource.subscriber.city,
+                        subscriberResource.subscriber.city
                       )}
                     </TableCell>
                     <TableCell
                       className="truncate max-w-[150px]"
                       title={capitalizeFirstLetter(
-                        subscriberResource.subscriber.profession,
+                        subscriberResource.subscriber.profession
                       )}
                     >
                       {capitalizeFirstLetter(
-                        subscriberResource.subscriber.profession,
+                        subscriberResource.subscriber.profession
                       )}
                     </TableCell>
                     <TableCell>
@@ -125,7 +125,7 @@ export function ResourceEnrollments({
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} className="h-24 text-center">
+                  <TableCell colSpan={4} className="h-24 text-left">
                     No se encontraron suscriptores.
                   </TableCell>
                 </TableRow>
