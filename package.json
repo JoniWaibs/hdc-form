@@ -4,16 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "typecheck": "tsc --noEmit",
     "clean": "rm -rf .next && rm -rf out",
     "build": "npm run clean && next build",
     "start": "next start",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
-    "format": "prettier --write . && npm run lint:fix",
+    "format:write": "prettier --write . && npm run lint:fix",
     "format:check": "prettier --check .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "predeploy": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
