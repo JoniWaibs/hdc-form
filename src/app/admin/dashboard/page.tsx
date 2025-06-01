@@ -13,7 +13,7 @@ import { Overview } from "@/app/admin/dashboard/components/Overview";
 import { ResourcesTable } from "@/app/admin/dashboard/components/ResourcesTable";
 import { DashboardSkeleton } from "@/app/admin/dashboard/components/DashboardSkeleton";
 import { Resource } from "@/app/schema";
-import { ResourcesStats } from "@/app/admin/resources/components/ResourcesStats";
+import { ResourcesStats } from "@/app/admin/resource/components/ResourcesStats";
 
 export const dynamic = "force-dynamic";
 

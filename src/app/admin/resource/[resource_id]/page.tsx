@@ -94,7 +94,7 @@ export default async function ResourceDashboard({
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/resources">
+                <BreadcrumbLink href="/admin/resource/list">
                   Recursos
                 </BreadcrumbLink>
               </BreadcrumbItem>
