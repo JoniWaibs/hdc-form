@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn, toLocalDateString } from "@/lib/utils";
 import { DayPicker } from "react-day-picker";
+import { toast } from "sonner";
 
 const ResourceSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),
@@ -76,7 +77,6 @@ export default function NewResourcePage() {
   });
 
   const onSubmit = async (data: ResourceFormValues) => {
-    console.log(data);
     try {
       setIsLoading(true);
 
@@ -87,13 +87,13 @@ export default function NewResourcePage() {
       const result = await response.json();
 
       if (result.status === 200) {
-        console.log("recurso creado exitosamente");
+        toast.success("Recurso creado exitosamente");
         return router.push("/admin/resource/list");
       } else {
-        console.error("Error al crear recurso:", result.error);
+        throw new Error(result.error);
       }
     } catch (error) {
-      console.error("Error al crear recurso:", error);
+      toast.error(`${(error as Error).message}`);
     } finally {
       setIsLoading(false);
     }
@@ -198,7 +198,7 @@ export default function NewResourcePage() {
                               variant={"outline"}
                               className={cn(
                                 "h-11 w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
@@ -207,7 +207,7 @@ export default function NewResourcePage() {
                                   "PPP",
                                   {
                                     locale: es,
-                                  },
+                                  }
                                 )
                               ) : (
                                 <span>Selecciona una fecha</span>
@@ -246,7 +246,7 @@ export default function NewResourcePage() {
                               nav: "space-x-1 flex items-center",
                               nav_button: cn(
                                 buttonVariants({ variant: "outline" }),
-                                "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
+                                "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
                               ),
                               nav_button_previous: "absolute left-1",
                               nav_button_next: "absolute right-1",
@@ -258,7 +258,7 @@ export default function NewResourcePage() {
                               cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
                               day: cn(
                                 buttonVariants({ variant: "ghost" }),
-                                "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                                "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
                               ),
                               day_range_end: "day-range-end",
                               day_selected:
@@ -292,7 +292,7 @@ export default function NewResourcePage() {
                               variant={"outline"}
                               className={cn(
                                 "h-11 w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
@@ -301,7 +301,7 @@ export default function NewResourcePage() {
                                   "PPP",
                                   {
                                     locale: es,
-                                  },
+                                  }
                                 )
                               ) : (
                                 <span>Selecciona una fecha</span>
@@ -345,7 +345,7 @@ export default function NewResourcePage() {
                               nav: "space-x-1 flex items-center",
                               nav_button: cn(
                                 buttonVariants({ variant: "outline" }),
-                                "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
+                                "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
                               ),
                               nav_button_previous: "absolute left-1",
                               nav_button_next: "absolute right-1",
@@ -357,7 +357,7 @@ export default function NewResourcePage() {
                               cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
                               day: cn(
                                 buttonVariants({ variant: "ghost" }),
-                                "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                                "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
                               ),
                               day_range_end: "day-range-end",
                               day_selected:
@@ -394,7 +394,7 @@ export default function NewResourcePage() {
                           {...field}
                           onChange={(e) =>
                             field.onChange(
-                              Number.parseFloat(e.target.value) || 0,
+                              Number.parseFloat(e.target.value) || 0
                             )
                           }
                         />

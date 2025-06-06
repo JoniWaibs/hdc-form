@@ -10,6 +10,7 @@ import {
   TooltipContent,
   Tooltip,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 interface PaymentButtonProps {
   subscriberResource: SubscriberResource;
@@ -42,10 +43,10 @@ export function PaymentButton({ subscriberResource }: PaymentButtonProps) {
       }
 
       setIsPaid(true);
-      const result = await response.json();
-      console.log("Payment marked as confirmed:", result);
+      await response.json();
+      toast.success("Pago marcado como confirmado");
     } catch (error) {
-      console.error("Error al marcar como pagado:", error);
+      toast.error(`${(error as Error).message}`);
     } finally {
       setIsPending(false);
     }

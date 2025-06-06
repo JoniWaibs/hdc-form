@@ -8,7 +8,7 @@ export const SubscriberSchema = z.object({
     .transform((value) => value.trim().toLowerCase()),
   email: z
     .string()
-    .email("Email inválido")
+    .email("Inválido")
     .transform((value) => value.trim().toLowerCase()),
   identity_document: z
     .string()
@@ -43,14 +43,8 @@ export const SubscriberSchema = z.object({
 export type Subscriber = z.infer<typeof SubscriberSchema>;
 
 export const SubscriberWithHowDidYouHearSchema = SubscriberSchema.extend({
-  how_did_you_hear: z
-    .string()
-    .min(1, "(*)")
-    .transform((value) => value.toLowerCase()),
-  why_you_are_interested: z
-    .string()
-    .min(1, "(*)")
-    .transform((value) => value.toLowerCase()),
+  how_did_you_hear: z.string().transform((value) => value.trim()),
+  why_you_are_interested: z.string().transform((value) => value.trim()),
 });
 
 export type SubscriberWithHowDidYouHear = z.infer<
