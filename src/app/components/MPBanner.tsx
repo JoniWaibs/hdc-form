@@ -1,4 +1,4 @@
-import { formatAmount } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -42,7 +42,7 @@ export default function MercadoPagoBanner({
               style={{ color: "#2D3277" }}
             >
               Costo de la inscripción:{" "}
-              <span className="font-bold">{formatAmount(amount)}</span>
+              <span className="font-bold">{formatPrice(amount, "ARS")}</span>
             </p>
 
             <h2
@@ -102,7 +102,9 @@ export default function MercadoPagoBanner({
                   style={{ color: "#2D3277" }}
                 >
                   Costo de la inscripción:{" "}
-                  <span className="font-bold">{formatAmount(amount)}</span>
+                  <span className="font-bold">
+                    {formatPrice(amount, "ARS")}
+                  </span>
                 </p>
 
                 <h2

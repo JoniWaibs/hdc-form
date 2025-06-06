@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json(
       {
         message: "Inscripción exitosa",
-        redirect_url: `/congrats/${body.resource_id}`,
+        redirect_url: `/payment-success/${body.resource_id}`,
       },
       { status: 201 },
     );

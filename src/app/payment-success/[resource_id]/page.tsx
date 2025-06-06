@@ -1,4 +1,4 @@
-import { CongratsScreen } from "./components/CongratsScreen";
+import { PaymentSuccessScreen } from "./components/PaymentSuccessScreen";
 import { Resource } from "@/app/schema";
 
 async function getResource(resourceId: string): Promise<Resource | null> {
@@ -17,7 +17,7 @@ async function getResource(resourceId: string): Promise<Resource | null> {
   }
 }
 
-export default async function CongratsPage({
+export default async function PaymentSuccessPage({
   params,
 }: {
   params: Promise<{ resource_id: string }>;
@@ -33,5 +33,5 @@ export default async function CongratsPage({
     );
   }
 
-  return <CongratsScreen resourceName={resource?.name || ""} />;
+  return <PaymentSuccessScreen resourceName={resource?.name || ""} />;
 }

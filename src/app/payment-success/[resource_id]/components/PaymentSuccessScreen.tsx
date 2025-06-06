@@ -2,15 +2,19 @@
 
 import { motion } from "framer-motion";
 import successCheck from "@/app/assets/lottie/success-check.json";
-import wave from "@/app/assets/svg/wave-bg.svg";
+import wave from "@/app/assets/svg/wave-bg-green.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { getUrls } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import { RRSSButton } from "./RRSSButton";
+import RRSSButton from "@/app/components/RRSSButton";
 const Player = dynamic(() => import("lottie-react"), { ssr: false });
 
-function CongratsScreen({ resourceName }: { resourceName: string }) {
+export function PaymentSuccessScreen({
+  resourceName,
+}: {
+  resourceName: string;
+}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [LottiePlayer, setLottiePlayer] = useState<any>(null);
@@ -41,7 +45,7 @@ function CongratsScreen({ resourceName }: { resourceName: string }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="min-h-screen flex flex-col items-center justify-between bg-[#f8fafc] text-center"
+      className="h-screen flex flex-col items-center justify-between bg-[#f8fafc] text-center"
     >
       <canvas
         ref={canvasRef}
@@ -53,7 +57,7 @@ function CongratsScreen({ resourceName }: { resourceName: string }) {
           initial={{ opacity: 0, scale: 0.5, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-50 h-50"
+          className="w-24 h-24 sm:w-48 sm:h-48 mt-4 flex-shrink-0"
         >
           <Player autoplay loop animationData={successCheck} />
         </motion.div>
@@ -63,44 +67,46 @@ function CongratsScreen({ resourceName }: { resourceName: string }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6 }}
-        className="flex flex-col gap-4 max-w-xl px-12"
+        className="flex flex-col gap-3 max-w-lg px-6 sm:px-2 flex-1 justify-center"
       >
-        <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 pb-6">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 pb-2">
           ¡Inscripción confirmada!
         </h1>
-        <p className="text-gray-600 text-base sm:text-lg">
+        <p className="text-gray-600 text-sm sm:text-lg leading-tight">
           Ya estás inscripto en el curso <strong>{resourceName}</strong>.<br />
-          En breve recibirás un correo con más información y detalles de pago.
+          En breve vas a recibir un correo electrónico con más información y
+          detalles de pago.
         </p>
-        <strong>
+        <p className="text-gray-500 text-base font-medium pt-1">
           No olvides revisar tu carpeta de spam o correo no deseado.
-        </strong>
+        </p>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        className="mt-10"
+        className="mt-2 mb-2 flex-shrink-0"
       >
         <RRSSButton url={getUrls("instagram")!} />
       </motion.div>
 
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
+        initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-        className="w-full relative"
+        className="w-full relative flex-shrink-0"
       >
-        <Image
-          src={wave}
-          alt="wave background"
-          className="w-full h-auto"
-          priority
-        />
+        <div className="relative h-40 sm:h-48">
+          <Image
+            src={wave}
+            alt="wave background"
+            className="w-full h-full object-cover object-top"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-emerald-100/30 to-transparent" />
+        </div>
       </motion.div>
     </motion.div>
   );
 }
-
-export { CongratsScreen };
