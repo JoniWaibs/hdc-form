@@ -32,7 +32,7 @@ describe("NewResourcePage", () => {
     expect(screen.getByLabelText("Cantidad de Encuentros")).toBeInTheDocument();
     expect(screen.getByLabelText("URL de la Reunión")).toBeInTheDocument();
     expect(
-      screen.getByLabelText("Descargo de Responsabilidad")
+      screen.getByLabelText("Descargo de Responsabilidad"),
     ).toBeInTheDocument();
   });
 
@@ -52,7 +52,7 @@ describe("NewResourcePage", () => {
     global.fetch = jest.fn().mockImplementationOnce(() =>
       Promise.resolve({
         json: () => Promise.resolve({ status: 200 }),
-      })
+      }),
     );
 
     render(<NewResourcePage />);
@@ -93,7 +93,7 @@ describe("NewResourcePage", () => {
       Promise.resolve({
         json: () =>
           Promise.resolve({ status: 400, error: "Error al crear recurso" }),
-      })
+      }),
     );
 
     render(<NewResourcePage />);
