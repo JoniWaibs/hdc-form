@@ -82,17 +82,13 @@ export async function PATCH(req: NextRequest) {
         });
       }
     } catch (error) {
-      console.error(
+      throw new Error(
         `Error al enviar el email de confirmación de pago: ${(error as Error).message}`,
       );
     }
 
     return response;
   } catch (error) {
-    console.error(
-      "Error en PATCH /api/subscriber-resources:",
-      (error as Error).message,
-    );
     return NextResponse.json(
       {
         error: `No se pudo actualizar el recurso del suscriptor. Intentá más tarde. Error: ${(error as Error).message}`,

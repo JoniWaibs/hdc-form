@@ -5,8 +5,9 @@ async function getResource(resourceId: string): Promise<Resource | null> {
   try {
     const response = await fetch(
       `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`,
-      { cache: "no-store" },
+      { cache: "no-store" }
     );
+
     if (!response.ok) return null;
 
     const { data } = await response.json();
@@ -67,5 +68,9 @@ export default async function RegisterPage({
     );
   }
 
-  return <RegisterFormScreen resource={resource} />;
+  return (
+    <RegisterFormScreen
+      resource={Array.isArray(resource) ? resource[0] : resource}
+    />
+  );
 }

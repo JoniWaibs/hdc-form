@@ -11,7 +11,6 @@ export async function GET() {
       status: 200,
     });
   } catch (error) {
-    console.error("Error en /api/resources:", (error as Error).message);
     return NextResponse.json(
       {
         error: `No se pudieron obtener los recursos. Intentá más tarde. Error: ${(error as Error).message}`,
@@ -34,7 +33,11 @@ export async function POST(request: Request) {
       status: 200,
     });
   } catch (error) {
-    console.error("Error en /api/resources:", (error as Error).message);
-    return NextResponse.json(error);
+    return NextResponse.json(
+      {
+        error: `No se pudo crear el recurso. Error: ${(error as Error).message}`,
+      },
+      { status: 500 },
+    );
   }
 }

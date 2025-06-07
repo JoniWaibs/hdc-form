@@ -20,6 +20,7 @@ export class DataSource extends Supabase {
       .from("resources")
       .select("*")
       .eq("id", id);
+
     if (error) {
       throw error;
     }
@@ -108,7 +109,7 @@ export class DataSource extends Supabase {
     const { data, error, status } = await this.supabase
       .from("subscribers")
       .insert(payload)
-      .select("id");
+      .select("name, id, email");
 
     if (error) {
       throw error;
@@ -125,7 +126,7 @@ export class DataSource extends Supabase {
     payment_confirmed: boolean;
   }) {
     try {
-      const { data, error } = await this.supabase
+      const { data, error, status } = await this.supabase
         .from("subscriber_resources")
         .insert([
           {
@@ -137,18 +138,18 @@ export class DataSource extends Supabase {
           },
         ]);
 
+      let statusCode = status;
       if (error) {
         if (error.code === "23505") {
+          statusCode = 409;
           throw new Error("Ya estás inscripto en este recurso.");
         }
         throw error;
       }
 
-      return { data };
+      return { data, status: statusCode };
     } catch (err) {
-      throw new Error(
-        `Error al crear la suscripción: ${(err as Error).message}`,
-      );
+      throw err;
     }
   }
 
@@ -159,7 +160,7 @@ export class DataSource extends Supabase {
     },
   ) {
     try {
-      const { data, error } = await this.supabase
+      const { data, error, status } = await this.supabase
         .from("subscriber_resources")
         .update({
           ...payload,
@@ -172,11 +173,9 @@ export class DataSource extends Supabase {
         throw error;
       }
 
-      return { data, status: 200 };
+      return { data, status };
     } catch (err) {
-      throw new Error(
-        `Error al actualizar la suscripción: ${(err as Error).message}`,
-      );
+      throw err;
     }
   }
 

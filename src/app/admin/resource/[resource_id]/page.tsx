@@ -20,6 +20,7 @@ async function getResource(resourceId: string): Promise<Resource | null> {
     const response = await fetch(
       `${process.env.APP_URL}/api/resource?resource_id=${resourceId}`,
     );
+
     if (!response.ok) return null;
 
     const { data } = await response.json();

@@ -80,9 +80,13 @@ export default function NewResourcePage() {
     try {
       setIsLoading(true);
 
+      const createResourceBody = {
+        ...data,
+      };
+
       const response = await fetch("/api/resources", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(createResourceBody),
       });
       const result = await response.json();
 

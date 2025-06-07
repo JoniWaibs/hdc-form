@@ -23,16 +23,18 @@ export function PaymentButton({ subscriberResource }: PaymentButtonProps) {
   const handleMarkAsPaid = async () => {
     setIsPending(true);
 
+    const updateSubscriberResourceBody = {
+      subscriber_resource: subscriberResource,
+      payment_confirmed: true,
+    };
+
     try {
       const response = await fetch("/api/subscriber-resources", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          subscriber_resource: subscriberResource,
-          payment_confirmed: true,
-        }),
+        body: JSON.stringify(updateSubscriberResourceBody),
       });
 
       if (!response.ok) {

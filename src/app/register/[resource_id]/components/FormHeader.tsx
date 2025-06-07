@@ -19,7 +19,7 @@ export default function FormHeader({ resource }: FormHeaderProps) {
         />
       </div>
       <div>
-        <h1 className="text-2xl xs:text-4xl font-semibold text-gray-800 mb-2">
+        <h1 className="text-2xl xs:text-4xl md:text-md font-semibold text-gray-800 mb-2">
           {resource?.name}
         </h1>
       </div>

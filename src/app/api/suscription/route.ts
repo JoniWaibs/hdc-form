@@ -1,7 +1,5 @@
 import { SubscriberResourcePostSchema } from "@/app/schema";
-import { getWelcomeEmail } from "@/lib/emails/templates/welcome";
 import { DataSource } from "@/services/datasource";
-import { EmailService } from "@/services/email";
 import { NextResponse, NextRequest } from "next/server";
 import { ZodError } from "zod";
 
@@ -34,54 +32,31 @@ export async function POST(req: NextRequest) {
       subscriber = createdSubscriber;
     }
 
+    const createSubscriberResourceBody = {
+      subscriber_id: subscriber[0].id,
+      resource_id: body.resource_id,
+      how_did_you_hear: body.how_did_you_hear,
+      why_you_are_interested: body.why_you_are_interested,
+      payment_confirmed: false,
+    };
+
     try {
-      await datasource.createSubscriberResource({
-        subscriber_id: subscriber[0].id,
-        resource_id: body.resource_id,
-        how_did_you_hear: body.how_did_you_hear,
-        why_you_are_interested: body.why_you_are_interested,
-        payment_confirmed: false,
-      });
+      await datasource.createSubscriberResource(createSubscriberResourceBody);
     } catch (err) {
-      const message = (err as Error).message;
-      const statusCode = message.includes("Ya estás inscripto en este recurso")
-        ? 409
-        : 400;
-      return NextResponse.json({ error: message }, { status: statusCode });
+      throw err;
     }
 
-    const response = NextResponse.json(
+    return NextResponse.json(
       {
         message: "Inscripción exitosa",
-        redirect_url: `/payment-success/${body.resource_id}`,
+        subscriber: subscriber[0], // Only returns id, email and name
       },
       { status: 201 },
     );
-
-    try {
-      const resource = await datasource.getResourceById(body.resource_id);
-      if (resource) {
-        const emailContent = getWelcomeEmail({
-          subscriber: body.subscriber,
-          resource: resource[0],
-        });
-        await new EmailService().sendEmail({
-          to: body.subscriber.email,
-          subject: emailContent.subject,
-          html: emailContent.html,
-        });
-      }
-    } catch (err) {
-      console.error(
-        `Error al enviar el email de bienvenida: ${(err as Error).message}`,
-      );
-    }
-
-    return response;
   } catch (error: unknown) {
     if (error instanceof ZodError) {
       return NextResponse.json(
-        { error: "Datos inválidos", issues: error.errors },
+        { error: "Input validator error", issues: error.errors },
         { status: 400 },
       );
     }

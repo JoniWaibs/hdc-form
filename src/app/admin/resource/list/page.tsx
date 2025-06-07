@@ -2,7 +2,7 @@ import { ResourcesHeader } from "@/app/admin/resource/components/ResourcesHeader
 import { ResourcesFilters } from "@/app/admin/resource/components/ResourcesFilters";
 import { ResourcesCards } from "@/app/admin/resource/components/ResourcesCards";
 import type { Resource, SubscriberResourcesList } from "@/app/schema";
-import { PlusCircle } from "lucide-react";
+import { BookOpen, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -44,14 +44,6 @@ export default async function ResourcesPage() {
     getSubscriberResources(),
   ]);
 
-  if (!resources) {
-    return (
-      <div className="flex h-[50vh] w-full items-center justify-center">
-        <p className="text-muted-foreground">No se pudo obtener los recursos</p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <ResourcesHeader />
@@ -66,10 +58,24 @@ export default async function ResourcesPage() {
         </Button>
       </div>
 
-      <ResourcesCards
-        resources={resources}
-        subscriberResources={subscriberResources}
-      />
+      {!resources?.length ? (
+        <div className="flex h-[50vh] w-full flex-col items-center justify-center gap-4">
+          <div className="rounded-full bg-muted p-6">
+            <BookOpen className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <div className="text-center">
+            <h3 className="text-lg font-medium">No hay recursos disponibles</h3>
+            <p className="text-sm text-muted-foreground">
+              No encontramos ningún recurso disponible. Creá uno para empezar.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <ResourcesCards
+          resources={resources}
+          subscriberResources={subscriberResources}
+        />
+      )}
     </div>
   );
 }
