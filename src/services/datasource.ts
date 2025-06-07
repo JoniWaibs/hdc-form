@@ -42,9 +42,11 @@ export class DataSource extends Supabase {
   async getSubscriberResources({
     resource_id,
     subscriber_id,
+    subscriber_email,
   }: {
     resource_id?: string;
     subscriber_id?: string;
+    subscriber_email?: string;
   } = {}): Promise<SubscriberResourcesList> {
     let query = this.supabase.from("subscriber_resources").select(`
         id,
@@ -82,6 +84,10 @@ export class DataSource extends Supabase {
 
     if (subscriber_id) {
       query = query.eq("subscriber_id", subscriber_id);
+    }
+
+    if (subscriber_email) {
+      query = query.eq("subscriber_email", subscriber_email);
     }
 
     const { data, error } = await query;

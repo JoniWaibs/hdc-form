@@ -20,11 +20,13 @@ export async function POST(req: NextRequest) {
 
     if (paymentInfo.status === "approved") {
       const resourceId = paymentInfo.external_reference;
+      console.log("resourceId", resourceId);
+      console.log("paymentInfo.payer", paymentInfo.payer);
 
       const dataSource = new DataSource();
       const subscriberResources = await dataSource.getSubscriberResources({
         resource_id: resourceId,
-        subscriber_id: paymentInfo.payer?.email,
+        subscriber_email: paymentInfo.payer?.email,
       });
 
       if (!subscriberResources.length) {
