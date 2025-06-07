@@ -1,5 +1,5 @@
 import { CreatePreference } from "@/app/schema/payment";
-import { MercadoPagoConfig, Preference } from "mercadopago";
+import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
 import { PreferenceRequest } from "mercadopago/dist/clients/preference/commonTypes";
 import { v4 as uuidv4 } from "uuid";
 
@@ -81,6 +81,16 @@ export class MercadoPagoService {
         init_point: result.init_point,
         sandbox_init_point: result.sandbox_init_point,
       };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getPayment(paymentId: string) {
+    const payment = new Payment(this.client);
+    try {
+      const paymentInfo = await payment.get({ id: paymentId });
+      return paymentInfo;
     } catch (error) {
       throw error;
     }

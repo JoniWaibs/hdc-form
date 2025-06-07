@@ -75,7 +75,7 @@ export function useRegistrationSubmit({
         checkoutUrl,
       );
 
-      window.location.href = paymentData.data.initPoint;
+      window.location.href = checkoutUrl;
     } catch (error) {
       toast.error(`${(error as Error).message}`, {
         duration: 5000,

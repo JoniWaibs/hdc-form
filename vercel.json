@@ -13,10 +13,5 @@
       "feature/*": false
     }
   },
-  "crons": [
-    {
-      "path": "/api/notifier-cron",
-      "schedule": "0 12 * * *"
-    }
-  ]
+  "crons": []
 }
