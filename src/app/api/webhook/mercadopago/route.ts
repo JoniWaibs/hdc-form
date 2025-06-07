@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       });
 
       console.log(
-        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`
+        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`,
       );
 
       // Send email to subscriber
