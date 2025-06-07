@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
       console.error("No es una notificación de pago");
       return NextResponse.json(
         { message: "No es una notificación de pago" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -36,18 +36,18 @@ export async function POST(req: NextRequest) {
       });
 
       console.log(
-        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`
+        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`,
       );
     }
     return NextResponse.json(
       { message: "Webhook processed successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error processing MercadoPago webhook:", error);
     return NextResponse.json(
       { error: "Failed to process webhook" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
