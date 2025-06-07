@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
       console.error("No es una notificación de pago");
       return NextResponse.json(
         { message: "No es una notificación de pago" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -23,14 +23,14 @@ export async function POST(req: NextRequest) {
     console.log("🔧 user_id del webhook:", body.user_id);
     console.log(
       "🔧 ACCESS_TOKEN usado:",
-      process.env.MERCADOPAGO_ACCESS_TOKEN?.substring(0, 20) + "..."
+      process.env.MERCADOPAGO_ACCESS_TOKEN?.substring(0, 20) + "...",
     );
 
     if (!paymentId) {
       console.error("No se encontró el ID de pago");
       return NextResponse.json(
         { message: "No se encontró el ID de pago" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -57,14 +57,14 @@ export async function POST(req: NextRequest) {
         paymentError.status === 404
       ) {
         console.log(
-          "Payment not found - posiblemente de diferente ambiente (test vs prod)"
+          "Payment not found - posiblemente de diferente ambiente (test vs prod)",
         );
         return NextResponse.json(
           {
             message:
               "Pago no encontrado - posiblemente de diferente ambiente (test vs prod)",
           },
-          { status: 200 }
+          { status: 200 },
         );
       }
 
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
       console.error("No se pudo obtener la información del pago");
       return NextResponse.json(
         { message: "No se pudo obtener la información del pago" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
       });
 
       console.log(
-        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`
+        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`,
       );
     }
     return NextResponse.json(

@@ -66,7 +66,7 @@ export class MercadoPagoService {
         expires: true,
         expiration_date_from: new Date().toISOString(),
         expiration_date_to: new Date(
-          Date.now() + 24 * 60 * 60 * 1000
+          Date.now() + 24 * 60 * 60 * 1000,
         ).toISOString(), // 24 hs
       };
 

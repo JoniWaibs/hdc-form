@@ -72,7 +72,7 @@ export function useRegistrationSubmit({
 
       console.log(
         "Se creo la preferencia de pago, redirigiendo a:",
-        checkoutUrl
+        checkoutUrl,
       );
 
       window.location.href = paymentData.data.initPoint;
