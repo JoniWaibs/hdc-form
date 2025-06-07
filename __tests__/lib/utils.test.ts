@@ -70,12 +70,12 @@ describe("formatResourceDate function", () => {
 describe("formatPrice function", () => {
   test("should format ARS prices correctly", () => {
     expect(formatPrice(1000, "ARS")).toBe("$\u00A01.000");
-    expect(formatPrice(1500.5, "ARS")).toBe("$\u00A01.500,5");
+    expect(formatPrice(1500.5, "ARS")).toBe("$\u00A01.501");
   });
 
   test("should format USD prices correctly", () => {
     expect(formatPrice(40, "USD")).toBe("USD\u00A040");
-    expect(formatPrice(99.99, "USD")).toBe("USD\u00A099.99");
+    expect(formatPrice(99.99, "USD")).toBe("USD\u00A0100");
   });
 
   test("should default to ARS format for unknown currencies", () => {

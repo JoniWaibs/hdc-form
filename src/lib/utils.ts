@@ -60,6 +60,7 @@ export const formatPrice = (price: number, currency: string): string => {
       style: "currency",
       currency: "ARS",
       minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     });
   if (currency === "USD")
     return price.toLocaleString("en-US", {
@@ -67,11 +68,13 @@ export const formatPrice = (price: number, currency: string): string => {
       currency: "USD",
       currencyDisplay: "code",
       minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     });
   return price.toLocaleString("es-AR", {
     style: "currency",
     currency: "ARS",
     minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   });
 };
 

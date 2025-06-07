@@ -8,10 +8,10 @@ interface SplashLoaderModalProps {
   message?: string;
 }
 
-export const SplashLoaderModal = ({
+export default function SplashLoaderModal({
   open,
   message = "Cargando...",
-}: SplashLoaderModalProps) => {
+}: SplashLoaderModalProps) {
   return (
     <Dialog open={open}>
       <DialogContent className="flex flex-col items-center gap-4 p-8">
@@ -22,4 +22,4 @@ export const SplashLoaderModal = ({
       </DialogContent>
     </Dialog>
   );
-};
+}

@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn, toLocalDateString } from "@/lib/utils";
 import { DayPicker } from "react-day-picker";
+import { toast } from "sonner";
 
 const ResourceSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),
@@ -76,24 +77,27 @@ export default function NewResourcePage() {
   });
 
   const onSubmit = async (data: ResourceFormValues) => {
-    console.log(data);
     try {
       setIsLoading(true);
 
+      const createResourceBody = {
+        ...data,
+      };
+
       const response = await fetch("/api/resources", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(createResourceBody),
       });
       const result = await response.json();
 
       if (result.status === 200) {
-        console.log("recurso creado exitosamente");
+        toast.success("Recurso creado exitosamente");
         return router.push("/admin/resource/list");
       } else {
-        console.error("Error al crear recurso:", result.error);
+        throw new Error(result.error);
       }
     } catch (error) {
-      console.error("Error al crear recurso:", error);
+      toast.error(`${(error as Error).message}`);
     } finally {
       setIsLoading(false);
     }

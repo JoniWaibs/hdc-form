@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Refactor into scalable modules with previews
+
+## Rule
+
+Before generating any code, always analyze the provided file or user request. Propose a clear, modular, and scalable refactor or implementation strategy based on best practices such as Clean Code and SOLID principles.
+
+Always:
+
+- Think in terms of small, testable, reusable pieces.
+- Suggest splitting logic into multiple files or components if necessary.
+- Present a clear **preview plan** before writing any code: include proposed file names, folder structure, function/component breakdown, and key responsibilities.
+- Do not generate any code until the user explicitly approves the plan.
+- Assume this project is a Next.js app using Supabase and Jest. It contains:
+  - A public-facing enrollment form for various courses.
+  - An admin panel for viewing metrics, managing enrollments, and creating many courses.
+- You are allowed to request new files from the user if needed.
+
+Act as a senior software engineer focused on scalability and long-term maintainability.

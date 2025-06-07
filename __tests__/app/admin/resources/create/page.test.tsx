@@ -1,6 +1,7 @@
 import { render, waitFor, fireEvent, screen } from "@testing-library/react";
 import { useRouter } from "next/navigation";
 import NewResourcePage from "@/app/admin/resource/create/page";
+import { toast } from "sonner";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
@@ -86,11 +87,12 @@ describe("NewResourcePage", () => {
   });
 
   test("handles API error on form submission", async () => {
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation();
+    const toastSpy = jest.spyOn(toast, "error").mockImplementation();
 
     global.fetch = jest.fn().mockImplementationOnce(() =>
       Promise.resolve({
-        json: () => Promise.resolve({ status: 400, error: "API Error" }),
+        json: () =>
+          Promise.resolve({ status: 400, error: "Error al crear recurso" }),
       }),
     );
 
@@ -108,12 +110,9 @@ describe("NewResourcePage", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith(
-        "Error al crear recurso:",
-        "API Error",
-      );
+      expect(toastSpy).toHaveBeenCalledWith("Error al crear recurso");
     });
 
-    consoleSpy.mockRestore();
+    toastSpy.mockRestore();
   });
 });

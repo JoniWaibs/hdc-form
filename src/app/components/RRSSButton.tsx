@@ -2,7 +2,7 @@
 
 import { FaInstagram } from "react-icons/fa";
 
-function RRSSButton({ url }: { url: string }) {
+export default function RRSSButton({ url }: { url: string }) {
   return (
     <a
       href={url}
@@ -15,5 +15,3 @@ function RRSSButton({ url }: { url: string }) {
     </a>
   );
 }
-
-export { RRSSButton };
