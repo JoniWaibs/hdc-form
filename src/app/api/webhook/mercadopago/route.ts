@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       const dataSource = new DataSource();
       const subscriberResources = await dataSource.getSubscriberResources({
         resource_id: resourceId,
-        subscriber_id: paymentInfo.payer?.identification?.number,
+        subscriber_id: paymentInfo.payer?.email,
       });
 
       if (!subscriberResources.length) {
@@ -36,8 +36,10 @@ export async function POST(req: NextRequest) {
       });
 
       console.log(
-        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`,
+        `Se actualizo el estado del pago para el subscriber resource: ${subscriberResources[0].id}`
       );
+
+      // Send email to subscriber
     }
     return NextResponse.json(
       { message: "Webhook processed successfully" },
