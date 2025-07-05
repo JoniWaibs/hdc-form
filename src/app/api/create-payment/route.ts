@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
       data: {
         preferenceId: preference.id,
         initPoint: preference.init_point,
-        sandboxInitPoint: preference.sandbox_init_point,
       },
       status: 200,
     });
