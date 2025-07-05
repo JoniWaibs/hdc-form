@@ -8,6 +8,7 @@ jest.mock("@/lib/utils", () => ({
   capitalizeFirstLetter: jest.fn((text: string) => `Capitalized_${text}`),
   getTimeByCountry: jest.fn((_country: string) => "18:00 hs"),
   getUrls: jest.fn((platform: string) => `${platform}-RRSS`),
+  formatResourceDateToText: jest.fn((date: string) => `Formatted_${date}`),
 }));
 
 describe("getConfirmationEmail", () => {
