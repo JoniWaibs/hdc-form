@@ -1,7 +1,8 @@
 import { CreatePreference } from "@/app/schema/payment";
-import { MercadoPagoConfig, Preference } from "mercadopago";
+import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
 import { PreferenceRequest } from "mercadopago/dist/clients/preference/commonTypes";
 import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
 
 export class MercadoPagoService {
   private client: MercadoPagoConfig;
@@ -27,10 +28,6 @@ export class MercadoPagoService {
     try {
       const preference = new Preference(this.client);
 
-      const successUrl = `${process.env.APP_URL}/payment-success/${data.resource_id}`;
-      const failureUrl = `${process.env.APP_URL}/payment-failure`;
-      const pendingUrl = `${process.env.APP_URL}/payment-pending`;
-
       const preferenceData: PreferenceRequest = {
         items: [
           {
@@ -40,27 +37,22 @@ export class MercadoPagoService {
               description: data.resource_description,
             }),
             picture_url:
-              "https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png",
+              "https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets/HDC-2-mda-logo-05.png",
             quantity: 1,
             unit_price: data.price,
             currency_id: "ARS",
           },
         ],
-        payer: {
-          email: data.subscriber_email,
-          name: data.subscriber_name,
-          identification: {
-            type: "id",
-            number: data.subscriber_id,
-          },
-        },
         back_urls: {
-          success: successUrl,
-          failure: failureUrl,
-          pending: pendingUrl,
+          success: `${process.env.APP_URL}/payment-success/${data.resource_id}`,
+          failure: `${process.env.APP_URL}/payment-failure/${data.resource_id}`,
+          pending: `${process.env.APP_URL}/payment-pending/${data.resource_id}`,
         },
         auto_return: "all",
-        external_reference: data.resource_id,
+        external_reference: jwt.sign(
+          { resourceId: data.resource_id, subscriberId: data.subscriber_id },
+          process.env.JWT_SECRET!,
+        ),
         notification_url: `${process.env.APP_URL}/api/webhook/mercadopago`,
         statement_descriptor: data.resource_name,
         expires: true,
@@ -73,7 +65,7 @@ export class MercadoPagoService {
       const result = await preference.create({ body: preferenceData });
 
       if (!result) {
-        throw new Error("No se pudo crear la preferencia de pago");
+        throw new Error("Can't create preference");
       }
 
       return {
@@ -81,6 +73,16 @@ export class MercadoPagoService {
         init_point: result.init_point,
         sandbox_init_point: result.sandbox_init_point,
       };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getPayment(paymentId: string) {
+    const payment = new Payment(this.client);
+    try {
+      const paymentInfo = await payment.get({ id: paymentId });
+      return paymentInfo;
     } catch (error) {
       throw error;
     }

@@ -65,17 +65,14 @@ export function useRegistrationSubmit({
       if (paymentData.error) {
         throw new Error(paymentData.error);
       }
-      const checkoutUrl =
-        process.env.NODE_ENV === "production"
-          ? paymentData.data.initPoint
-          : paymentData.data.sandboxInitPoint;
+      const checkoutUrl = paymentData.data.initPoint;
 
       console.log(
         "Se creo la preferencia de pago, redirigiendo a:",
         checkoutUrl,
       );
 
-      window.location.href = paymentData.data.initPoint;
+      window.location.href = checkoutUrl;
     } catch (error) {
       toast.error(`${(error as Error).message}`, {
         duration: 5000,

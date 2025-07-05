@@ -16,8 +16,13 @@ export function getWelcomeEmail({
   const { name: subscriberName } = subscriber;
   const { name: resourceName } = resource;
 
+  const plainTextContent = `
+    Gracias por inscribirte al taller ${capitalizeFirstLetter(resourceName)}!
+  `;
+
   return {
     subject: `¡Gracias por inscribirte al taller ${capitalizeFirstLetter(resourceName)}!`,
+    text: plainTextContent,
     html: `
        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;">
   

@@ -24,8 +24,8 @@ describe("Supabase", () => {
   });
 
   test("should initialize with createClient using correct arguments", async () => {
-    const { Supabase } = await import("@/lib/supabase");
-    new Supabase();
+    const { DataSource } = await import("@/services/datasource");
+    new DataSource();
     expect(mockCreateClient).toHaveBeenCalledWith(
       "https://test-url.supabase.co",
       "test-anon-key",
