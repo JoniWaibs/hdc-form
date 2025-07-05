@@ -62,3 +62,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Performance optimizations
 - Removed redundant calendar component and integrated DayPicker directly
 - Improved grid layout for resource cards
+- **Major refactor**: Completely restructured MercadoPago webhook handler for better maintainability and scalability
+- Created modular architecture with separate handlers, validators, services, and error classes
+- Implemented SOLID principles with dependency injection and single responsibility
+- Added comprehensive type safety with custom TypeScript interfaces
+- Created scalable error handling system with custom error classes
+- Implemented PaymentApprovalHandler for orchestrating payment approval workflow
+- Added PaymentProcessingService for database operations separation
+- Created NotificationService for email handling abstraction
+- Implemented WebhookValidator and PaymentValidator for input validation
+- Added comprehensive test coverage for the new webhook architecture
+- Reduced route handler complexity from 81 lines to 25 lines
+- Improved code testability and maintainability through dependency injection
+- **MercadoPago webhook compliance**: Modified webhook handler to always return 200 status codes to maintain webhook connection flow
+- **Enhanced updateSubscriberResource method**: Improved data retrieval to return complete updated subscriber resource data with nested relationships for better logging
+- **Improved PaymentProcessingService logging**: Enhanced logging to include detailed information about updated subscriber resources using the improved updateSubscriberResource method
+- **Enhanced email deliverability**: Improved email service with anti-spam headers, List-Unsubscribe support, and MIME structure optimization
+- **Reduced spam triggers in emails**: Removed excessive emojis, improved HTML structure, and added plain text versions to confirmation emails
+- **Restored original email design**: Reverted to the original clean, simple email layout while removing emojis that triggered spam filters
