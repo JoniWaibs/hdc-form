@@ -42,11 +42,9 @@ export class DataSource extends Supabase {
   async getSubscriberResources({
     resource_id,
     subscriber_id,
-    subscriber_email,
   }: {
     resource_id?: string;
     subscriber_id?: string;
-    subscriber_email?: string;
   } = {}): Promise<SubscriberResourcesList> {
     let query = this.supabase.from("subscriber_resources").select(`
         id,
@@ -85,12 +83,8 @@ export class DataSource extends Supabase {
     if (subscriber_id) {
       query = query.eq("subscriber_id", subscriber_id);
     }
-
-    if (subscriber_email) {
-      query = query.eq("subscriber_email", subscriber_email);
-    }
-
     const { data, error } = await query;
+
     if (error) {
       throw error;
     }
@@ -163,7 +157,7 @@ export class DataSource extends Supabase {
     subscriberResourceId: string,
     payload: {
       payment_confirmed: boolean;
-    },
+    }
   ) {
     try {
       const { data, error, status } = await this.supabase
@@ -187,7 +181,7 @@ export class DataSource extends Supabase {
 
   async findSubscriberByEmailOrDocument(
     email: string,
-    identity_document: string,
+    identity_document: string
   ) {
     const { data, error } = await this.supabase
       .from("subscribers")

@@ -2,6 +2,7 @@ import { CreatePreference } from "@/app/schema/payment";
 import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
 import { PreferenceRequest } from "mercadopago/dist/clients/preference/commonTypes";
 import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
 
 export class MercadoPagoService {
   private client: MercadoPagoConfig;
@@ -28,8 +29,8 @@ export class MercadoPagoService {
       const preference = new Preference(this.client);
 
       const successUrl = `${process.env.APP_URL}/payment-success/${data.resource_id}`;
-      const failureUrl = `${process.env.APP_URL}/payment-failure`;
-      const pendingUrl = `${process.env.APP_URL}/payment-pending`;
+      const failureUrl = `${process.env.APP_URL}/payment-failure/${data.resource_id}`;
+      const pendingUrl = `${process.env.APP_URL}/payment-pending/${data.resource_id}`;
 
       const preferenceData: PreferenceRequest = {
         items: [
@@ -46,27 +47,22 @@ export class MercadoPagoService {
             currency_id: "ARS",
           },
         ],
-        payer: {
-          email: data.subscriber_email,
-          name: data.subscriber_name,
-          identification: {
-            type: "id",
-            number: data.subscriber_id,
-          },
-        },
         back_urls: {
           success: successUrl,
           failure: failureUrl,
           pending: pendingUrl,
         },
         auto_return: "all",
-        external_reference: data.resource_id,
+        external_reference: jwt.sign(
+          { resourceId: data.resource_id, subscriberId: data.subscriber_id },
+          process.env.JWT_SECRET!
+        ),
         notification_url: `${process.env.APP_URL}/api/webhook/mercadopago`,
         statement_descriptor: data.resource_name,
         expires: true,
         expiration_date_from: new Date().toISOString(),
         expiration_date_to: new Date(
-          Date.now() + 24 * 60 * 60 * 1000,
+          Date.now() + 24 * 60 * 60 * 1000
         ).toISOString(), // 24 hs
       };
 
