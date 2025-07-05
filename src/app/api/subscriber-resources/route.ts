@@ -68,7 +68,7 @@ export async function PATCH(req: NextRequest) {
 
     const response = NextResponse.json({
       message: "Recurso del suscriptor actualizado correctamente",
-      data: result,
+      subscriberResourceId: result.data.id,
       status: 200,
     });
 
