@@ -67,18 +67,35 @@ export function PaymentSuccessScreen({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6 }}
-        className="flex flex-col gap-3 max-w-lg px-6 sm:px-2 flex-1 justify-center"
+        className="flex flex-col gap-4 max-w-lg px-6 sm:px-2 flex-1 justify-center"
       >
-        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 pb-2">
-          ¡Inscripción confirmada!
-        </h1>
-        <p className="text-gray-600 text-sm sm:text-lg leading-tight">
-          Ya estás inscripto en el curso <strong>{resourceName}</strong>.<br />
-          En breve vas a recibir un correo electrónico con más información y
-          detalles de pago.
+        <div className="pb-2">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 pb-3">
+            ¡Inscripción confirmada!
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-lg leading-tight">
+            <strong>Recibimos tu pago</strong> y confirmamos que tu inscripción
+            al taller <strong>{resourceName}</strong> está completa.
+          </p>
+        </div>
+
+        <p className="text-gray-500 text-sm font-medium">
+          Te enviamos un correo con todos los detalles de la inscripción. No
+          olvides revisar tu carpeta de spam o correo no deseado.
         </p>
-        <p className="text-gray-500 text-base font-medium pt-1">
-          No olvides revisar tu carpeta de spam o correo no deseado.
+
+        <p className="text-gray-500 text-sm font-medium">
+          Si no recibiste el correo, por favor contactanos a{" "}
+          <a
+            href="mailto:contacto@hablemosdecancer.com.ar"
+            className="text-blue-500"
+          >
+            contacto@hablemosdecancer.com.ar
+          </a>
+        </p>
+
+        <p className="text-gray-500 text-base font-medium">
+          ¡Nos vemos pronto!
         </p>
       </motion.div>
 
