@@ -1,4 +1,4 @@
-import { Supabase } from "@/lib/supabase";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import {
   Resource,
   ResourcePost,
@@ -6,7 +6,16 @@ import {
   SubscriberResourcesList,
 } from "@/app/schema";
 
-export class DataSource extends Supabase {
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export class DataSource {
+  private supabase: SupabaseClient;
+
+  constructor() {
+    this.supabase = createClient(supabaseUrl, supabaseAnonKey);
+  }
+
   async getAllResources(): Promise<Resource[]> {
     const { data, error } = await this.supabase.from("resources").select("*");
     if (error) {
@@ -157,7 +166,7 @@ export class DataSource extends Supabase {
     subscriberResourceId: string,
     payload: {
       payment_confirmed: boolean;
-    }
+    },
   ) {
     try {
       const { data, error, status } = await this.supabase
@@ -167,13 +176,45 @@ export class DataSource extends Supabase {
           updated_at: new Date().toISOString(),
         })
         .eq("id", subscriberResourceId)
-        .select();
+        .select(
+          `
+          id,
+          payment_confirmed,
+          how_did_you_hear,
+          why_you_are_interested,
+          created_at,
+          updated_at,
+          subscriber:subscribers!inner (
+            id,
+            name,
+            email,
+            identity_document,
+            age,
+            phone,
+            city,
+            province,
+            country,
+            profession
+          ),
+          resource:resources!inner (
+            id,
+            name,
+            description,
+            start_date,
+            end_date,
+            price,
+            meet_url,
+            created_at
+          )
+        `,
+        )
+        .single();
 
       if (error) {
         throw error;
       }
 
-      return { data, status };
+      return { data: data as unknown as SubscriberResourcesList[0], status };
     } catch (err) {
       throw err;
     }
@@ -181,7 +222,7 @@ export class DataSource extends Supabase {
 
   async findSubscriberByEmailOrDocument(
     email: string,
-    identity_document: string
+    identity_document: string,
   ) {
     const { data, error } = await this.supabase
       .from("subscribers")

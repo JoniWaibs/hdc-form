@@ -54,6 +54,14 @@ export const formatResourceDate = (dateString: string): string => {
   });
 };
 
+export const formatResourceDateToText = (dateString: string): string => {
+  return new Date(dateString).toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
+
 export const formatPrice = (price: number, currency: string): string => {
   if (currency === "ARS")
     return price.toLocaleString("es-AR", {

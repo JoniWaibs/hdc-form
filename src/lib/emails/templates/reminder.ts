@@ -11,8 +11,13 @@ export function getReminderEmail({
   const { name: subscriberName, country } = subscriber;
   const { name: resourceName, meet_url: meetUrl } = resource;
 
+  const plainTextContent = `
+    Recordatorio: El taller es mañana!
+  `;
+
   return {
     subject: "⏰ Recordatorio: El taller es mañana!",
+    text: plainTextContent,
     html: `
         <div style="font-family: Arial, sans-serif; max-width: 100%; margin: auto; padding: 20px; box-sizing: border-box; text-align: center;">
           <img src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png" alt="Hablemos de Cáncer" style="max-width: 180px; margin: 0 auto 20px;" />  

@@ -28,10 +28,6 @@ export class MercadoPagoService {
     try {
       const preference = new Preference(this.client);
 
-      const successUrl = `${process.env.APP_URL}/payment-success/${data.resource_id}`;
-      const failureUrl = `${process.env.APP_URL}/payment-failure/${data.resource_id}`;
-      const pendingUrl = `${process.env.APP_URL}/payment-pending/${data.resource_id}`;
-
       const preferenceData: PreferenceRequest = {
         items: [
           {
@@ -41,35 +37,35 @@ export class MercadoPagoService {
               description: data.resource_description,
             }),
             picture_url:
-              "https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png",
+              "https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets/HDC-2-mda-logo-05.png",
             quantity: 1,
             unit_price: data.price,
             currency_id: "ARS",
           },
         ],
         back_urls: {
-          success: successUrl,
-          failure: failureUrl,
-          pending: pendingUrl,
+          success: `${process.env.APP_URL}/payment-success/${data.resource_id}`,
+          failure: `${process.env.APP_URL}/payment-failure/${data.resource_id}`,
+          pending: `${process.env.APP_URL}/payment-pending/${data.resource_id}`,
         },
         auto_return: "all",
         external_reference: jwt.sign(
           { resourceId: data.resource_id, subscriberId: data.subscriber_id },
-          process.env.JWT_SECRET!
+          process.env.JWT_SECRET!,
         ),
         notification_url: `${process.env.APP_URL}/api/webhook/mercadopago`,
         statement_descriptor: data.resource_name,
         expires: true,
         expiration_date_from: new Date().toISOString(),
         expiration_date_to: new Date(
-          Date.now() + 24 * 60 * 60 * 1000
+          Date.now() + 24 * 60 * 60 * 1000,
         ).toISOString(), // 24 hs
       };
 
       const result = await preference.create({ body: preferenceData });
 
       if (!result) {
-        throw new Error("No se pudo crear la preferencia de pago");
+        throw new Error("Can't create preference");
       }
 
       return {
