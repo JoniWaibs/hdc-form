@@ -3,11 +3,12 @@
 import { motion } from "framer-motion";
 import wave from "@/app/assets/svg/wave-bg-red.svg";
 import Image from "next/image";
-import { getUrls } from "@/lib/utils";
+import { getMediaLink } from "@/lib/utils";
 import { XCircle, ArrowLeft, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import RRSSButton from "@/app/components/RRSSButton";
+import SocialMediaButton from "@/app/components/SocialMediaButton";
+import { SocialMedia } from "@/lib/enums/socialMedia";
 export function PaymentFailureScreen() {
   const router = useRouter();
 
@@ -130,7 +131,7 @@ export function PaymentFailureScreen() {
         transition={{ delay: 0.5, duration: 0.5 }}
         className="mt-2 mb-2 flex-shrink-0"
       >
-        <RRSSButton url={getUrls("instagram")!} />
+        <SocialMediaButton url={getMediaLink(SocialMedia.IG)!} />
       </motion.div>
 
       <motion.div

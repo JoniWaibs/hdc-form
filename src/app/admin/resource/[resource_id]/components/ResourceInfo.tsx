@@ -1,10 +1,7 @@
 import { Resource, SubscriberResourcesList } from "@/app/schema";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import {
-  capitalizeFirstLetter,
-  formatResourceDate,
-  formatPrice,
-} from "@/lib/utils";
+import { Currency } from "@/lib/enums/currency";
+import { formatLongDate, formatPrice } from "@/lib/utils";
 import { Calendar, DollarSign, Users } from "lucide-react";
 
 export function ResourceInfo({
@@ -23,13 +20,13 @@ export function ResourceInfo({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {capitalizeFirstLetter(formatResourceDate(resource.start_date))}
+            {formatLongDate(resource.start_date)}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Finaliza:{" "}
             {resource.end_date
-              ? capitalizeFirstLetter(formatResourceDate(resource.end_date))
-              : "No definida"}
+              ? formatLongDate(resource.end_date)
+              : formatLongDate(resource.start_date)}
           </p>
         </CardContent>
       </Card>
@@ -40,7 +37,7 @@ export function ResourceInfo({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {formatPrice(resource.price, "ARS")}
+            {formatPrice(resource.price, Currency.ARS)}
           </div>
         </CardContent>
       </Card>
@@ -78,13 +75,16 @@ export function ResourceInfo({
                     total + (subscriberResource.resource.price || 0),
                   0,
                 ),
-              "ARS",
+              Currency.ARS,
             )}
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Total a recaudar:{" "}
             <span className="font-bold">
-              {formatPrice(resource.price * subscriberResources.length, "ARS")}
+              {formatPrice(
+                resource.price * subscriberResources.length,
+                Currency.ARS,
+              )}
             </span>
           </p>
         </CardContent>
