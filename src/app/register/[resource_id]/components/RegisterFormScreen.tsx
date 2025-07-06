@@ -9,15 +9,15 @@ import {
 } from "@/app/schema";
 import { Form } from "@/components/ui/form";
 import { Resource } from "@/app/schema/resource";
-import SplashLoaderModal from "./SplashLoaderModal";
+import SplashLoaderModal from "@/app/register/[resource_id]/components/SplashLoaderModal";
 import MercadoPagoBanner from "@/app/components/MPBanner";
-import FormHeader from "./FormHeader";
-import StepProgressBar from "./StepProgressBar";
-import FormStepContent from "./FormStepContent";
-import FormNavigation from "./FormNavigation";
-import { useFormSteps } from "../hooks/useFormSteps";
-import { formSections } from "../content/form";
-import { useRegistrationSubmit } from "../hooks/useRegistrationSubmit";
+import FormHeader from "@/app/register/[resource_id]/components/FormHeader";
+import StepProgressBar from "@/app/register/[resource_id]/components/StepProgressBar";
+import FormStepContent from "@/app/register/[resource_id]/components/FormStepContent";
+import FormNavigation from "@/app/register/[resource_id]/components/FormNavigation";
+import { useFormSteps } from "@/app/register/[resource_id]/hooks/useFormSteps";
+import { formSections } from "@/app/register/[resource_id]/content/form";
+import { useRegistrationSubmit } from "@/app/register/[resource_id]/hooks/useRegistrationSubmit";
 
 export default function RegisterFormScreen({
   resource,

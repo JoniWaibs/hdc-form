@@ -15,10 +15,11 @@ import type { Resource, SubscriberResourcesList } from "@/app/schema";
 import {
   capitalizeFirstLetter,
   formatPrice,
-  formatResourceDate,
+  formatLongDate,
   getResourceStatus,
 } from "@/lib/utils";
 import { toast } from "sonner";
+import { Currency } from "@/lib/enums/currency";
 
 export function ResourcesCards({
   resources,
@@ -50,7 +51,7 @@ export function ResourcesCards({
                       <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                       <span>
                         {capitalizeFirstLetter(
-                          formatResourceDate(resource.start_date),
+                          formatLongDate(resource.start_date),
                         )}
                       </span>
                     </div>
@@ -60,7 +61,7 @@ export function ResourcesCards({
                           <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                           <span>
                             {capitalizeFirstLetter(
-                              formatResourceDate(resource.end_date),
+                              formatLongDate(resource.end_date),
                             )}
                           </span>
                         </div>
@@ -77,7 +78,7 @@ export function ResourcesCards({
               <CardContent>
                 <div className="flex flex-wrap gap-3 text-sm justify-between">
                   <div className="flex items-center gap-1 bg-muted px-1 py-1 rounded-md">
-                    <span>{formatPrice(resource.price, "ARS")}</span>
+                    <span>{formatPrice(resource.price, Currency.ARS)}</span>
                   </div>
                   <div className="flex items-center gap-1 bg-muted px-1 py-1 rounded-md">
                     <span>

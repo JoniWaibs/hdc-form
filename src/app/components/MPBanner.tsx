@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { Currency } from "@/lib/enums/currency";
 
 interface MercadoPagoBannerProps {
   amount: number;
@@ -42,7 +43,9 @@ export default function MercadoPagoBanner({
               style={{ color: "#2D3277" }}
             >
               Costo de la inscripción:{" "}
-              <span className="font-bold">{formatPrice(amount, "ARS")}</span>
+              <span className="font-bold">
+                {formatPrice(amount, Currency.ARS)}
+              </span>
             </p>
 
             <h2
@@ -103,7 +106,7 @@ export default function MercadoPagoBanner({
                 >
                   Costo de la inscripción:{" "}
                   <span className="font-bold">
-                    {formatPrice(amount, "ARS")}
+                    {formatPrice(amount, Currency.ARS)}
                   </span>
                 </p>
 

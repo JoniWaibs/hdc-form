@@ -2,12 +2,13 @@
 import { getWelcomeEmail } from "@/lib/emails/templates/welcome";
 import {
   capitalizeFirstLetter,
-  getPaymentAmountByCountry,
   getPaymentLinkByCountry,
-  getUrls,
+  getMediaLink,
+  formatPrice,
 } from "@/lib/utils";
 import { mockSubscriber } from "@/tests/mocks/subscriber";
 import { mockResource } from "@/tests/mocks/resources";
+import { Currency } from "@/lib/enums/currency";
 
 jest.mock("@/lib/utils", () => ({
   capitalizeFirstLetter: jest.fn((text: string) => `Capitalized_${text}`),
@@ -19,7 +20,7 @@ jest.mock("@/lib/utils", () => ({
       link: "https://www.paypal.me/maflorenciamartinez",
     },
   ]),
-  getUrls: jest.fn((platform: string) => `${platform}-RRSS`),
+  getMediaLink: jest.fn((platform: string) => `${platform}-RRSS`),
 }));
 
 describe("getWelcomeEmail", () => {
@@ -40,22 +41,14 @@ describe("getWelcomeEmail", () => {
     );
     expect(result.html).toContain(`Capitalized_${subscriber.name}`);
     expect(result.html).toContain(`Capitalized_${resource.name}`);
-    expect(result.html).toContain(
-      getPaymentAmountByCountry(
-        subscriber.country.toLowerCase().trim(),
-        resource.price,
-      ),
-    );
+    expect(result.html).toContain(formatPrice(resource.price, Currency.ARS));
 
     expect(capitalizeFirstLetter).toHaveBeenCalledWith(subscriber.name);
     expect(capitalizeFirstLetter).toHaveBeenCalledWith(resource.name);
-    expect(getPaymentAmountByCountry).toHaveBeenCalledWith(
-      subscriber.country.toLowerCase().trim(),
-      resource.price,
-    );
+    expect(formatPrice).toHaveBeenCalledWith(resource.price, Currency.ARS);
     expect(getPaymentLinkByCountry).toHaveBeenCalledWith(
       subscriber.country.toLowerCase().trim(),
     );
-    expect(getUrls).toHaveBeenCalledWith("instagram");
+    expect(getMediaLink).toHaveBeenCalledWith("instagram");
   });
 });

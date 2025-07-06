@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { handleInputType } from "@/lib/utils";
 import {
   formLabel,
   formPlaceholder,
 } from "@/app/register/[resource_id]/content/form";
+import { handleInputType } from "@/lib/utils";
 
 interface FormFieldRendererProps {
   fieldName: string;
