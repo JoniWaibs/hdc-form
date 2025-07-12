@@ -95,8 +95,6 @@ export default function RegisterFormScreen({
                 isLastStep={isLastStep}
               />
 
-              <MercadoPagoModal amount={resource.price} title={resource.name} />
-
               <FormNavigation
                 currentStep={currentStep}
                 isLastStep={isLastStep}
@@ -106,6 +104,8 @@ export default function RegisterFormScreen({
               />
             </form>
           </Form>
+
+          <MercadoPagoModal amount={resource.price} title={resource.name} />
         </div>
       </div>
     </div>
