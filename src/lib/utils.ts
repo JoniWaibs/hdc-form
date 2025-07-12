@@ -74,14 +74,15 @@ export const formatPrice = (
   price: number,
   currency: Currency = Currency.ARS,
 ): string => {
-  const currencyMap = new Map<Currency, string>([
-    [Currency.ARS, "es-AR"],
-    [Currency.USD, "en-US"],
-  ]);
+  const currencyMap: Record<Currency, string> = {
+    [Currency.ARS]: "es-AR",
+    [Currency.USD]: "en-US",
+  };
 
-  return price.toLocaleString(currencyMap.get(currency) || "es-AR", {
+  return price.toLocaleString(currencyMap[currency] || "es-AR", {
     style: "currency",
     currency: currency.toString(),
+    ...(currency === Currency.USD && { currencyDisplay: "code" }),
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });

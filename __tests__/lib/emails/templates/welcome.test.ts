@@ -21,6 +21,9 @@ jest.mock("@/lib/utils", () => ({
     },
   ]),
   getMediaLink: jest.fn((platform: string) => `${platform}-RRSS`),
+  formatPrice: jest.fn(
+    (price: number, currency: Currency) => `${price} ${currency}`
+  ),
 }));
 
 describe("getWelcomeEmail", () => {

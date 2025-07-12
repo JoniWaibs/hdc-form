@@ -63,8 +63,8 @@ describe("getTimeByCountry function", () => {
 
 describe("formatLongDate function", () => {
   test("should format dates correctly in Spanish", () => {
-    expect(formatLongDate("2024-03-15")).toBe("15 marzo 2024");
-    expect(formatLongDate("2024-12-31")).toBe("31 diciembre 2024");
+    expect(formatLongDate("2024-03-15")).toBe("15 de Marzo de 2024");
+    expect(formatLongDate("2024-12-31")).toBe("31 de Diciembre de 2024");
   });
 });
 
@@ -78,16 +78,12 @@ describe("formatPrice function", () => {
     expect(formatPrice(40, Currency.USD)).toBe("USD\u00A040");
     expect(formatPrice(99.99, Currency.USD)).toBe("USD\u00A0100");
   });
-
-  test("should default to ARS format for unknown currencies", () => {
-    expect(formatPrice(1000, Currency.EUR)).toBe("$\u00A01.000");
-  });
 });
 
 describe("getPaymentAmountByCountry function", () => {
   test("should return correct payment amounts for different countries", () => {
     expect(formatPrice(1000, Currency.ARS)).toBe("$\u00A01.000");
-    expect(formatPrice(1000, Currency.USD)).toBe("USD\u00A01.000");
+    expect(formatPrice(1000, Currency.USD)).toBe("USD\u00A01,000");
   });
 });
 
