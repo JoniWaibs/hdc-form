@@ -1,9 +1,10 @@
 import { Resource, Subscriber } from "@/app/schema";
+import { SocialMedia } from "@/lib/enums/socialMedia";
 import {
   capitalizeFirstLetter,
-  formatResourceDateToText,
+  formatLongDate,
   getTimeByCountry,
-  getUrls,
+  getMediaLink,
 } from "@/lib/utils";
 
 export function getConfirmationEmail({
@@ -29,13 +30,13 @@ export function getConfirmationEmail({
 
     Enlace de acceso al taller: ${meetUrl}
 
-    El taller se llevará a cabo el ${formatResourceDateToText(startDate)} a las ${getTimeByCountry(country.toLowerCase().trim())} en tu país. Comenzará puntualmente, así que te recomendamos ingresar unos minutos antes.
+    El taller se llevará a cabo el ${formatLongDate(startDate)} a las ${getTimeByCountry(country.toLowerCase().trim())} en tu país. Comenzará puntualmente, así que te recomendamos ingresar unos minutos antes.
 
     ¡Nos vemos pronto!
 
     El equipo de Hablemos de Cáncer
 
-    Síguenos en Instagram: ${getUrls("instagram")}
+    Síguenos en Instagram: ${getMediaLink(SocialMedia.IG)}
   `.trim();
 
   return {
@@ -57,7 +58,7 @@ export function getConfirmationEmail({
         
         <br/>
         
-        <p style="font-size: 1em; margin-bottom: 10px;">El mismo se llevará a cabo el <strong>${formatResourceDateToText(startDate)}</strong> a las <strong>${getTimeByCountry(country.toLowerCase().trim())}</strong> en tu país.</p>
+        <p style="font-size: 1em; margin-bottom: 10px;">El mismo se llevará a cabo el <strong>${formatLongDate(startDate)}</strong> a las <strong>${getTimeByCountry(country.toLowerCase().trim())}</strong> en tu país.</p>
         <p style="font-size: 1em; margin-bottom: 10px;">Comenzará puntualmente, así que te recomendamos ingresar unos minutos antes.</p>
         
         <br/>
@@ -69,7 +70,7 @@ export function getConfirmationEmail({
           <table role="presentation" style="width: 100%;">
             <tr>
               <td align="left" style="padding-top: 16px; text-align: center;">
-                <a href="${getUrls("instagram")}"
+                <a href="${getMediaLink(SocialMedia.IG)}"
                   target="_blank"
                   style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 9999px; color: white; background: linear-gradient(to right, #ec4899, #ef4444, #f59e0b); text-decoration: none; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s ease-in-out;">
                   Seguinos en Instagram

@@ -1,5 +1,10 @@
 import { Resource, Subscriber } from "@/app/schema";
-import { capitalizeFirstLetter, getTimeByCountry, getUrls } from "@/lib/utils";
+import { SocialMedia } from "@/lib/enums/socialMedia";
+import {
+  capitalizeFirstLetter,
+  getTimeByCountry,
+  getMediaLink,
+} from "@/lib/utils";
 
 export function getReminderEmail({
   subscriber,
@@ -31,7 +36,7 @@ export function getReminderEmail({
           <p style="font-size: 1em;">El equipo de <strong>Hablemos de Cáncer</strong></p>
 
           <div style="margin-top: 24px;">
-            <a href=${getUrls("instagram")}
+            <a href=${getMediaLink(SocialMedia.IG)}
               target="_blank"
               style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 9999px; color: white; background: linear-gradient(to right, #ec4899, #ef4444, #f59e0b); text-decoration: none; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s ease-in-out;">
              Seguinos en Instagram

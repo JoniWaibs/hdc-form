@@ -11,7 +11,7 @@ export default function StepProgressBar({
 }: StepProgressBarProps) {
   return (
     <div className="border-b py-3 flex-shrink-0">
-      <h2 className="text-xl font-semibold py-1">{stepTitle}</h2>
+      <h2 className="text-md font-semibold">{stepTitle}</h2>
       <div className="mt-1 flex w-full gap-1">
         {Array.from({ length: totalSteps }).map((_, index) => (
           <div

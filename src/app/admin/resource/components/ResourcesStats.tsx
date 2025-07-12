@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, DollarSign, Users, NotebookText } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { Resource } from "@/app/schema";
+import { Currency } from "@/lib/enums/currency";
 
 interface ResourcesStatsProps {
   resources: Resource[];
@@ -32,7 +33,9 @@ export function ResourcesStats({ resources }: ResourcesStatsProps) {
           <DollarSign className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{formatPrice(0, "ARS")}</div>
+          <div className="text-2xl font-bold">
+            {formatPrice(0, Currency.ARS)}
+          </div>
         </CardContent>
       </Card>
       <Card>
@@ -52,7 +55,9 @@ export function ResourcesStats({ resources }: ResourcesStatsProps) {
           <Activity className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{formatPrice(0, "ARS")}</div>
+          <div className="text-2xl font-bold">
+            {formatPrice(0, Currency.ARS)}
+          </div>
         </CardContent>
       </Card>
     </div>

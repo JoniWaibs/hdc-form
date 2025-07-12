@@ -3,6 +3,8 @@ import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { es } from "date-fns/locale";
 import { Resource } from "@/app/schema";
+import { SocialMedia } from "@/lib/enums/socialMedia";
+import { Currency } from "@/lib/enums/currency";
 
 export interface PaymentLink {
   name: string;
@@ -32,10 +34,10 @@ export const capitalizeFirstLetter = (string: string) => {
   return capitalizedWords.join(" ");
 };
 
-export const getUrls = (rrss: string) =>
+export const getMediaLink = (socialMedia: SocialMedia) =>
   new Map<string, string>([
-    ["instagram", "https://www.instagram.com/hablemos.de.cancer/"],
-  ]).get(rrss);
+    [SocialMedia.IG, "https://www.instagram.com/hablemos.de.cancer/"],
+  ]).get(socialMedia);
 
 export const getTimeByCountry = (country: string) => {
   const timeMap = new Map<string, string>([
@@ -48,82 +50,71 @@ export const getTimeByCountry = (country: string) => {
   return timeMap.get(country) || "consultar horario";
 };
 
-export const formatResourceDate = (dateString: string): string => {
-  return format(new Date(dateString + "T00:00:00-03:00"), "d MMMM yyyy", {
-    locale: es,
-  });
+export const formatLongDate = (dateString: string): string => {
+  const formatted = format(
+    new Date(dateString + "T00:00:00-03:00"),
+    "d 'de' MMMM 'de' yyyy",
+    { locale: es },
+  );
+
+  return formatted
+    .split(" ")
+    .map((word: string, index: number): string => {
+      const isThirdWord = index === 2;
+      if (!isThirdWord) return word;
+
+      const firstChar = word.charAt(0).toUpperCase();
+      const restOfWord = word.slice(1);
+      return `${firstChar}${restOfWord}`;
+    })
+    .join(" ");
 };
 
-export const formatResourceDateToText = (dateString: string): string => {
-  return new Date(dateString).toLocaleDateString("es-ES", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-};
+export const formatPrice = (
+  price: number,
+  currency: Currency = Currency.ARS,
+): string => {
+  const currencyMap: Record<Currency, string> = {
+    [Currency.ARS]: "es-AR",
+    [Currency.USD]: "en-US",
+  };
 
-export const formatPrice = (price: number, currency: string): string => {
-  if (currency === "ARS")
-    return price.toLocaleString("es-AR", {
-      style: "currency",
-      currency: "ARS",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
-  if (currency === "USD")
-    return price.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-      currencyDisplay: "code",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
-  return price.toLocaleString("es-AR", {
+  return price.toLocaleString(currencyMap[currency] || "es-AR", {
     style: "currency",
-    currency: "ARS",
+    currency: currency.toString(),
+    ...(currency === Currency.USD && { currencyDisplay: "code" }),
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
 };
 
-export const getPaymentAmountByCountry = (country: string, price: number) => {
-  const paymentMap = new Map<string, string>([
-    ["argentina", formatPrice(price, "ARS")],
-    ["chile", formatPrice(40, "USD")],
-    ["colombia", formatPrice(40, "USD")],
-    ["uruguay", formatPrice(40, "USD")],
-    ["españa", formatPrice(40, "USD")],
-  ]);
-  return paymentMap.get(country) || formatPrice(40, "USD");
-};
-
-const mercadopago: PaymentLink = {
-  name: "Mercado Pago",
-  owner: "Maria Florencia Martinez",
-  cvu: "0000003100027698476876",
-  alias: "maflorencia.m.mp",
-};
-
-const global66: PaymentLink = {
-  name: "Global66",
-  owner: "Jonatan Ariel Waibsnaider",
-  account: "8331003380",
-  alias: "@JONWAI1",
-};
-
-const prex: PaymentLink = {
-  name: "Prex",
-  owner: "Jonatan Ariel Waibsnaider",
-  account: "1767995",
-};
-
-const paypal: PaymentLink = {
-  name: "Paypal",
-  owner: "Maria Florencia Martinez",
-  link: "https://www.paypal.me/maflorenciamartinez",
-};
-
 export const getPaymentLinkByCountry = (site: string) => {
+  const mercadopago: PaymentLink = {
+    name: "Mercado Pago",
+    owner: "Maria Florencia Martinez",
+    cvu: "0000003100027698476876",
+    alias: "maflorencia.m.mp",
+  };
+
+  const global66: PaymentLink = {
+    name: "Global66",
+    owner: "Jonatan Ariel Waibsnaider",
+    account: "8331003380",
+    alias: "@JONWAI1",
+  };
+
+  const prex: PaymentLink = {
+    name: "Prex",
+    owner: "Jonatan Ariel Waibsnaider",
+    account: "1767995",
+  };
+
+  const paypal: PaymentLink = {
+    name: "Paypal",
+    owner: "Maria Florencia Martinez",
+    link: "https://www.paypal.me/maflorenciamartinez",
+  };
+
   const paymentLinks = new Map<string, PaymentLink[]>([
     ["argentina", [mercadopago]],
     ["chile", [global66]],
@@ -134,13 +125,8 @@ export const getPaymentLinkByCountry = (site: string) => {
   return paymentLinks.get(site) || [paypal];
 };
 
-/**
- * Convierte una fecha a formato YYYY-MM-DD asegurando que se use la fecha local correcta
- * @param date Fecha a convertir
- * @returns string en formato YYYY-MM-DD
- */
 export function toLocalDateString(date: Date): string {
-  const timezoneOffset = date.getTimezoneOffset() * 60000; // offset en milisegundos
+  const timezoneOffset = date.getTimezoneOffset() * 60000;
   const localDate = new Date(date.getTime() - timezoneOffset);
   return localDate.toISOString().split("T")[0];
 }

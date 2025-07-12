@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ResourceEnrollments } from "@/app/admin/resource/[resource_id]/components/ResourceEnrollments";
+import { EnrollmentsTable } from "@/app/admin/resource/[resource_id]/components/EnrollmentsTable";
 import { ResourceSkeleton } from "@/app/admin/resource/[resource_id]/components/ResourceSkeleton";
 import { Resource, SubscriberResourcesList } from "@/app/schema";
 import { SubscribersComments } from "./components/SubscribersComments";
@@ -121,7 +121,7 @@ export default async function ResourceDashboard({
       </Suspense>
 
       <Suspense fallback={<ResourceSkeleton />}>
-        <ResourceEnrollments subscriberResources={subscriberResources} />
+        <EnrollmentsTable subscriberResources={subscriberResources} />
       </Suspense>
 
       <Suspense fallback={<ResourceSkeleton />}>

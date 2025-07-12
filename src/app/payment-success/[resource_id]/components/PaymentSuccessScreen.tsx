@@ -5,9 +5,10 @@ import successCheck from "@/app/assets/lottie/success-check.json";
 import wave from "@/app/assets/svg/wave-bg-green.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { getUrls } from "@/lib/utils";
+import { getMediaLink } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import RRSSButton from "@/app/components/RRSSButton";
+import SocialMediaButton from "@/app/components/SocialMediaButton";
+import { SocialMedia } from "@/lib/enums/socialMedia";
 const Player = dynamic(() => import("lottie-react"), { ssr: false });
 
 export function PaymentSuccessScreen({
@@ -105,7 +106,7 @@ export function PaymentSuccessScreen({
         transition={{ delay: 0.5, duration: 0.5 }}
         className="mt-2 mb-2 flex-shrink-0"
       >
-        <RRSSButton url={getUrls("instagram")!} />
+        <SocialMediaButton url={getMediaLink(SocialMedia.IG)!} />
       </motion.div>
 
       <motion.div

@@ -1,9 +1,11 @@
 import { Resource, Subscriber } from "@/app/schema";
+import { Currency } from "@/lib/enums/currency";
+import { SocialMedia } from "@/lib/enums/socialMedia";
 import {
   capitalizeFirstLetter,
-  getPaymentAmountByCountry,
   getPaymentLinkByCountry,
-  getUrls,
+  getMediaLink,
+  formatPrice,
 } from "@/lib/utils";
 
 export function getWelcomeEmail({
@@ -36,7 +38,7 @@ export function getWelcomeEmail({
         
         <p style="font-size: 1em; margin-bottom: 10px; color: #444;"><strong>Para completar tu inscripción, te pedimos que realices el pago mediante alguno de los siguientes métodos:</strong></p>
         
-        <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${getPaymentAmountByCountry(subscriber.country.toLowerCase().trim(), resource.price)}</strong>.</p>
+        <p style="font-size: 1em; margin-bottom: 10px; color: #444;">Recordá que el costo del taller es de <strong>${formatPrice(resource.price, Currency.ARS)}</strong>.</p>
         <ul style="font-size: 1em; margin-bottom: 12px; padding-left: 20px; color: #444;">
           ${getPaymentLinkByCountry(subscriber.country.toLowerCase().trim())
             ?.map((payment) => {
@@ -72,7 +74,7 @@ export function getWelcomeEmail({
           <table role="presentation" style="width: 100%;">
             <tr>
               <td align="left" style="padding-top: 16px; text-align: center;">
-                <a href=${getUrls("instagram")}
+                <a href=${getMediaLink(SocialMedia.IG)}
                   target="_blank"
                   style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 9999px; color: white; background: linear-gradient(to right, #ec4899, #ef4444, #f59e0b); text-decoration: none; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s ease-in-out;">
                   Seguinos en Instagram

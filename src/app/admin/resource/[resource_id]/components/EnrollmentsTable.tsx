@@ -23,7 +23,7 @@ import { PaymentButton } from "./PaymentButton";
 import { SubscriberResourcesList } from "@/app/schema";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
-export function ResourceEnrollments({
+export function EnrollmentsTable({
   subscriberResources,
 }: {
   subscriberResources: SubscriberResourcesList;

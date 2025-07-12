@@ -2,7 +2,7 @@
 
 import { FaInstagram } from "react-icons/fa";
 
-export default function RRSSButton({ url }: { url: string }) {
+export default function SocialMediaButton({ url }: { url: string }) {
   return (
     <a
       href={url}

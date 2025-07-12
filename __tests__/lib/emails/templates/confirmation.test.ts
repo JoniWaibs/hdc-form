@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { getConfirmationEmail } from "@/lib/emails/templates/confirmation";
-import { capitalizeFirstLetter, getTimeByCountry, getUrls } from "@/lib/utils";
+import {
+  capitalizeFirstLetter,
+  getTimeByCountry,
+  getMediaLink,
+} from "@/lib/utils";
 import { mockSubscriber } from "@/tests/mocks/subscriber";
 import { mockResource } from "@/tests/mocks/resources";
 
 jest.mock("@/lib/utils", () => ({
   capitalizeFirstLetter: jest.fn((text: string) => `Capitalized_${text}`),
   getTimeByCountry: jest.fn((_country: string) => "18:00 hs"),
-  getUrls: jest.fn((platform: string) => `${platform}-RRSS`),
-  formatResourceDateToText: jest.fn((date: string) => `Formatted_${date}`),
+  getMediaLink: jest.fn((platform: string) => `${platform}-RRSS`),
+  formatLongDate: jest.fn((date: string) => `Formatted_${date}`),
 }));
 
 describe("getConfirmationEmail", () => {
@@ -37,6 +41,6 @@ describe("getConfirmationEmail", () => {
     expect(capitalizeFirstLetter).toHaveBeenCalledWith("john doe");
     expect(capitalizeFirstLetter).toHaveBeenCalledWith("taller de oncología");
     expect(getTimeByCountry).toHaveBeenCalledWith("argentina");
-    expect(getUrls).toHaveBeenCalledWith("instagram");
+    expect(getMediaLink).toHaveBeenCalledWith("instagram");
   });
 });
