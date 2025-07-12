@@ -40,7 +40,7 @@ export default function FormFieldRenderer({
       control={control}
       name={fieldName as FieldPath<SubscriberWithHowDidYouHear>}
       render={({ field }) => (
-        <FormItem className="p-0">
+        <FormItem>
           <div className="flex justify-between text-center">
             <FormLabel className="text-sm">
               {label!.charAt(0).toUpperCase() + label!.slice(1)}
