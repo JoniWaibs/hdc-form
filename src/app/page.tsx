@@ -7,8 +7,66 @@ import { handleWhatsAppClick } from "@/lib/utils";
 import { FaWhatsapp } from "react-icons/fa";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+import { NewsletterSubscriptionSchema } from "./schema/newsletter";
+import { useState } from "react";
+import { z } from "zod";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 export default function HomePage() {
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
+
+  const handleSubmitNewsletter = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    setEmailError(null);
+    setIsLoading(true);
+
+    try {
+      const formData = new FormData(e.target as HTMLFormElement);
+      const email = formData.get("email") as string;
+
+      const validatedData = NewsletterSubscriptionSchema.parse({ email });
+      const response = await fetch("/api/suscription/newsletter/susbcribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: validatedData.email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setModalMessage(
+          "¡Gracias por suscribirte! Revisa tu correo para confirmar."
+        );
+      } else {
+        setModalMessage(
+          data.error || "Hubo un error al suscribirte. Inténtalo de nuevo."
+        );
+      }
+      setShowModal(true);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setEmailError(error.errors[0].message);
+      }
+      setModalMessage("Hubo un error al suscribirte. Inténtalo de nuevo.");
+    } finally {
+      (e.target as HTMLFormElement).reset();
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f5f1eb] text-[#6b7c63] font-sans">
       <Navbar />
@@ -184,21 +242,74 @@ export default function HomePage() {
             Suscribite a mi newsletter para recibir herramientas y reflexiones
             para acompañarte en tu proceso.
           </p>
-          <form className="flex flex-col sm:flex-row gap-4 justify-center">
-            <input
-              type="email"
-              placeholder="Tu correo electrónico"
-              className="px-4 py-3 border border-[#a8b5a0] focus:outline-none w-full sm:w-72 rounded-none h-[50px]"
-            />
+          <form
+            onSubmit={handleSubmitNewsletter}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <div className="flex flex-col w-full sm:w-72">
+              <input
+                name="email"
+                type="email"
+                placeholder="Tu correo electrónico"
+                className={`px-4 py-3 border ${
+                  emailError ? "border-red-500" : "border-[#a8b5a0]"
+                } focus:outline-none w-full rounded-none h-[50px]`}
+                disabled={isLoading}
+              />
+              {emailError && (
+                <span className="text-red-500 text-xs mt-1 text-left">
+                  {emailError}
+                </span>
+              )}
+            </div>
             <Button
               type="submit"
               className="bg-[#c4a484] hover:bg-[#a88b64] text-white px-6 h-[50px] rounded-none"
+              disabled={isLoading}
             >
-              Suscribirme
+              {isLoading ? (
+                <>
+                  <span className="animate-spin mr-2">⏳</span>
+                  Suscribiendo...
+                </>
+              ) : (
+                "Suscribirme"
+              )}
             </Button>
           </form>
         </div>
       </section>
+
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg">
+          <DialogHeader>
+            <DialogTitle
+              className={`text-2xl font-semibold  ${
+                modalMessage.includes("¡Gracias")
+                  ? "text-[#6b7c63]"
+                  : "text-[#c4a484]"
+              }`}
+            >
+              {modalMessage.includes("¡Gracias")
+                ? "¡Suscripción Exitosa!"
+                : "¡Algo salió mal!"}
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground mt-2">
+              {modalMessage}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-4">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                className="bg-[#c4a484] hover:bg-[#a88b64] text-white px-6 h-[50px] rounded-none"
+              >
+                Cerrar
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>
