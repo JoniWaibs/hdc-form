@@ -19,7 +19,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
 export const handleWhatsAppClick = () => {
   const whatsappNumber = "+5493425134461";
   const whatsappMessage = "Hola, me gustaría agendar una sesión con Florencia";

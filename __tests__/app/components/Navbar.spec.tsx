@@ -10,24 +10,26 @@ jest.mock("next/image", () => ({
 
 jest.mock("next/link", () => ({
   __esModule: true,
-  default: jest.fn().mockImplementation(({ children, ...props }) => (
-    <a {...props}>{children}</a>
-  )),
+  default: jest
+    .fn()
+    .mockImplementation(({ children, ...props }) => (
+      <a {...props}>{children}</a>
+    )),
 }));
 
 jest.spyOn(window, "open").mockImplementation(() => {
-    return {
-      focus: jest.fn(),
-    } as unknown as Window;
-  });
-  
+  return {
+    focus: jest.fn(),
+  } as unknown as Window;
+});
+
 describe("Navbar", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   test("should render the logo", () => {
-    const {container} = render(<Navbar />);
+    const { container } = render(<Navbar />);
     expect(container).toHaveTextContent("Hablemos de Cáncer");
 
     expect(Image).toHaveBeenNthCalledWith(
@@ -39,7 +41,7 @@ describe("Navbar", () => {
         height: 32,
         className: "rounded-full sm:w-10 sm:h-10",
       },
-      undefined
+      undefined,
     );
   });
 
@@ -50,7 +52,7 @@ describe("Navbar", () => {
     fireEvent.click(button);
     expect(window.open).toHaveBeenCalledWith(
       "https://wa.me/+5493425134461?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20sesi%C3%B3n%20con%20Florencia",
-      "_blank"
+      "_blank",
     );
   });
 
@@ -63,8 +65,16 @@ describe("Navbar", () => {
     render(<Navbar />);
     const link = screen.getByText(buttonText);
     expect(link).toBeInTheDocument();
-    
+
     fireEvent.click(link);
-    expect(Link).toHaveBeenCalledWith({"children": buttonText, "className": "text-[#6b7c63] hover:text-[#a8b5a0] transition-colors text-sm lg:text-base", "href": buttonLink}, undefined);
+    expect(Link).toHaveBeenCalledWith(
+      {
+        children: buttonText,
+        className:
+          "text-[#6b7c63] hover:text-[#a8b5a0] transition-colors text-sm lg:text-base",
+        href: buttonLink,
+      },
+      undefined,
+    );
   });
 });

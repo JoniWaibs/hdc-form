@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FaWhatsapp } from "react-icons/fa"
-import { handleWhatsAppClick } from "@/lib/utils"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { FaWhatsapp } from "react-icons/fa";
+import { handleWhatsAppClick } from "@/lib/utils";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
@@ -37,28 +43,32 @@ export default function ServicesPage() {
       alt: "Profesionales en una reunión de asesoramiento institucional",
       buttonText: "Solicitar información",
     },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-[#f5f1eb] text-[#6b7c63] font-sans">
- 
-    <Navbar />
+      <Navbar />
       <section className="py-16 sm:py-20 lg:py-24 bg-brand-beige text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-brand-sage-dark leading-tight">
             <span className="text-brand-sage-dark">¿Cómo puedo ayudarte?</span>
           </h1>
           <p className="text-lg sm:text-xl text-brand-text leading-relaxed">
-          Cada proceso es único, y también lo es la manera de transitarlo. A través de distintos espacios terapéuticos, brindo acompañamiento emocional para los momentos en que lo necesites.
+            Cada proceso es único, y también lo es la manera de transitarlo. A
+            través de distintos espacios terapéuticos, brindo acompañamiento
+            emocional para los momentos en que lo necesites.
           </p>
-        </div>  
+        </div>
       </section>
 
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 sm:grid-cols-2">
             {services.map((service, index) => (
-              <Card key={index} className="flex flex-col overflow-hidden shadow-lg rounded-none bg-card">
+              <Card
+                key={index}
+                className="flex flex-col overflow-hidden shadow-lg rounded-none bg-card"
+              >
                 <CardHeader className="p-4 sm:p-6">
                   <CardTitle className="text-xl sm:text-2xl font-medium text-brand-sage-dark">
                     {service.title}
@@ -72,7 +82,7 @@ export default function ServicesPage() {
                     onClick={handleWhatsAppClick}
                     className="cursor-pointer bg-[#a8b5a0] hover:bg-[#6b7c63] text-white px-6 py-3 text-base rounded-none shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 w-full"
                   >
-                    <FaWhatsapp className="w-5 h-5 mr-2" /> 
+                    <FaWhatsapp className="w-5 h-5 mr-2" />
                     {service.buttonText}
                   </Button>
                 </CardContent>
@@ -83,5 +93,5 @@ export default function ServicesPage() {
       </section>
       <Footer />
     </div>
-  )
+  );
 }
