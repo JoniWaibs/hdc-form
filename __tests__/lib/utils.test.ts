@@ -1,13 +1,14 @@
+import { Currency } from "@/lib/enums/currency";
+import { SocialMedia } from "@/lib/enums/socialMedia";
 import {
   cn,
-  handleInputType,
-  getUrls,
+  getMediaLink,
   getTimeByCountry,
-  formatResourceDate,
+  formatLongDate,
   formatPrice,
-  getPaymentAmountByCountry,
   getPaymentLinkByCountry,
   toLocalDateString,
+  handleInputType,
 } from "@/lib/utils";
 
 describe("cn function", () => {
@@ -34,15 +35,15 @@ describe("handleInputType function", () => {
   });
 });
 
-describe("getUrls function", () => {
+describe("getMediaLink function", () => {
   test("should return correct Instagram URL", () => {
-    expect(getUrls("instagram")).toBe(
+    expect(getMediaLink(SocialMedia.IG)).toBe(
       "https://www.instagram.com/hablemos.de.cancer/",
     );
   });
 
   test("should return undefined for non-existent social networks", () => {
-    expect(getUrls("facebook")).toBeUndefined();
+    expect(getMediaLink(SocialMedia.YT)).toBeUndefined();
   });
 });
 
@@ -60,39 +61,29 @@ describe("getTimeByCountry function", () => {
   });
 });
 
-describe("formatResourceDate function", () => {
+describe("formatLongDate function", () => {
   test("should format dates correctly in Spanish", () => {
-    expect(formatResourceDate("2024-03-15")).toBe("15 marzo 2024");
-    expect(formatResourceDate("2024-12-31")).toBe("31 diciembre 2024");
+    expect(formatLongDate("2024-03-15")).toBe("15 de Marzo de 2024");
+    expect(formatLongDate("2024-12-31")).toBe("31 de Diciembre de 2024");
   });
 });
 
 describe("formatPrice function", () => {
   test("should format ARS prices correctly", () => {
-    expect(formatPrice(1000, "ARS")).toBe("$\u00A01.000");
-    expect(formatPrice(1500.5, "ARS")).toBe("$\u00A01.501");
+    expect(formatPrice(1000, Currency.ARS)).toBe("$\u00A01.000");
+    expect(formatPrice(1500.5, Currency.ARS)).toBe("$\u00A01.501");
   });
 
   test("should format USD prices correctly", () => {
-    expect(formatPrice(40, "USD")).toBe("USD\u00A040");
-    expect(formatPrice(99.99, "USD")).toBe("USD\u00A0100");
-  });
-
-  test("should default to ARS format for unknown currencies", () => {
-    expect(formatPrice(1000, "EUR")).toBe("$\u00A01.000");
+    expect(formatPrice(40, Currency.USD)).toBe("USD\u00A040");
+    expect(formatPrice(99.99, Currency.USD)).toBe("USD\u00A0100");
   });
 });
 
 describe("getPaymentAmountByCountry function", () => {
   test("should return correct payment amounts for different countries", () => {
-    expect(getPaymentAmountByCountry("argentina", 1000)).toBe("$\u00A01.000");
-    expect(getPaymentAmountByCountry("chile", 1000)).toBe("USD\u00A040");
-    expect(getPaymentAmountByCountry("colombia", 1000)).toBe("USD\u00A040");
-    expect(getPaymentAmountByCountry("españa", 1000)).toBe("USD\u00A040");
-  });
-
-  test("should return default USD amount for unknown countries", () => {
-    expect(getPaymentAmountByCountry("brazil", 1000)).toBe("USD\u00A040");
+    expect(formatPrice(1000, Currency.ARS)).toBe("$\u00A01.000");
+    expect(formatPrice(1000, Currency.USD)).toBe("USD\u00A01,000");
   });
 });
 

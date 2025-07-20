@@ -9,15 +9,15 @@ import {
 } from "@/app/schema";
 import { Form } from "@/components/ui/form";
 import { Resource } from "@/app/schema/resource";
-import SplashLoaderModal from "./SplashLoaderModal";
-import MercadoPagoBanner from "@/app/components/MPBanner";
-import FormHeader from "./FormHeader";
-import StepProgressBar from "./StepProgressBar";
-import FormStepContent from "./FormStepContent";
-import FormNavigation from "./FormNavigation";
-import { useFormSteps } from "../hooks/useFormSteps";
-import { formSections } from "../content/form";
-import { useRegistrationSubmit } from "../hooks/useRegistrationSubmit";
+import SplashLoaderModal from "@/app/register/[resource_id]/components/SplashLoaderModal";
+import MercadoPagoModal from "@/app/components/MercadoPagoModal";
+import FormHeader from "@/app/register/[resource_id]/components/FormHeader";
+import StepProgressBar from "@/app/register/[resource_id]/components/StepProgressBar";
+import FormStepContent from "@/app/register/[resource_id]/components/FormStepContent";
+import FormNavigation from "@/app/register/[resource_id]/components/FormNavigation";
+import { useFormSteps } from "@/app/register/[resource_id]/hooks/useFormSteps";
+import { formSections } from "@/app/register/[resource_id]/content/form";
+import { useRegistrationSubmit } from "@/app/register/[resource_id]/hooks/useRegistrationSubmit";
 
 export default function RegisterFormScreen({
   resource,
@@ -74,7 +74,7 @@ export default function RegisterFormScreen({
 
   return (
     <div className="flex h-screen flex-col items-center bg-gray-50 p-2 sm:p-4">
-      <div className="w-full max-w-3xl h-full flex flex-col">
+      <div className="w-full max-w-3xl flex flex-col">
         <FormHeader resource={resource} />
 
         <div className="flex-1 flex flex-col shadow-none min-h-0">
@@ -95,11 +95,6 @@ export default function RegisterFormScreen({
                 isLastStep={isLastStep}
               />
 
-              <MercadoPagoBanner
-                amount={resource.price}
-                title={resource.name}
-              />
-
               <FormNavigation
                 currentStep={currentStep}
                 isLastStep={isLastStep}
@@ -109,6 +104,8 @@ export default function RegisterFormScreen({
               />
             </form>
           </Form>
+
+          <MercadoPagoModal amount={resource.price} title={resource.name} />
         </div>
       </div>
     </div>

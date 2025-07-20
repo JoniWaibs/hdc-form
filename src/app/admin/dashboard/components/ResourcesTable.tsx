@@ -34,11 +34,8 @@ import {
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Resource } from "@/app/schema";
-import {
-  formatPrice,
-  formatResourceDate,
-  getResourceStatus,
-} from "@/lib/utils";
+import { formatPrice, formatLongDate, getResourceStatus } from "@/lib/utils";
+import { Currency } from "@/lib/enums/currency";
 
 interface ResourcesTableProps {
   resources: Resource[];
@@ -81,7 +78,7 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
         );
       },
       cell: ({ row }) => (
-        <div>{formatResourceDate(row.getValue("start_date"))}</div>
+        <div>{formatLongDate(row.getValue("start_date"))}</div>
       ),
     },
     {
@@ -99,7 +96,9 @@ export function ResourcesTable({ resources }: ResourcesTableProps) {
       },
       cell: ({ row }) => {
         const price = Number.parseFloat(row.getValue("price"));
-        return <div className="font-medium">{formatPrice(price, "ARS")}</div>;
+        return (
+          <div className="font-medium">{formatPrice(price, Currency.ARS)}</div>
+        );
       },
     },
     {
