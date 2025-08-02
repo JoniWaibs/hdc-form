@@ -6,7 +6,6 @@ import {
   SubscriberResourceNotFoundError,
 } from "@/lib/errors/Payment";
 
-
 export class PaymentProcessingService {
   private dataSource: DataSource;
 

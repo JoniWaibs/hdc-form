@@ -1,9 +1,9 @@
 export function getNewsletterSubscribeEmail({
-    unsubscribeToken,
-  }: {
-    unsubscribeToken: string;
-  }) {
-    const plainTextContent = `
+  unsubscribeToken,
+}: {
+  unsubscribeToken: string;
+}) {
+  const plainTextContent = `
   ¡Bienvenida/o a Hablemos de Cáncer!
   
   Gracias por suscribirte a nuestro newsletter. A partir de ahora recibirás información confiable, recursos útiles y acompañamiento pensado especialmente para personas que transitan un diagnóstico oncológico, sus familias y quienes los acompañan.
@@ -14,11 +14,11 @@ export function getNewsletterSubscribeEmail({
   
   Si en algún momento no deseas seguir recibiendo nuestros correos, puedes darte de baja aquí: https://hablemosdecancer.com.ar/newsletter/unsubscribe/${unsubscribeToken}
     `.trim();
-  
-    return {
-      subject: "💌 Bienvenida/o a Hablemos de Cáncer",
-      text: plainTextContent,
-      html: `
+
+  return {
+    subject: "💌 Bienvenida/o a Hablemos de Cáncer",
+    text: plainTextContent,
+    html: `
         <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;">
           
           <div style="text-align: center; margin-bottom: 24px;">
@@ -55,5 +55,5 @@ export function getNewsletterSubscribeEmail({
           </div>
         </div>
       `,
-    };
-  }
+  };
+}

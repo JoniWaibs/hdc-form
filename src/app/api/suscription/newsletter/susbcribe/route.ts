@@ -18,13 +18,13 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { message: "Suscripción exitosa" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: "El correo electrónico no es válido" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { error: "Hubo un error al suscribirte. Inténtalo de nuevo." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

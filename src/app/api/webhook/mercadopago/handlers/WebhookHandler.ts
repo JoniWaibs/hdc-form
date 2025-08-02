@@ -1,6 +1,9 @@
 import { WebhookValidator } from "@/app/api/webhook/mercadopago/validators/WebhookValidator";
 import { PaymentApprovalHandler } from "@/app/api/webhook/mercadopago/handlers/PaymentApprovalHandler";
-import { WebhookPayload, WebhookResponse } from "@/app/api/webhook/mercadopago/types/webhook";
+import {
+  WebhookPayload,
+  WebhookResponse,
+} from "@/app/api/webhook/mercadopago/types/webhook";
 
 export class WebhookHandler {
   private paymentApprovalHandler: PaymentApprovalHandler;

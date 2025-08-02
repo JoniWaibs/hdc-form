@@ -43,7 +43,7 @@ export class NewsletterDataSource extends DataSource {
   }
 
   async getSubscriberNewsletter(
-    email?: string
+    email?: string,
   ): Promise<{ data: NewsletterSubscriber[]; status: number }> {
     const query = this.supabase.from("subscriber_newsletter").select("*");
 
