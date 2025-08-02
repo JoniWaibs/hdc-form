@@ -1,9 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
-import { WebhookHandler } from "./handlers/WebhookHandler";
+import { WebhookHandler } from "@/app/api/webhook/mercadopago/handlers/WebhookHandler";
 import { MercadoPagoService } from "@/services/mercadopago";
-import { NotificationService } from "./services/NotificationService";
-import { PaymentProcessingService } from "./services/PaymentProcessingService";
-import { PaymentApprovalHandler } from "./handlers/PaymentApprovalHandler";
+import { NotificationService } from "@/app/api/webhook/mercadopago/services/NotificationService";
+import { PaymentProcessingService } from "@/app/api/webhook/mercadopago/services/PaymentProcessingService";
+import { PaymentApprovalHandler } from "@/app/api/webhook/mercadopago/handlers/PaymentApprovalHandler";
 import { DataSource } from "@/services/datasource";
 import { EmailService } from "@/services/email";
 

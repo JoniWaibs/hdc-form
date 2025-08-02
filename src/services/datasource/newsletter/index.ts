@@ -1,19 +1,20 @@
+import { NewsletterSubscriber } from "@/app/schema/newsletter";
 import { DataSource } from "@/services/datasource";
-import { v4 as uuidv4 } from "uuid";
 
 export class NewsletterDataSource extends DataSource {
   constructor() {
     super();
   }
 
-  async createSubscriberNewsletter(payload: { email: string }) {
-    const unsubscribeToken = uuidv4();
-
+  async createSubscriberNewsletter(payload: {
+    email: string;
+    unsubscribeToken: string;
+  }) {
     const { data, error, status } = await this.supabase
       .from("subscriber_newsletter")
       .insert({
         email: payload.email,
-        unsubscribe_token: unsubscribeToken,
+        unsubscribe_token: payload.unsubscribeToken,
       })
       .select("email");
 
@@ -41,7 +42,9 @@ export class NewsletterDataSource extends DataSource {
     return { data, status };
   }
 
-  async getSubscriberNewsletter(email?: string) {
+  async getSubscriberNewsletter(
+    email?: string
+  ): Promise<{ data: NewsletterSubscriber[]; status: number }> {
     const query = this.supabase.from("subscriber_newsletter").select("*");
 
     if (email) {

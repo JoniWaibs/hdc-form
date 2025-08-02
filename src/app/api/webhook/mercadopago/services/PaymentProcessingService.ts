@@ -1,10 +1,11 @@
 import { DataSource } from "@/services/datasource";
-import { PaymentProcessingResult } from "../types/payment.types";
-import { ExternalReference } from "../types/webhook.types";
+import { PaymentProcessingResult } from "@/app/api/webhook/mercadopago/types/payment";
+import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
 import {
-  SubscriberResourceNotFoundError,
   PaymentProcessingError,
-} from "../errors/PaymentError";
+  SubscriberResourceNotFoundError,
+} from "@/lib/errors/Payment";
+
 
 export class PaymentProcessingService {
   private dataSource: DataSource;

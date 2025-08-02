@@ -23,7 +23,7 @@ describe("Home Page", () => {
   test("should render the header section", () => {
     const { container } = render(<HomePage />);
     expect(container).toHaveTextContent(
-      "Acompañamiento emocionalespecializadopara pacientes oncológicos"
+      "Acompañamiento emocional especializado en oncología"
     );
   });
 

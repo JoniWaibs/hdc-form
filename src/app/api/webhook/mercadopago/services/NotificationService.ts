@@ -1,11 +1,9 @@
 import { EmailService } from "@/services/email";
-import { NotificationResult } from "../types/payment.types";
-import {
-  NotificationError,
-  SubscriberResourceNotFoundError,
-} from "../errors/PaymentError";
+import { NotificationResult } from "@/app/api/webhook/mercadopago/types/payment";
+import { NotificationError } from "@/lib/errors/Notifications";
+import { SubscriberResourceNotFoundError } from "@/lib/errors/Payment";
 import { DataSource } from "@/services/datasource";
-import { ExternalReference } from "../types/webhook.types";
+import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
 import { EmailType } from "@/lib/enums/emails";
 
 export class NotificationService {

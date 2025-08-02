@@ -80,10 +80,9 @@ export default function HomePage() {
         <h1 className="z-10 text-4xl sm:text-6xl md:text-7xl font-light leading-tight text-center px-6">
           Acompañamiento emocional
           <br />
-          <span className="text-[#a8b5a0] font-medium">especializado</span>
-          <br />
           <span className="text-[#c4a484] font-semibold">
-            para pacientes oncológicos
+            {" "}
+            especializado en oncología
           </span>
         </h1>
       </div>

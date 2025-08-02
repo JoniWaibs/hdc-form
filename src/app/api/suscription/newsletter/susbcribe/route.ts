@@ -2,24 +2,29 @@ import { NextRequest, NextResponse } from "next/server";
 import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { email } = NewsletterSubscriptionSchema.parse(body);
     const datasource = new NewsletterDataSource();
+    const unsubscribeToken = uuidv4();
 
-    await datasource.createSubscriberNewsletter({ email });
+    await datasource.createSubscriberNewsletter({
+      email,
+      unsubscribeToken,
+    });
 
     return NextResponse.json(
       { message: "Suscripción exitosa" },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: "El correo electrónico no es válido" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -32,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { error: "Hubo un error al suscribirte. Inténtalo de nuevo." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
