@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { PaymentInfo } from "../types/payment.types";
-import { ExternalReference } from "../types/webhook.types";
-import { InvalidTokenError } from "../errors/PaymentError";
-import { PaymentNotApprovedError } from "../errors/WebhookError";
+import { PaymentInfo } from "@/app/api/webhook/mercadopago/types/payment";
+import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
+import { InvalidTokenError } from "@/lib/errors/Payment";
+import { PaymentNotApprovedError } from "@/lib/errors/Webhook";
 
 export class PaymentValidator {
   static validatePaymentInfo(paymentInfo: PaymentInfo): PaymentInfo {

@@ -1,5 +1,5 @@
 import HomePage from "@/app/page";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import Image from "next/image";
 
 jest.mock("next/image", () => ({
@@ -13,6 +13,8 @@ jest.spyOn(window, "open").mockImplementation(() => {
   } as unknown as Window;
 });
 
+global.fetch = jest.fn();
+
 describe("Home Page", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -21,7 +23,7 @@ describe("Home Page", () => {
   test("should render the header section", () => {
     const { container } = render(<HomePage />);
     expect(container).toHaveTextContent(
-      "Acompañamiento emocionalespecializadopara pacientes oncológicos",
+      "Acompañamiento emocional especializado en oncología",
     );
   });
 
@@ -119,5 +121,76 @@ describe("Home Page", () => {
     expect(container).toHaveTextContent(
       "Suscribite a mi newsletter para recibir herramientas y reflexiones para acompañarte en tu proceso.",
     );
+
+    const input = screen.getByPlaceholderText("Tu correo electrónico");
+    expect(input).toBeInTheDocument();
+  });
+
+  test("should successfully subscribe to newsletter", async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ message: "Suscripción exitosa" }),
+    });
+
+    render(<HomePage />);
+
+    const input = screen.getByPlaceholderText("Tu correo electrónico");
+    const button = screen.getByRole("button", { name: "Suscribirme" });
+
+    fireEvent.change(input, { target: { value: "test@test.com" } });
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    expect(fetch).toHaveBeenCalledWith(
+      "/api/suscription/newsletter/susbcribe",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: "test@test.com" }),
+      },
+    );
+
+    expect(
+      await screen.findByText(
+        "¡Gracias por suscribirte! Revisa tu correo para confirmar.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  test("should handle newsletter subscription error", async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      json: () => Promise.resolve({ message: "Error en la suscripción" }),
+    });
+
+    render(<HomePage />);
+
+    const input = screen.getByPlaceholderText("Tu correo electrónico");
+    const button = screen.getByRole("button", { name: "Suscribirme" });
+
+    fireEvent.change(input, { target: { value: "test@test.com" } });
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    expect(fetch).toHaveBeenCalledWith(
+      "/api/suscription/newsletter/susbcribe",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: "test@test.com" }),
+      },
+    );
+
+    expect(
+      await screen.findByText(
+        "Hubo un error al suscribirte. Inténtalo de nuevo.",
+      ),
+    ).toBeInTheDocument();
   });
 });
