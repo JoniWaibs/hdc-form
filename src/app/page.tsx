@@ -7,7 +7,7 @@ import { handleWhatsAppClick } from "@/lib/utils";
 import { FaWhatsapp } from "react-icons/fa";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { NewsletterSubscriptionSchema } from "./schema/newsletter";
+import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
 import { useState } from "react";
 import { z } from "zod";
 import {
