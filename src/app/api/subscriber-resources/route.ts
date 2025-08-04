@@ -1,11 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
 import { DataSource } from "@/services/datasource";
-import {
-  SubscriberResourcesList,
-  SubscriberResourcesSchema,
-} from "@/app/schema";
-import { EmailService } from "@/services/email";
-import { getConfirmationEmail } from "@/lib/emails/templates/confirmation";
+import { SubscriberResourcesList } from "@/app/schema";
+import { NotificationService } from "@/services/notifications/notification";
+import { PaymentProcessingService } from "./services/PaymentProcessingService";
+import { NotificationHandler } from "./handlers/NotificationHandler";
+import { PaymentApprovalHandler } from "./handlers/PaymentApprovalHandler";
 
 export async function GET(req: NextRequest) {
   const subscriberId = req.nextUrl.searchParams.get("subscriber_id");
@@ -19,7 +18,6 @@ export async function GET(req: NextRequest) {
       });
 
     return NextResponse.json({
-      message: "Todos los recursos obtenidos",
       data: subscriberResources,
       status: 200,
     });
@@ -38,19 +36,18 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const subscriberResourceId = req.nextUrl.searchParams.get(
+    "subscriber_resource_id",
+  );
+  const notificationService = new NotificationService();
+  const dataSource = new DataSource();
+
+  const paymentApprovalHandler = new PaymentApprovalHandler(
+    new PaymentProcessingService(dataSource),
+    new NotificationHandler(dataSource, notificationService),
+  );
+
   try {
-    const rawBody = await req.json();
-    const { subscriber_resource, payment_confirmed } = rawBody;
-
-    const subscriberResource =
-      SubscriberResourcesSchema.parse(subscriber_resource);
-
-    const {
-      id: subscriberResourceId,
-      subscriber,
-      resource,
-    } = subscriberResource;
-
     if (!subscriberResourceId) {
       return NextResponse.json(
         { error: "El ID del recurso del suscriptor es requerido" },
@@ -58,36 +55,14 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const dataSource = new DataSource();
-    const result = await dataSource.updateSubscriberResource(
+    const result = await paymentApprovalHandler.handlePaymentApproval({
       subscriberResourceId,
-      {
-        payment_confirmed,
-      },
-    );
-
-    const response = NextResponse.json({
-      message: "Recurso del suscriptor actualizado correctamente",
-      subscriberResourceId: result.data.id,
-      status: 200,
     });
 
-    try {
-      if (result) {
-        const emailContent = getConfirmationEmail({ subscriber, resource });
-        await new EmailService().sendEmail({
-          to: subscriber.email,
-          subject: emailContent.subject,
-          html: emailContent.html,
-        });
-      }
-    } catch (error) {
-      throw new Error(
-        `Error al enviar el email de confirmación de pago: ${(error as Error).message}`,
-      );
-    }
-
-    return response;
+    return NextResponse.json({
+      message: result.message,
+      status: 200,
+    });
   } catch (error) {
     return NextResponse.json(
       {
