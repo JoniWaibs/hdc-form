@@ -10,14 +10,14 @@ export class NotificationHandler {
 
   constructor(
     dataSource: DataSource,
-    notificationService: NotificationService
+    notificationService: NotificationService,
   ) {
     this.dataSource = dataSource;
     this.notificationService = notificationService;
   }
 
   async sendPaymentConfirmationEmail(
-    subscriberResourceId: SubscriberResource["id"]
+    subscriberResourceId: SubscriberResource["id"],
   ): Promise<NotificationResult> {
     const subscriberResource = await this.dataSource.getSubscriberResources({
       id: subscriberResourceId,
@@ -40,7 +40,7 @@ export class NotificationHandler {
       });
 
       console.info(
-        `NotificationHandler::Confirmation email sent to user: ${subscriber.email}`
+        `NotificationHandler::Confirmation email sent to user: ${subscriber.email}`,
       );
 
       return {
@@ -50,7 +50,7 @@ export class NotificationHandler {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       console.error(
-        `NotificationHandler::Failed to send confirmation email: ${errorMessage}`
+        `NotificationHandler::Failed to send confirmation email: ${errorMessage}`,
       );
 
       throw new NotificationError(errorMessage);
