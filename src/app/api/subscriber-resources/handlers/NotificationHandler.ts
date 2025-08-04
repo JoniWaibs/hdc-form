@@ -24,7 +24,7 @@ export class NotificationHandler {
     });
 
     if (!subscriberResource.length) {
-      throw new NotificationError("SubscriberResource:: Not found", 404);
+      throw new NotificationError("SubscriberResource Not found", 404);
     }
 
     const { subscriber, resource } = subscriberResource[0];
@@ -40,18 +40,17 @@ export class NotificationHandler {
       });
 
       console.info(
-        `SubscriberResources::Confirmation email sent to user: ${subscriber.email}`,
+        `NotificationHandler::Confirmation email sent to user: ${subscriber.email}`,
       );
 
       return {
         success: true,
-        recipientEmail: subscriber.email,
       };
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       console.error(
-        `SubscriberResources::Failed to send confirmation email: ${errorMessage}`,
+        `NotificationHandler::Failed to send confirmation email: ${errorMessage}`,
       );
 
       throw new NotificationError(errorMessage);

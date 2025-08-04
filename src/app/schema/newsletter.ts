@@ -16,6 +16,10 @@ export const NewsletterSubscriberSchema = z.object({
   is_active: z.boolean().default(true),
 });
 
+export const NewsletterUnsubscribeSchema = z.object({
+  unsubscribe_token: z.string().uuid(),
+});
+
 export type NewsletterSubscription = z.infer<
   typeof NewsletterSubscriptionSchema
 >;

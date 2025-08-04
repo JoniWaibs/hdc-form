@@ -2,7 +2,7 @@ import { MercadoPagoService } from "@/services/mercadopago";
 import { PaymentValidator } from "@/app/api/webhook/mercadopago/validators/PaymentValidator";
 import { PaymentProcessingService } from "@/app/api/webhook/mercadopago/services/PaymentProcessingService";
 import { PaymentInfo } from "@/app/typings/payment";
-import { WebhookPayload } from "@/app/api/webhook/mercadopago/types/webhook";
+import { WebhookPayload } from "@/app/typings/webhook";
 import { NotificationHandler } from "./NotificationHandler";
 
 export class PaymentApprovalHandler {
@@ -41,7 +41,7 @@ export class PaymentApprovalHandler {
     );
 
     console.info(
-      `MP WEBHOOK::Payment approval workflow completed successfully`,
+      `PaymentApprovalHandler::Webhook::Payment approval workflow completed successfully`,
     );
   }
 
@@ -56,9 +56,12 @@ export class PaymentApprovalHandler {
         external_reference: paymentInfo.external_reference || "",
       };
     } catch (error) {
-      console.error("MP WEBHOOK::Error getting payment info paymentId:", {
-        paymentId,
-      });
+      console.error(
+        "PaymentApprovalHandler::Webhook::Error getting payment info paymentId:",
+        {
+          paymentId,
+        },
+      );
       throw error;
     }
   }

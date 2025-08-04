@@ -1,4 +1,5 @@
 import { NewsletterSubscriber } from "@/app/schema/newsletter";
+import { SubscribeError } from "@/lib/errors/Suscription";
 import { DataSource } from "@/services/datasource";
 
 export class NewsletterDataSource extends DataSource {
@@ -21,8 +22,9 @@ export class NewsletterDataSource extends DataSource {
     if (error) {
       // Avoid duplicates if the email already exists
       if (error.code === "23505") {
-        throw new Error("Ya estás suscripto a la newsletter.");
+        throw new SubscribeError("Ya estás suscripto a la newsletter.", 409);
       }
+
       throw error;
     }
 
@@ -42,7 +44,7 @@ export class NewsletterDataSource extends DataSource {
     return { data, status };
   }
 
-  async getSubscriberNewsletter(
+  async getSubscribersNewsletter(
     email?: string,
   ): Promise<{ data: NewsletterSubscriber[]; status: number }> {
     const query = this.supabase.from("subscriber_newsletter").select("*");

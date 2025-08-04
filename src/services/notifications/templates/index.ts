@@ -1,16 +1,12 @@
 import { getWelcomeEmail } from "./emails/register/welcome";
 import { getConfirmationEmail } from "./emails/register/confirmation";
 import { getReminderEmail } from "./emails/register/reminder";
-import {
-  EmailType,
-  RegisterEmailData,
-} from "@/app/typings/notification";
+import { EmailFunctionMap } from "@/app/typings/notification";
+import { getNewsletterSubscribeEmail } from "./emails/newsletter/subscribe";
 
-export const emailTemplates = new Map<
-  EmailType,
-  (data: RegisterEmailData) => { subject: string; text: string; html: string }
->([
-  ["welcome", getWelcomeEmail],
-  ["confirmation", getConfirmationEmail],
-  ["reminder", getReminderEmail],
-]);
+export const emailTemplates: EmailFunctionMap = {
+  welcome: getWelcomeEmail,
+  confirmation: getConfirmationEmail,
+  reminder: getReminderEmail,
+  subscribe_newsletter: getNewsletterSubscribeEmail,
+};

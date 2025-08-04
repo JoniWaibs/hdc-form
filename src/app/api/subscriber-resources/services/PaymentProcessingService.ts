@@ -1,9 +1,7 @@
 import { DataSource } from "@/services/datasource";
 import { PaymentProcessingResult } from "@/app/typings/payment";
-import {
-  PaymentProcessingError,
-  SubscriberResourceNotFoundError,
-} from "@/lib/errors/Payment";
+import { PaymentProcessingError } from "@/lib/errors/Payment";
+import { SubscriberResourceNotFoundError } from "@/lib/errors/Suscription";
 
 export class PaymentProcessingService {
   private dataSource: DataSource;
@@ -26,7 +24,7 @@ export class PaymentProcessingService {
       );
 
       console.info(
-        `SubscriberResources::Payment confirmed and status updated for: ${JSON.stringify(
+        `PaymentProcessingService::Payment confirmed and status updated for: ${JSON.stringify(
           {
             subscriberResourceId: response.data.id,
             paymentConfirmed: response.data.payment_confirmed,
@@ -43,7 +41,7 @@ export class PaymentProcessingService {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       console.error(
-        `SubscriberResources::Payment processing failed: ${errorMessage}`,
+        `PaymentProcessingService::Payment processing failed: ${errorMessage}`,
       );
 
       if (error instanceof SubscriberResourceNotFoundError) {

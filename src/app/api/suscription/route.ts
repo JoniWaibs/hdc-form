@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         message: "Inscripción exitosa",
         subscriber: subscriber[0],
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error: unknown) {
     if (error instanceof ZodError) {

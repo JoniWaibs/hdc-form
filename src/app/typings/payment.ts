@@ -13,9 +13,3 @@ export interface PaymentProcessingResult {
   subscriberResourceId?: string;
   error?: string;
 }
-
-export interface NotificationResult {
-  success: boolean;
-  recipientEmail?: string;
-  error?: string;
-}

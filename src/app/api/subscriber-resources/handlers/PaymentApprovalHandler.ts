@@ -25,9 +25,7 @@ export class PaymentApprovalHandler {
     });
 
     if (!processingResult.success) {
-      throw new Error(
-        `SubscriberResources::Payment processing failed: ${processingResult.error}`,
-      );
+      throw new Error(`Payment processing failed: ${processingResult.error}`);
     }
 
     await this.notificationHandler.sendPaymentConfirmationEmail(
@@ -35,11 +33,11 @@ export class PaymentApprovalHandler {
     );
 
     console.info(
-      `SubscriberResources::Payment confirmed workflow completed successfully`,
+      `PaymentApprovalHandler::Payment confirmed workflow completed successfully`,
     );
 
     return {
-      message: `SubscriberResources::Payment confirmed workflow completed successfully for subscriber_resource ${processingResult.subscriberResourceId}`,
+      message: `PaymentApprovalHandler::Payment confirmed workflow completed successfully for subscriber_resource ${processingResult.subscriberResourceId}`,
     };
   }
 }

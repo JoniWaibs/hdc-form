@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { PaymentInfo } from "@/app/typings/payment";
-import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
+import { ExternalReference } from "@/app/typings/webhook";
 import { InvalidTokenError } from "@/lib/errors/Payment";
 import { PaymentNotApprovedError } from "@/lib/errors/Webhook";
 
@@ -43,7 +43,7 @@ export class PaymentValidator {
       }
 
       console.log(
-        "MP WEBHOOK::External reference decoded successfully",
+        "PaymentValidator::Webhook::External reference decoded successfully",
         JSON.stringify({
           resourceId: reference.resourceId,
           subscriberId: reference.subscriberId,

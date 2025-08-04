@@ -44,23 +44,26 @@ export default function HomePage() {
         body: JSON.stringify({ email: validatedData.email }),
       });
 
-      const data = await response.json();
+      await response.json();
 
       if (response.ok) {
         setModalMessage(
           "¡Gracias por suscribirte! Revisa tu correo para confirmar.",
         );
+      } else if (response.status === 409) {
+        setModalMessage("Ya estás suscripto a la newsletter.");
       } else {
-        setModalMessage(
-          data.error || "Hubo un error al suscribirte. Inténtalo de nuevo.",
-        );
+        throw new Error("Error al procesar la suscripción");
       }
+
       setShowModal(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setEmailError(error.errors[0].message);
+      } else {
+        setEmailError("Hubo un error al suscribirte. Inténtalo de nuevo.");
+        setShowModal(true);
       }
-      setModalMessage("Hubo un error al suscribirte. Inténtalo de nuevo.");
     } finally {
       (e.target as HTMLFormElement).reset();
       setIsLoading(false);

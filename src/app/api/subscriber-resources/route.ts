@@ -39,6 +39,14 @@ export async function PATCH(req: NextRequest) {
   const subscriberResourceId = req.nextUrl.searchParams.get(
     "subscriber_resource_id",
   );
+
+  if (!subscriberResourceId) {
+    return NextResponse.json(
+      { error: "subscriber_resource_id is required" },
+      { status: 400 },
+    );
+  }
+
   const notificationService = new NotificationService();
   const dataSource = new DataSource();
 
@@ -48,13 +56,6 @@ export async function PATCH(req: NextRequest) {
   );
 
   try {
-    if (!subscriberResourceId) {
-      return NextResponse.json(
-        { error: "El ID del recurso del suscriptor es requerido" },
-        { status: 400 },
-      );
-    }
-
     const result = await paymentApprovalHandler.handlePaymentApproval({
       subscriberResourceId,
     });

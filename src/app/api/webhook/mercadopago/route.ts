@@ -24,8 +24,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: result.message }, { status: 200 });
   } catch (error: unknown) {
-    console.error("MP WEBHOOK::Webhook processing failed");
-
     return NextResponse.json(
       {
         message: "Webhook received but processing failed",

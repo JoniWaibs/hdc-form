@@ -1,9 +1,10 @@
 import { Resend } from "resend";
 import {
-  RegisterEmailData,
   NotificationPayload,
   NotificationProvider,
   EmailType,
+  EmailOutput,
+  TemplateToData,
 } from "@/app/typings/notification";
 import { emailTemplates } from "@/services/notifications/templates";
 
@@ -53,14 +54,10 @@ export class EmailProvider implements NotificationProvider {
     await this.sendEmail({ to, ...content });
   }
 
-  private async getEmailContent(
-    template: EmailType,
-    data: RegisterEmailData,
-  ): Promise<{
-    subject: string;
-    html: string;
-    text?: string;
-  }> {
-    return emailTemplates.get(template)!(data);
+  private async getEmailContent<K extends EmailType>(
+    template: K,
+    data: TemplateToData[K],
+  ): Promise<EmailOutput> {
+    return emailTemplates[template](data);
   }
 }
