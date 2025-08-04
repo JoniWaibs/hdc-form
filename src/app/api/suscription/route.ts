@@ -49,9 +49,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         message: "Inscripción exitosa",
-        subscriber: subscriber[0], // Only returns id, email and name
+        subscriber: subscriber[0],
       },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (error: unknown) {
     if (error instanceof ZodError) {

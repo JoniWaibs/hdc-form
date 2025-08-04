@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { PaymentInfo } from "@/app/api/webhook/mercadopago/types/payment";
+import { PaymentInfo } from "@/app/typings/payment";
 import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
 import { InvalidTokenError } from "@/lib/errors/Payment";
 import { PaymentNotApprovedError } from "@/lib/errors/Webhook";

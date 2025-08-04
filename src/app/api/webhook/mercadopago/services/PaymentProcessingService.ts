@@ -1,5 +1,5 @@
 import { DataSource } from "@/services/datasource";
-import { PaymentProcessingResult } from "@/app/api/webhook/mercadopago/types/payment";
+import { PaymentProcessingResult } from "@/app/typings/payment";
 import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
 import {
   PaymentProcessingError,

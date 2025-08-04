@@ -1,18 +1,20 @@
-import { EmailService } from "@/services/email";
-import { NotificationResult } from "@/app/api/webhook/mercadopago/types/payment";
+import { NotificationResult } from "@/app/typings/payment";
 import { NotificationError } from "@/lib/errors/Notifications";
 import { SubscriberResourceNotFoundError } from "@/lib/errors/Payment";
 import { DataSource } from "@/services/datasource";
 import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
-import { EmailType } from "@/lib/enums/emails";
+import { NotificationService } from "@/services/notifications/notification";
 
-export class NotificationService {
+export class NotificationHandler {
   private dataSource: DataSource;
-  private emailService: EmailService;
+  private notificationService: NotificationService;
 
-  constructor(dataSource: DataSource, emailService: EmailService) {
+  constructor(
+    dataSource: DataSource,
+    notificationService: NotificationService,
+  ) {
     this.dataSource = dataSource;
-    this.emailService = emailService;
+    this.notificationService = notificationService;
   }
 
   async sendPaymentConfirmationEmail(
@@ -33,7 +35,16 @@ export class NotificationService {
     const subscriberResource = subscriberResources[0];
 
     try {
-      await this.emailService.send(EmailType.CONFIRMATION, subscriberResource);
+      await this.notificationService.send({
+        to: subscriberResource.subscriber.email,
+        type: "email",
+        template: "confirmation",
+        data: {
+          subscriber: subscriberResource.subscriber,
+          resource: subscriberResource.resource,
+        },
+      });
+
       console.info(
         `MP WEBHOOK::Confirmation email sent to user: ${JSON.stringify({
           subscriberId: subscriberResource.subscriber.id,
