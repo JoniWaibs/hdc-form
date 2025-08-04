@@ -1,4 +1,4 @@
-import { NotificationResult } from "@/app/typings/payment";
+import { NotificationResult } from "@/app/typings/notification";
 import { NotificationError } from "@/lib/errors/Notifications";
 import { DataSource } from "@/services/datasource";
 import { NotificationService } from "@/services/notifications/notification";
