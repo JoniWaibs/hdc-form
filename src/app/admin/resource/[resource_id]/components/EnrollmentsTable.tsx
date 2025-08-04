@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CheckCircle, Search } from "lucide-react";
-import { PaymentButton } from "./PaymentButton";
+import { PaymentButton } from "@/app/admin/resource/[resource_id]/components/PaymentButton";
 import { SubscriberResourcesList } from "@/app/schema";
 import { capitalizeFirstLetter } from "@/lib/utils";
 

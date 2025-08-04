@@ -10,8 +10,8 @@ import {
 import { EnrollmentsTable } from "@/app/admin/resource/[resource_id]/components/EnrollmentsTable";
 import { ResourceSkeleton } from "@/app/admin/resource/[resource_id]/components/ResourceSkeleton";
 import { Resource, SubscriberResourcesList } from "@/app/schema";
-import { SubscribersComments } from "./components/SubscribersComments";
-import { ResourceInfo } from "./components/ResourceInfo";
+import { SubscribersComments } from "@/app/admin/resource/[resource_id]/components/SubscribersComments";
+import { ResourceInfo } from "@/app/admin/resource/[resource_id]/components/ResourceInfo";
 
 export const dynamic = "force-dynamic";
 

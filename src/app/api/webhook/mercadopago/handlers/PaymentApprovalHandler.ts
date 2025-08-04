@@ -1,23 +1,23 @@
 import { MercadoPagoService } from "@/services/mercadopago";
 import { PaymentValidator } from "@/app/api/webhook/mercadopago/validators/PaymentValidator";
 import { PaymentProcessingService } from "@/app/api/webhook/mercadopago/services/PaymentProcessingService";
-import { NotificationService } from "@/app/api/webhook/mercadopago/services/NotificationService";
-import { PaymentInfo } from "@/app/api/webhook/mercadopago/types/payment";
-import { WebhookPayload } from "@/app/api/webhook/mercadopago/types/webhook";
+import { PaymentInfo } from "@/app/typings/payment";
+import { WebhookPayload } from "@/app/typings/webhook";
+import { NotificationHandler } from "./NotificationHandler";
 
 export class PaymentApprovalHandler {
   private mercadoPagoService: MercadoPagoService;
   private paymentProcessingService: PaymentProcessingService;
-  private notificationService: NotificationService;
+  private notificationHandler: NotificationHandler;
 
   constructor(
     mercadoPagoService: MercadoPagoService,
     paymentProcessingService: PaymentProcessingService,
-    notificationService: NotificationService,
+    notificationHandler: NotificationHandler,
   ) {
     this.mercadoPagoService = mercadoPagoService;
     this.paymentProcessingService = paymentProcessingService;
-    this.notificationService = notificationService;
+    this.notificationHandler = notificationHandler;
   }
 
   async handlePaymentApproval(
@@ -36,12 +36,12 @@ export class PaymentApprovalHandler {
       throw new Error(`Payment processing failed: ${processingResult.error}`);
     }
 
-    await this.notificationService.sendPaymentConfirmationEmail(
+    await this.notificationHandler.sendPaymentConfirmationEmail(
       externalReference,
     );
 
     console.info(
-      `MP WEBHOOK::Payment approval workflow completed successfully`,
+      `PaymentApprovalHandler::Webhook::Payment approval workflow completed successfully`,
     );
   }
 
@@ -56,9 +56,12 @@ export class PaymentApprovalHandler {
         external_reference: paymentInfo.external_reference || "",
       };
     } catch (error) {
-      console.error("MP WEBHOOK::Error getting payment info paymentId:", {
-        paymentId,
-      });
+      console.error(
+        "PaymentApprovalHandler::Webhook::Error getting payment info paymentId:",
+        {
+          paymentId,
+        },
+      );
       throw error;
     }
   }

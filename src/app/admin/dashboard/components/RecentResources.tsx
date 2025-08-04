@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { Resource } from "../../../schema";
+import type { Resource } from "@/app/schema/resource";
 import { formatPrice, formatLongDate } from "@/lib/utils";
 import { Currency } from "@/lib/enums/currency";
 

@@ -50,9 +50,11 @@ export class DataSource {
   async getSubscriberResources({
     resource_id,
     subscriber_id,
+    id,
   }: {
     resource_id?: string;
     subscriber_id?: string;
+    id?: string;
   } = {}): Promise<SubscriberResourcesList> {
     let query = this.supabase.from("subscriber_resources").select(`
         id,
@@ -84,6 +86,11 @@ export class DataSource {
           created_at
         )
       `);
+
+    if (id) {
+      query = query.eq("id", id);
+    }
+
     if (resource_id) {
       query = query.eq("resource_id", resource_id);
     }

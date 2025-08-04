@@ -1,10 +1,8 @@
 import { DataSource } from "@/services/datasource";
-import { PaymentProcessingResult } from "@/app/api/webhook/mercadopago/types/payment";
-import { ExternalReference } from "@/app/api/webhook/mercadopago/types/webhook";
-import {
-  PaymentProcessingError,
-  SubscriberResourceNotFoundError,
-} from "@/lib/errors/Payment";
+import { PaymentProcessingResult } from "@/app/typings/payment";
+import { ExternalReference } from "@/app/typings/webhook";
+import { PaymentProcessingError } from "@/lib/errors/Payment";
+import { SubscriberResourceNotFoundError } from "@/lib/errors/Suscription";
 
 export class PaymentProcessingService {
   private dataSource: DataSource;
@@ -39,7 +37,7 @@ export class PaymentProcessingService {
       );
 
       console.info(
-        `MP WEBHOOK::Payment confirmed and status updated for: ${JSON.stringify(
+        `PaymentProcessingService::Webhook::Payment confirmed and status updated for: ${JSON.stringify(
           {
             subscriberResourceId: updateResult.data.id,
             subscriberId: updateResult.data.subscriber?.id || "unknown",
@@ -57,7 +55,9 @@ export class PaymentProcessingService {
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
-      console.error(`MP WEBHOOK::Payment processing failed: ${errorMessage}`);
+      console.error(
+        `PaymentProcessingService::Webhook::Payment processing failed: ${errorMessage}`,
+      );
 
       if (error instanceof SubscriberResourceNotFoundError) {
         throw error;

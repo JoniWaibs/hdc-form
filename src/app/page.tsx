@@ -7,7 +7,7 @@ import { handleWhatsAppClick } from "@/lib/utils";
 import { FaWhatsapp } from "react-icons/fa";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { NewsletterSubscriptionSchema } from "./schema/newsletter";
+import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
 import { useState } from "react";
 import { z } from "zod";
 import {
@@ -44,23 +44,26 @@ export default function HomePage() {
         body: JSON.stringify({ email: validatedData.email }),
       });
 
-      const data = await response.json();
+      await response.json();
 
       if (response.ok) {
         setModalMessage(
           "¡Gracias por suscribirte! Revisa tu correo para confirmar.",
         );
+      } else if (response.status === 409) {
+        setModalMessage("Ya estás suscripto a la newsletter.");
       } else {
-        setModalMessage(
-          data.error || "Hubo un error al suscribirte. Inténtalo de nuevo.",
-        );
+        throw new Error("Error al procesar la suscripción");
       }
+
       setShowModal(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setEmailError(error.errors[0].message);
+      } else {
+        setEmailError("Hubo un error al suscribirte. Inténtalo de nuevo.");
+        setShowModal(true);
       }
-      setModalMessage("Hubo un error al suscribirte. Inténtalo de nuevo.");
     } finally {
       (e.target as HTMLFormElement).reset();
       setIsLoading(false);
@@ -108,7 +111,7 @@ export default function HomePage() {
                   Terapia especializada
                 </h3>
                 <p className="text-sm sm:text-base text-[#8b7355]">
-                  Para personas atravesando o que hayan vivenciado un proceso
+                  Para personas que hayan vivido o estén atravesando un proceso
                   oncológico
                 </p>
               </div>
@@ -148,14 +151,18 @@ export default function HomePage() {
             <h2 className="text-3xl sm:text-4xl font-light">
               Hola, soy <strong>Florencia</strong>
             </h2>
-            <p className="text-base sm:text-lg text-[#8b7355]">
+            <p className="text-base sm:text-lg text-[#8b7355] text-justify">
               Psicóloga con formación de posgrado y trayectoria profesional en
               el ámbito de la Oncología. Durante años especialicé mi formación
-              hacia la Psicooncología, Cuidados Paliativos y el Duelo. Me dedico
-              al acompañamiento de personas atravesadas por la vivencia de una
-              enfermedad oncológica. Creo profundamente en el valor de la
-              palabra, su capacidad de ser refugio y espacio de transformación
-              cuando la vida nos desafía.
+              hacia la Psicooncología, Cuidados Paliativos y el Duelo.
+            </p>
+            <p className="text-base sm:text-lg text-[#8b7355] text-justify">
+              Me dedico al acompañamiento de personas atravesadas por la
+              vivencia de una enfermedad oncológica.
+            </p>
+            <p className="text-base sm:text-lg text-[#8b7355] text-justify">
+              Creo profundamente en el valor de la palabra, su capacidad de ser
+              refugio y espacio de transformación cuando la vida nos desafía.
             </p>
           </div>
           <div className="w-full h-full">
@@ -176,15 +183,15 @@ export default function HomePage() {
       >
         <div className="max-w-4xl mx-auto space-y-6">
           <h2 className="text-2xl sm:text-3xl font-light">
-            Te invito a escuchar mi charla TEDx
+            Te invito a escuchar mi TEDx
           </h2>
           <p className="text-[#8b7355] text-base sm:text-lg">
-            Una mirada sencilla, clara y profunda acerca de algo tan vital como
-            inevitable: el dolor. Ésta charla invita a reflexionar sobre el
-            lugar que damos al dolor y a la persona doliente, y por qué el duelo
-            debería incorporarse al currículum emocional, acompañándose desde
-            distintos ámbitos de la sociedad.
+            Una mirada sencilla y profunda acerca de algo tan vital como
+            inevitable: el dolor. Desmitificando creencias, ésta charla propone
+            herramientas prácticas para acompañar a otros y una visión
+            transformadora para transitar las propias pérdidas.
           </p>
+
           <div className="aspect-video overflow-hidden shadow bg-[#f5f1eb]">
             <iframe
               width="100%"

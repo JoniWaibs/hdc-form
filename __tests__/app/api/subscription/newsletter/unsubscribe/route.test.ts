@@ -7,6 +7,13 @@ import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NextRequest } from "next/server";
 
 jest.mock("@/services/datasource/newsletter");
+jest.mock("@/services/notifications/notification", () => {
+  return {
+    NotificationService: jest.fn().mockImplementation(() => ({
+      send: jest.fn().mockResolvedValue(undefined),
+    })),
+  };
+});
 
 const createMockRequest = (unsubscribe_token: string) => {
   const url = new URL(
@@ -28,37 +35,41 @@ describe("unsubscribe newsletter api route", () => {
   });
 
   test("should return 200", async () => {
-    const mockUnsubscribeNewsletterByToken = jest
+    const mockunsubscribeNewsletterByToken = jest
       .fn()
       .mockResolvedValueOnce(undefined);
     (NewsletterDataSource as jest.Mock).mockImplementation(() => ({
-      unsubscribeNewsletterByToken: mockUnsubscribeNewsletterByToken,
+      unsubscribeNewsletterByToken: mockunsubscribeNewsletterByToken,
     }));
     const response = await DELETE(mockRequest);
     const data = await response.json();
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      message: "Te has desuscrito de la newsletter correctamente.",
+      message:
+        "SubscriptionService::Unsubscription newsletter workflow completed successfully",
     });
-    expect(mockUnsubscribeNewsletterByToken).toHaveBeenCalledWith(
+    expect(mockunsubscribeNewsletterByToken).toHaveBeenCalledWith(
       "69b36210-9927-4140-ba8c-f53feef10b7f",
     );
   });
 
   test("should return 500", async () => {
-    const mockUnsubscribeNewsletterByToken = jest
+    const mockunsubscribeNewsletterByToken = jest
       .fn()
       .mockRejectedValueOnce(
         new Error("Error al desuscribirse de la newsletter"),
       );
     (NewsletterDataSource as jest.Mock).mockImplementation(() => ({
-      unsubscribeNewsletterByToken: mockUnsubscribeNewsletterByToken,
+      unsubscribeNewsletterByToken: mockunsubscribeNewsletterByToken,
     }));
     const response = await DELETE(mockRequest);
     const data = await response.json();
-    expect(response.status).toBe(500);
-    expect(data).toEqual({ error: "Error al desuscribirse de la newsletter." });
-    expect(mockUnsubscribeNewsletterByToken).toHaveBeenCalledWith(
+    expect(response.status).toBe(400);
+    expect(data).toEqual({
+      error:
+        "Subscribe error: SubscriptionService::Unsubscription newsletter workflow failed: Error al desuscribirse de la newsletter",
+    });
+    expect(mockunsubscribeNewsletterByToken).toHaveBeenCalledWith(
       "69b36210-9927-4140-ba8c-f53feef10b7f",
     );
   });

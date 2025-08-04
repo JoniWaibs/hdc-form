@@ -1,4 +1,4 @@
-import { WebhookPayload } from "@/app/api/webhook/mercadopago/types/webhook";
+import { WebhookPayload } from "@/app/typings/webhook";
 import { InvalidWebhookTypeError } from "@/lib/errors/Webhook";
 
 export class WebhookValidator {

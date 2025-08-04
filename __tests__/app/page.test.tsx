@@ -32,7 +32,7 @@ describe("Home Page", () => {
     expect(container).toHaveTextContent("Un espacio seguro para sanar");
     expect(container).toHaveTextContent("Terapia especializada");
     expect(container).toHaveTextContent(
-      "Para personas atravesando o que hayan vivenciado un proceso oncológico",
+      "Para personas que hayan vivido o estén atravesando un proceso oncológico",
     );
     expect(container).toHaveTextContent("Soporte familiar");
     expect(
@@ -51,11 +51,9 @@ describe("Home Page", () => {
   test("should render the about section", () => {
     const { container } = render(<HomePage />);
     expect(container).toHaveTextContent("Hola, soy Florencia");
-    expect(
-      screen.getByText(
-        "Psicóloga con formación de posgrado y trayectoria profesional en el ámbito de la Oncología. Durante años especialicé mi formación hacia la Psicooncología, Cuidados Paliativos y el Duelo. Me dedico al acompañamiento de personas atravesadas por la vivencia de una enfermedad oncológica. Creo profundamente en el valor de la palabra, su capacidad de ser refugio y espacio de transformación cuando la vida nos desafía.",
-      ),
-    ).toBeInTheDocument();
+    expect(container).toHaveTextContent(
+      "Psicóloga con formación de posgrado y trayectoria profesional en el ámbito de la Oncología. Durante años especialicé mi formación hacia la Psicooncología, Cuidados Paliativos y el Duelo.Me dedico al acompañamiento de personas atravesadas por la vivencia de una enfermedad oncológica.Creo profundamente en el valor de la palabra, su capacidad de ser refugio y espacio de transformación cuando la vida nos desafía.",
+    );
     expect(Image).toHaveBeenNthCalledWith(
       2,
       {
@@ -72,11 +70,11 @@ describe("Home Page", () => {
   test("should render the TEDX talk section", () => {
     render(<HomePage />);
     expect(
-      screen.getByText("Te invito a escuchar mi charla TEDx"),
+      screen.getByText("Te invito a escuchar mi TEDx"),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Una mirada sencilla, clara y profunda acerca de algo tan vital como inevitable: el dolor. Ésta charla invita a reflexionar sobre el lugar que damos al dolor y a la persona doliente, y por qué el duelo debería incorporarse al currículum emocional, acompañándose desde distintos ámbitos de la sociedad.",
+        "Una mirada sencilla y profunda acerca de algo tan vital como inevitable: el dolor. Desmitificando creencias, ésta charla propone herramientas prácticas para acompañar a otros y una visión transformadora para transitar las propias pérdidas.",
       ),
     ).toBeInTheDocument();
 
@@ -160,11 +158,44 @@ describe("Home Page", () => {
     ).toBeInTheDocument();
   });
 
-  test("should handle newsletter subscription error", async () => {
+  test("should show error message if newsletter subscription is already subscribed", async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
-      json: () => Promise.resolve({ message: "Error en la suscripción" }),
+      status: 409,
+      json: () =>
+        Promise.resolve({ message: "Ya estás suscripto a la newsletter." }),
     });
+
+    render(<HomePage />);
+
+    const input = screen.getByPlaceholderText("Tu correo electrónico");
+    const button = screen.getByRole("button", { name: "Suscribirme" });
+
+    fireEvent.change(input, { target: { value: "test@test.com" } });
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    expect(fetch).toHaveBeenCalledWith(
+      "/api/suscription/newsletter/susbcribe",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: "test@test.com" }),
+      },
+    );
+
+    expect(
+      await screen.findByText("Ya estás suscripto a la newsletter."),
+    ).toBeInTheDocument();
+  });
+
+  test("should handle newsletter subscription error", async () => {
+    (fetch as jest.Mock).mockRejectedValueOnce(
+      new Error("Error al procesar la suscripción"),
+    );
 
     render(<HomePage />);
 
@@ -192,5 +223,23 @@ describe("Home Page", () => {
         "Hubo un error al suscribirte. Inténtalo de nuevo.",
       ),
     ).toBeInTheDocument();
+  });
+
+  test("should show error message if email is not valid", async () => {
+    render(<HomePage />);
+
+    const input = screen.getByPlaceholderText("Tu correo electrónico");
+
+    fireEvent.change(input, { target: { value: "invalid-email" } });
+    fireEvent.submit(input.closest("form")!);
+
+    const errorMessage = await screen.findByText(
+      "Por favor ingresa un correo electrónico válido",
+    );
+    expect(errorMessage).toBeInTheDocument();
+
+    expect(fetch).not.toHaveBeenCalled();
+
+    expect(input).toHaveClass("border-red-500");
   });
 });

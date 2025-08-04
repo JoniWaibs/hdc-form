@@ -5,6 +5,9 @@ import { getWelcomeEmail } from "@/lib/emails/templates/welcome";
 import { EmailType } from "@/lib/enums/emails";
 import { Resend } from "resend";
 
+/**
+ * @deprecated This class is used to send emails to the subscribers. Use the NotificationService instead.
+ */
 export class EmailService {
   private resend: Resend;
 

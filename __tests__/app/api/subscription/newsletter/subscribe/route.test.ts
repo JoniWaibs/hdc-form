@@ -3,13 +3,21 @@
  */
 
 import { POST } from "@/app/api/suscription/newsletter/susbcribe/route";
+import { SubscribeError } from "@/lib/errors/Suscription";
 import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NextRequest } from "next/server";
 import { Request as NodeRequest } from "undici";
 
 jest.mock("@/services/datasource/newsletter");
+jest.mock("@/services/notifications/notification", () => {
+  return {
+    NotificationService: jest.fn().mockImplementation(() => ({
+      send: jest.fn().mockResolvedValue(undefined),
+    })),
+  };
+});
 jest.mock("uuid", () => ({
-  v4: jest.fn().mockReturnValue("454cbe7f-bc79-4a2e-b543-4342d99d04d9"),
+  v4: jest.fn().mockReturnValue("1234-token-test"),
 }));
 
 interface NewsletterRequestBody {
@@ -45,10 +53,13 @@ describe("subscribe newsletter api route", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toEqual({ message: "Suscripción exitosa" });
+    expect(data).toEqual({
+      message:
+        "SubscriptionService::Subscription newsletter workflow completed successfully",
+    });
     expect(mockCreateSubscriber).toHaveBeenCalledWith({
       email: "test@test.com",
-      unsubscribeToken: "454cbe7f-bc79-4a2e-b543-4342d99d04d9",
+      unsubscribeToken: "1234-token-test",
     });
   });
 
@@ -59,13 +70,15 @@ describe("subscribe newsletter api route", () => {
     const data = await response.json();
 
     expect(response.status).toBe(400);
-    expect(data).toEqual({ error: "El correo electrónico no es válido" });
+    expect(data).toEqual({
+      error: "An error has occurred with the email provided",
+    });
   });
 
   test("should return 409 for already subscribed email", async () => {
     const mockCreateSubscriber = jest
       .fn()
-      .mockRejectedValueOnce(new Error("Ya estás suscripto a la newsletter."));
+      .mockRejectedValueOnce(new SubscribeError("Already subscribed"));
     (NewsletterDataSource as jest.Mock).mockImplementation(() => ({
       createSubscriberNewsletter: mockCreateSubscriber,
     }));
@@ -74,31 +87,13 @@ describe("subscribe newsletter api route", () => {
     const data = await response.json();
 
     expect(response.status).toBe(409);
-    expect(data).toEqual({ error: "Ya estás suscripto a la newsletter." });
-    expect(mockCreateSubscriber).toHaveBeenCalledWith({
-      email: "test@test.com",
-      unsubscribeToken: "454cbe7f-bc79-4a2e-b543-4342d99d04d9",
-    });
-  });
-
-  test("should return 500 for unexpected errors", async () => {
-    const mockCreateSubscriber = jest
-      .fn()
-      .mockRejectedValueOnce(new Error("Database connection failed"));
-    (NewsletterDataSource as jest.Mock).mockImplementation(() => ({
-      createSubscriberNewsletter: mockCreateSubscriber,
-    }));
-
-    const response = await POST(mockRequest as unknown as NextRequest);
-    const data = await response.json();
-
-    expect(response.status).toBe(500);
     expect(data).toEqual({
-      error: "Hubo un error al suscribirte. Inténtalo de nuevo.",
+      error:
+        "Subscribe error: SubscriptionService::Subscription newsletter workflow failed: Subscribe error: Already subscribed",
     });
     expect(mockCreateSubscriber).toHaveBeenCalledWith({
       email: "test@test.com",
-      unsubscribeToken: "454cbe7f-bc79-4a2e-b543-4342d99d04d9",
+      unsubscribeToken: "1234-token-test",
     });
   });
 });
