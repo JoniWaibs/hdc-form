@@ -9,6 +9,13 @@ import { NextRequest } from "next/server";
 import { Request as NodeRequest } from "undici";
 
 jest.mock("@/services/datasource/newsletter");
+jest.mock("@/services/notifications/notification", () => {
+  return {
+    NotificationService: jest.fn().mockImplementation(() => ({
+      send: jest.fn().mockResolvedValue(undefined),
+    })),
+  };
+});
 jest.mock("uuid", () => ({
   v4: jest.fn().mockReturnValue("1234-token-test"),
 }));
@@ -49,7 +56,6 @@ describe("subscribe newsletter api route", () => {
     expect(data).toEqual({
       message:
         "SubscriptionService::Subscription newsletter workflow completed successfully",
-      status: 200,
     });
     expect(mockCreateSubscriber).toHaveBeenCalledWith({
       email: "test@test.com",

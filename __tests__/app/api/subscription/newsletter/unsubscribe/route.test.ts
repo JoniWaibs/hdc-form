@@ -7,6 +7,13 @@ import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NextRequest } from "next/server";
 
 jest.mock("@/services/datasource/newsletter");
+jest.mock("@/services/notifications/notification", () => {
+  return {
+    NotificationService: jest.fn().mockImplementation(() => ({
+      send: jest.fn().mockResolvedValue(undefined),
+    })),
+  };
+});
 
 const createMockRequest = (unsubscribe_token: string) => {
   const url = new URL(

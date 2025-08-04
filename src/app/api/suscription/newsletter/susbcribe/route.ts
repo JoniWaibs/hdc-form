@@ -24,10 +24,12 @@ export async function POST(req: NextRequest) {
 
     const result = await newsletterHandler.subscribe(email);
 
-    return NextResponse.json({
-      message: result.message,
-      status: 200,
-    });
+    return NextResponse.json(
+      {
+        message: result.message,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
