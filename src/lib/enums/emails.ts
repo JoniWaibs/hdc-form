@@ -2,5 +2,5 @@ export enum EmailType {
   WELCOME = "welcome",
   REMINDER = "reminder",
   CONFIRMATION = "confirmation",
-  SUBSCRIBE = "subscribe",
+  SUBSCRIBE_NEWSLETTER = "subscribe_newsletter",
 }
