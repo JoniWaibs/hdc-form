@@ -1,5 +1,5 @@
 import ServicesPage from "@/app/services/page";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 describe("Services Page", () => {
   beforeEach(() => {
@@ -12,7 +12,6 @@ describe("Services Page", () => {
   });
 
   test("should render the services page", () => {
-    //Titles
     expect(screen.getByText("Psicooncología individual")).toBeInTheDocument();
     expect(
       screen.getByText("Talleres grupales psicoeducativos"),
@@ -22,7 +21,6 @@ describe("Services Page", () => {
       screen.getByText("Asesoramiento institucional en duelo"),
     ).toBeInTheDocument();
 
-    //Content
     expect(
       screen.getByText(
         "Un espacio personalizado, cálido y confidencial para explorar tus emociones y necesidades durante el proceso oncológico, brindándote herramientas para tu bienestar. Sesiones de terapia virtual desde la comodidad de tu hogar.",
@@ -48,13 +46,17 @@ describe("Services Page", () => {
   test.each([
     { buttonText: "Agendar Sesión" },
     { buttonText: "Solicitar información" },
-  ])("should call $buttonText button", ({ buttonText }) => {
-    const button = screen.getAllByText(buttonText);
-    expect(button[0]).toBeInTheDocument();
-    fireEvent.click(button[0]);
-    expect(window.open).toHaveBeenCalledWith(
-      "https://wa.me/+5493425134461?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20sesi%C3%B3n%20con%20Florencia",
-      "_blank",
-    );
-  });
+  ])(
+    "should render $buttonText link with correct attributes",
+    ({ buttonText }) => {
+      const link = screen.getAllByText(buttonText)[0];
+      expect(link).toBeInTheDocument();
+      expect(link.closest("a")).toHaveAttribute("target", "_blank");
+      expect(link.closest("a")).toHaveAttribute("rel", "noopener noreferrer");
+      expect(link.closest("a")).toHaveAttribute(
+        "href",
+        expect.stringContaining("https://wa.me/+5493425134461?text="),
+      );
+    },
+  );
 });

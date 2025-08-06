@@ -13,7 +13,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
           <div className="flex items-center">
-            {showBackButton ? (
+            {showBackButton && (
               <Link
                 href="/"
                 className="sm:hidden mr-3 p-1.5 text-[#6b7c63] hover:text-[#a8b5a0] transition-colors flex items-center gap-2"
@@ -21,21 +21,23 @@ export default function Navbar() {
                 <ChevronLeft className="w-5 h-5" />
                 <span>Volver</span>
               </Link>
-            ) : (
-              <div className="flex items-center space-x-2 sm:space-x-3">
-                <Image
-                  src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png"
-                  alt="Hablemos de Cáncer Logo"
-                  width={32}
-                  height={32}
-                  className="rounded-full sm:w-10 sm:h-10"
-                />
-                <span className="text-[#a8b5a0] font-semibold text-base sm:text-lg">
-                  Hablemos de Cáncer
-                </span>
-              </div>
             )}
+            <div
+              className={`flex items-center space-x-2 sm:space-x-3 ${showBackButton ? "hidden sm:flex" : ""}`}
+            >
+              <Image
+                src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png"
+                alt="Hablemos de Cáncer Logo"
+                width={32}
+                height={32}
+                className="rounded-full sm:w-10 sm:h-10"
+              />
+              <span className="text-[#a8b5a0] font-semibold text-base sm:text-lg">
+                Hablemos de Cáncer
+              </span>
+            </div>
           </div>
+
           <div className="sm:hidden">
             <a
               href={getWhatsAppUrl()}
