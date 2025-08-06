@@ -55,13 +55,11 @@ describe("Navbar", () => {
     (usePathname as jest.Mock).mockReturnValue("/services");
     const { container } = render(<Navbar />);
 
-
     const logoContainer = container.querySelector(
-      ".flex.items-center.space-x-2"
+      ".flex.items-center.space-x-2",
     );
     expect(logoContainer).toHaveClass("hidden");
     expect(logoContainer).toHaveClass("sm:flex");
-
 
     expect(Image).toHaveBeenCalledWith(
       {
