@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FaWhatsapp } from "react-icons/fa";
-import { handleWhatsAppClick } from "@/lib/utils";
+import { getWhatsAppUrl } from "@/lib/utils";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
@@ -78,13 +77,17 @@ export default function ServicesPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6 pt-0 flex-grow flex items-end">
-                  <Button
-                    onClick={handleWhatsAppClick}
+                  <a
+                    href={getWhatsAppUrl(
+                      `Hola, me contacto por la siguiente consulta: ${service.title}`,
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="cursor-pointer bg-[#a8b5a0] hover:bg-[#6b7c63] text-white px-6 py-3 text-base rounded-none shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 w-full"
                   >
                     <FaWhatsapp className="w-5 h-5 mr-2" />
                     {service.buttonText}
-                  </Button>
+                  </a>
                 </CardContent>
               </Card>
             ))}

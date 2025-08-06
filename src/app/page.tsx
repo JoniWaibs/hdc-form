@@ -3,7 +3,8 @@
 import { Heart, Users, HeartCrack } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { handleWhatsAppClick } from "@/lib/utils";
+import Link from "next/link";
+import { getWhatsAppUrl } from "@/lib/utils";
 import { FaWhatsapp } from "react-icons/fa";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
@@ -88,6 +89,21 @@ export default function HomePage() {
             especializado en oncología
           </span>
         </h1>
+
+        <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 flex gap-4 sm:hidden">
+          <Link
+            href="/#about"
+            className="bg-[#c4a484]/90 text-white px-3 shadow-lg py-2 text-md rounded-none "
+          >
+            <span className="text-[15px] font-medium">Sobre mí</span>
+          </Link>
+          <Link
+            href="/services"
+            className="bg-[#c4a484]/90 text-white px-3  shadow-lg py-2 text-md rounded-none"
+          >
+            <span className="text-[15px] font-medium">Servicios</span>
+          </Link>
+        </div>
       </div>
 
       <section
@@ -222,12 +238,14 @@ export default function HomePage() {
             </div>
 
             <div className="space-y-4 text-center">
-              <Button
-                onClick={handleWhatsAppClick}
-                className="bg-[#a8b5a0] hover:bg-[#6b7c63] text-white px-8 py-4 text-lg shadow-none rounded-none"
+              <a
+                href={getWhatsAppUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#a8b5a0] hover:bg-[#6b7c63] text-white px-8 py-4 text-lg shadow-none rounded-none inline-flex items-center transition-colors"
               >
                 <FaWhatsapp className="w-5 h-5 mr-2" /> Agenda una sesión
-              </Button>
+              </a>
               <p className="text-sm sm:text-base text-[#a8b5a0] mt-8">
                 Para Latinoamérica y países de habla hispana
               </p>

@@ -54,8 +54,7 @@ describe("Home Page", () => {
     expect(container).toHaveTextContent(
       "Psicóloga con formación de posgrado y trayectoria profesional en el ámbito de la Oncología. Durante años especialicé mi formación hacia la Psicooncología, Cuidados Paliativos y el Duelo.Me dedico al acompañamiento de personas atravesadas por la vivencia de una enfermedad oncológica.Creo profundamente en el valor de la palabra, su capacidad de ser refugio y espacio de transformación cuando la vida nos desafía.",
     );
-    expect(Image).toHaveBeenNthCalledWith(
-      2,
+    expect(Image).toHaveBeenCalledWith(
       {
         src: "https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//header-photo.jpeg",
         alt: "Foto profesional",
@@ -104,13 +103,14 @@ describe("Home Page", () => {
       "En Hablemos de Cáncer la palabra es refugio.",
     );
 
-    const button = screen.getAllByText("Agenda una sesión");
-    expect(button[0]).toBeInTheDocument();
-    fireEvent.click(button[0]);
-    expect(window.open).toHaveBeenCalledWith(
+    const link = screen.getAllByText("Agenda una sesión")[0];
+    expect(link).toBeInTheDocument();
+    expect(link.closest("a")).toHaveAttribute(
+      "href",
       "https://wa.me/+5493425134461?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20sesi%C3%B3n%20con%20Florencia",
-      "_blank",
     );
+    expect(link.closest("a")).toHaveAttribute("target", "_blank");
+    expect(link.closest("a")).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   test("should render the newsletter section", () => {

@@ -42,7 +42,7 @@ export default async function AdminDashboard() {
 
   const resourcesWithEnrollments = resources.map((resource) => ({
     ...resource,
-    enrollments: Math.floor(Math.random() * 100) + 1, // Número aleatorio entre 1 y 100
+    enrollments: Math.floor(Math.random() * 100) + 1,
   }));
 
   return (

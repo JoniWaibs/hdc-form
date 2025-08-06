@@ -19,11 +19,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const handleWhatsAppClick = () => {
+export const getWhatsAppUrl = (text?: string) => {
   const whatsappNumber = "+5493425134461";
-  const whatsappMessage = "Hola, me gustaría agendar una sesión con Florencia";
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-  window.open(whatsappUrl, "_blank");
+  const whatsappMessage =
+    text || "Hola, me gustaría agendar una sesión con Florencia";
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 };
 
 export const handleInputType = (field: string) => {
