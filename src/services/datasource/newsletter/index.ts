@@ -20,7 +20,6 @@ export class NewsletterDataSource extends DataSource {
       .select("email");
 
     if (error) {
-      // Avoid duplicates if the email already exists
       if (error.code === "23505") {
         throw new SubscribeError("Ya estás suscripto a la newsletter.", 409);
       }

@@ -55,14 +55,14 @@ describe("Navbar", () => {
     (usePathname as jest.Mock).mockReturnValue("/services");
     const { container } = render(<Navbar />);
 
-    // Logo container should be hidden on mobile but visible on desktop
+
     const logoContainer = container.querySelector(
-      ".flex.items-center.space-x-2",
+      ".flex.items-center.space-x-2"
     );
     expect(logoContainer).toHaveClass("hidden");
     expect(logoContainer).toHaveClass("sm:flex");
 
-    // Logo image should still be rendered
+
     expect(Image).toHaveBeenCalledWith(
       {
         src: "https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png",
