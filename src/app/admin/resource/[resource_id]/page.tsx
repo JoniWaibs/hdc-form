@@ -66,7 +66,11 @@ export default async function ResourceDashboard({
   ]);
 
   if (!resource || !subscriberResources) {
-    return <Fallback source="Resource or subscriberResources not found" />;
+    return (
+      <Fallback
+        source={`Resource with id ${resource_id} or subscriberResources not found`}
+      />
+    );
   }
 
   const isActive = new Date(resource.start_date) <= new Date();
