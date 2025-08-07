@@ -1,5 +1,6 @@
 import { Resource } from "@/app/schema/resource";
 import RegisterFormScreen from "./components/RegisterFormScreen";
+import Fallback from "@/app/components/Fallback";
 
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {
@@ -61,11 +62,7 @@ export default async function RegisterPage({
   const resource = await getResource(resource_id);
 
   if (!resource) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        No se pudo encontrar el recurso solicitado.
-      </div>
-    );
+    return <Fallback source={`Resource with id ${resource_id} not found`} />;
   }
 
   return (

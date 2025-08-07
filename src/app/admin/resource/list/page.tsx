@@ -3,6 +3,7 @@ import { ResourcesFilters } from "@/app/admin/resource/components/ResourcesFilte
 import { ResourcesCards } from "@/app/admin/resource/components/ResourcesCards";
 import type { Resource, SubscriberResourcesList } from "@/app/schema";
 import { BookOpen, PlusCircle } from "lucide-react";
+import Fallback from "@/app/components/Fallback";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -43,6 +44,10 @@ export default async function ResourcesPage() {
     getResources(),
     getSubscriberResources(),
   ]);
+
+  if (!resources) {
+    return <Fallback source="Resources not found" />;
+  }
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">

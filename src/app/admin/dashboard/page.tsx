@@ -13,6 +13,7 @@ import { Overview } from "@/app/admin/dashboard/components/Overview";
 import { ResourcesTable } from "@/app/admin/dashboard/components/ResourcesTable";
 import { DashboardSkeleton } from "@/app/admin/dashboard/components/DashboardSkeleton";
 import { Resource } from "@/app/schema";
+import Fallback from "@/app/components/Fallback";
 import { ResourcesStats } from "@/app/admin/resource/components/ResourcesStats";
 
 export const dynamic = "force-dynamic";
@@ -33,11 +34,7 @@ export default async function AdminDashboard() {
   const resources = await getResources();
 
   if (!resources) {
-    return (
-      <div className="flex h-[50vh] w-full items-center justify-center">
-        <p className="text-muted-foreground">No se pudo obtener los recursos</p>
-      </div>
-    );
+    return <Fallback source="Resources not found" />;
   }
 
   const resourcesWithEnrollments = resources.map((resource) => ({

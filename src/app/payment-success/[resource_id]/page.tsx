@@ -25,13 +25,5 @@ export default async function PaymentSuccessPage({
   const { resource_id } = await params;
   const resource = await getResource(resource_id);
 
-  if (!resource) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        No se pudo encontrar el recurso solicitado.
-      </div>
-    );
-  }
-
   return <PaymentSuccessScreen resourceName={resource?.name || ""} />;
 }

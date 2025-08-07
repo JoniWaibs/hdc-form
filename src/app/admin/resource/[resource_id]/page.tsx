@@ -10,6 +10,7 @@ import {
 import { EnrollmentsTable } from "@/app/admin/resource/[resource_id]/components/EnrollmentsTable";
 import { ResourceSkeleton } from "@/app/admin/resource/[resource_id]/components/ResourceSkeleton";
 import { Resource, SubscriberResourcesList } from "@/app/schema";
+import Fallback from "@/app/components/Fallback";
 import { SubscribersComments } from "@/app/admin/resource/[resource_id]/components/SubscribersComments";
 import { ResourceInfo } from "@/app/admin/resource/[resource_id]/components/ResourceInfo";
 
@@ -64,20 +65,8 @@ export default async function ResourceDashboard({
     getSubscriberResources(resource_id),
   ]);
 
-  if (!resource) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        No se pudo encontrar el recurso solicitado.
-      </div>
-    );
-  }
-
-  if (!subscriberResources) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        No se pudo encontrar el listado de inscritos en este recurso.
-      </div>
-    );
+  if (!resource || !subscriberResources) {
+    return <Fallback source="Resource or subscriberResources not found" />;
   }
 
   const isActive = new Date(resource.start_date) <= new Date();
