@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+import { CreateEmailResponse, Resend } from "resend";
 import {
   NotificationPayload,
   NotificationProvider,
@@ -25,7 +25,7 @@ export class EmailProvider implements NotificationProvider {
     subject: string;
     html: string;
     text?: string;
-  }): Promise<void> {
+  }): Promise<CreateEmailResponse> {
     const emailPayload = {
       from: "Hablemos de Cáncer <no-reply@hablemosdecancer.com.ar>",
       to,
@@ -45,13 +45,18 @@ export class EmailProvider implements NotificationProvider {
       },
     };
 
-    await this.resend.emails.send(emailPayload);
+    try {
+      return await this.resend.emails.send(emailPayload);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      throw error;
+    }
   }
 
-  async send(payload: NotificationPayload): Promise<void> {
+  async send(payload: NotificationPayload): Promise<CreateEmailResponse> {
     const { to, template, data } = payload;
     const content = await this.getEmailContent(template, data);
-    await this.sendEmail({ to, ...content });
+    return this.sendEmail({ to, ...content });
   }
 
   private async getEmailContent<K extends EmailType>(
