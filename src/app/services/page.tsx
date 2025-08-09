@@ -1,5 +1,6 @@
 "use client";
 
+import { FaWhatsapp } from "react-icons/fa";
 import {
   Card,
   CardContent,
@@ -7,10 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FaWhatsapp } from "react-icons/fa";
 import { getWhatsAppUrl } from "@/lib/utils";
-import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+import Navbar from "@/app/components/Navbar";
 
 export default function ServicesPage() {
   const services = [

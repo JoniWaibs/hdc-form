@@ -1,8 +1,8 @@
-import { Resource, SubscriberResourcesList } from "@/app/schema";
+import { Calendar, DollarSign, Users } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Currency } from "@/lib/enums/currency";
 import { formatLongDate, formatPrice } from "@/lib/utils";
-import { Calendar, DollarSign, Users } from "lucide-react";
+import { Resource, SubscriberResourcesList } from "@/app/schema";
 
 export function ResourceInfo({
   resource,

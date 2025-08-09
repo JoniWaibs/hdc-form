@@ -1,8 +1,8 @@
-import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NextRequest, NextResponse } from "next/server";
 import { NewsletterHandler } from "@/app/api/suscription/handlers/NewsletterHandler";
 import { NotificationHandler } from "@/app/api/suscription/handlers/NotificationHandler";
 import { SubscriptionService } from "@/app/api/suscription/services/Subscription";
+import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NotificationService } from "@/services/notifications/notification";
 
 export async function GET(req: NextRequest) {

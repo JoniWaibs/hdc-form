@@ -1,5 +1,5 @@
-import { PaymentSuccessScreen } from "./components/PaymentSuccessScreen";
 import { Resource } from "@/app/schema";
+import { PaymentSuccessScreen } from "./components/PaymentSuccessScreen";
 
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {
@@ -24,14 +24,6 @@ export default async function PaymentSuccessPage({
 }) {
   const { resource_id } = await params;
   const resource = await getResource(resource_id);
-
-  if (!resource) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        No se pudo encontrar el recurso solicitado.
-      </div>
-    );
-  }
 
   return <PaymentSuccessScreen resourceName={resource?.name || ""} />;
 }

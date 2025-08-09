@@ -1,7 +1,7 @@
-import { NotificationHandler } from "./NotificationHandler";
 import { PaymentProcessingService } from "@/app/api/subscriber-resources/services/PaymentProcessingService";
-import { PaymentApprovalResult } from "@/app/typings/payment";
 import { SubscriberResource } from "@/app/schema";
+import { PaymentApprovalResult } from "@/app/typings/payment";
+import { NotificationHandler } from "./NotificationHandler";
 
 export class PaymentApprovalHandler {
   private paymentProcessingService: PaymentProcessingService;

@@ -5,8 +5,8 @@ import {
   getTimeByCountry,
   getMediaLink,
 } from "@/lib/utils";
-import { mockSubscriber } from "@/tests/mocks/subscriber";
 import { mockResource } from "@/tests/mocks/resources";
+import { mockSubscriber } from "@/tests/mocks/subscriber";
 
 jest.mock("@/lib/utils", () => ({
   capitalizeFirstLetter: jest.fn((text: string) => `Capitalized_${text}`),

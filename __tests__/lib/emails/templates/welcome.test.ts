@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { getWelcomeEmail } from "@/lib/emails/templates/welcome";
+import { Currency } from "@/lib/enums/currency";
 import {
   capitalizeFirstLetter,
   getPaymentLinkByCountry,
   getMediaLink,
   formatPrice,
 } from "@/lib/utils";
-import { mockSubscriber } from "@/tests/mocks/subscriber";
 import { mockResource } from "@/tests/mocks/resources";
-import { Currency } from "@/lib/enums/currency";
+import { mockSubscriber } from "@/tests/mocks/subscriber";
 
 jest.mock("@/lib/utils", () => ({
   capitalizeFirstLetter: jest.fn((text: string) => `Capitalized_${text}`),

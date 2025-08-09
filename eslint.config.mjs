@@ -46,6 +46,37 @@ export default [
           ],
         },
       ],
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "object",
+            "type",
+          ],
+          pathGroups: [
+            { pattern: "react", group: "external", position: "before" },
+            { pattern: "react-dom", group: "external", position: "before" },
+            { pattern: "next", group: "external", position: "before" },
+            { pattern: "next/*", group: "external", position: "before" },
+            { pattern: "@/components/**", group: "internal" },
+            { pattern: "@/lib/**", group: "internal" },
+            { pattern: "@/app/**", group: "internal", position: "after" },
+            { pattern: "@/**", group: "parent", position: "after" },
+          ],
+          pathGroupsExcludedImportTypes: ["type"],
+          "newlines-between": "never",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
     },
   },
 ];

@@ -1,9 +1,9 @@
-import { formatPrice } from "@/lib/utils";
-import Image from "next/image";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { Currency } from "@/lib/enums/currency";
+import { formatPrice } from "@/lib/utils";
 
 interface MercadoPagoModalProps {
   amount: number;

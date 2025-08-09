@@ -1,9 +1,9 @@
-import { SubscriptionService } from "@/app/api/suscription/services/Subscription";
-import { NotificationHandler } from "./NotificationHandler";
-import { SubscribeError } from "@/lib/errors/Suscription";
 import { v4 as uuidv4 } from "uuid";
-import { HandlerResult } from "@/app/typings/handlers";
+import { SubscribeError } from "@/lib/errors/Suscription";
+import { SubscriptionService } from "@/app/api/suscription/services/Subscription";
 import { NewsletterSubscriber } from "@/app/schema";
+import { HandlerResult } from "@/app/typings/handlers";
+import { NotificationHandler } from "./NotificationHandler";
 
 export class NewsletterHandler {
   private subscriptionService: SubscriptionService;

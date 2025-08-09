@@ -1,14 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
-import wave from "@/app/assets/svg/wave-bg-yellow.svg";
 import Image from "next/image";
-import { getMediaLink } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { Clock, ArrowLeft, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import SocialMediaButton from "@/app/components/SocialMediaButton";
 import { SocialMedia } from "@/lib/enums/socialMedia";
+import { getMediaLink } from "@/lib/utils";
+import wave from "@/app/assets/svg/wave-bg-yellow.svg";
+import SocialMediaButton from "@/app/components/SocialMediaButton";
 
 export function PaymentPendingScreen() {
   const router = useRouter();

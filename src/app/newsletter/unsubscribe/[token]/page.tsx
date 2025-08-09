@@ -10,11 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
-import SocialMediaButton from "@/app/components/SocialMediaButton";
 import { SocialMedia } from "@/lib/enums/socialMedia";
 import { getMediaLink } from "@/lib/utils";
+import Footer from "@/app/components/Footer";
+import Navbar from "@/app/components/Navbar";
+import SocialMediaButton from "@/app/components/SocialMediaButton";
 
 export default function UnsubscribePage() {
   const { token } = useParams<{ token: string }>();
@@ -54,7 +54,7 @@ export default function UnsubscribePage() {
             </CardTitle>
             <CardDescription className="text-muted-foreground mt-2">
               Si ya no querés recibir nuestros correos, podés darte de baja con
-              un clic.
+              un click.
             </CardDescription>
           </CardHeader>
 
@@ -69,7 +69,7 @@ export default function UnsubscribePage() {
             ) : status === "error" ? (
               <p className="text-red-600">
                 Hubo un error al procesar tu solicitud. Probá nuevamente o
-                escribinos. a{" "}
+                escribinos a{" "}
                 <a
                   href="mailto:contacto@hablemosdecancer.com.ar"
                   className="text-blue-500"

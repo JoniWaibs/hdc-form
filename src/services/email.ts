@@ -1,9 +1,9 @@
-import { SubscriberResource } from "@/app/schema";
+import { Resend } from "resend";
 import { getConfirmationEmail } from "@/lib/emails/templates/confirmation";
 import { getReminderEmail } from "@/lib/emails/templates/reminder";
 import { getWelcomeEmail } from "@/lib/emails/templates/welcome";
 import { EmailType } from "@/lib/enums/emails";
-import { Resend } from "resend";
+import { SubscriberResource } from "@/app/schema";
 
 /**
  * @deprecated This class is used to send emails to the subscribers. Use the NotificationService instead.

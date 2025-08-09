@@ -1,16 +1,12 @@
 "use client";
 
-import { Heart, Users, HeartCrack } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getWhatsAppUrl } from "@/lib/utils";
+import { Heart, Users, HeartCrack } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
-import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
-import { useState } from "react";
 import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +16,10 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
+import { getWhatsAppUrl } from "@/lib/utils";
+import Footer from "@/app/components/Footer";
+import Navbar from "@/app/components/Navbar";
+import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
 
 export default function HomePage() {
   const [emailError, setEmailError] = useState<string | null>(null);

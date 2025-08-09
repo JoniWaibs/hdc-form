@@ -1,7 +1,7 @@
-import { SubscriberResourcePostSchema } from "@/app/schema";
-import { DataSource } from "@/services/datasource";
 import { NextResponse, NextRequest } from "next/server";
 import { ZodError } from "zod";
+import { SubscriberResourcePostSchema } from "@/app/schema";
+import { DataSource } from "@/services/datasource";
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,7 +1,7 @@
-import { SubscriberResourcesList } from "@/app/schema";
+import { MessageSquare } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { capitalizeFirstLetter } from "@/lib/utils";
-import { MessageSquare } from "lucide-react";
+import { SubscriberResourcesList } from "@/app/schema";
 
 export function SubscribersComments({
   subscriberResources,

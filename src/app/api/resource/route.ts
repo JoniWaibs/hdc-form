@@ -1,6 +1,6 @@
+import { NextResponse, NextRequest } from "next/server";
 import { Resource } from "@/app/schema";
 import { DataSource } from "@/services/datasource";
-import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const resourceId = req.nextUrl.searchParams.get("resource_id");

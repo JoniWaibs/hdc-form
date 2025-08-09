@@ -1,10 +1,10 @@
 import { clsx, type ClassValue } from "clsx";
 import { format } from "date-fns";
-import { twMerge } from "tailwind-merge";
 import { es } from "date-fns/locale";
-import { Resource } from "@/app/schema";
-import { SocialMedia } from "@/lib/enums/socialMedia";
+import { twMerge } from "tailwind-merge";
 import { Currency } from "@/lib/enums/currency";
+import { SocialMedia } from "@/lib/enums/socialMedia";
+import { Resource } from "@/app/schema";
 
 export interface PaymentLink {
   name: string;

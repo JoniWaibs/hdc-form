@@ -2,9 +2,9 @@
  * @jest-environment node
  */
 
+import { NextRequest } from "next/server";
 import { DELETE } from "@/app/api/suscription/newsletter/unsubscribe/route";
 import { NewsletterDataSource } from "@/services/datasource/newsletter";
-import { NextRequest } from "next/server";
 
 jest.mock("@/services/datasource/newsletter");
 jest.mock("@/services/notifications/notification", () => {

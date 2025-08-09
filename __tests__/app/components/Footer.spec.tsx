@@ -1,5 +1,5 @@
-import Footer from "@/app/components/Footer";
 import { render, screen } from "@testing-library/react";
+import Footer from "@/app/components/Footer";
 
 jest.spyOn(window, "open").mockImplementation(() => {
   return {

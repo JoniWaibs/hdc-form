@@ -1,10 +1,11 @@
-import { ResourcesHeader } from "@/app/admin/resource/components/ResourcesHeader";
-import { ResourcesFilters } from "@/app/admin/resource/components/ResourcesFilters";
-import { ResourcesCards } from "@/app/admin/resource/components/ResourcesCards";
-import type { Resource, SubscriberResourcesList } from "@/app/schema";
+import Link from "next/link";
 import { BookOpen, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { ResourcesCards } from "@/app/admin/resource/components/ResourcesCards";
+import { ResourcesFilters } from "@/app/admin/resource/components/ResourcesFilters";
+import { ResourcesHeader } from "@/app/admin/resource/components/ResourcesHeader";
+import Fallback from "@/app/components/Fallback";
+import type { Resource, SubscriberResourcesList } from "@/app/schema";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +44,10 @@ export default async function ResourcesPage() {
     getResources(),
     getSubscriberResources(),
   ]);
+
+  if (!resources) {
+    return <Fallback source="Resources not found" />;
+  }
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">

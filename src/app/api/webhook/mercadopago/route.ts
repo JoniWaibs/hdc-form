@@ -1,10 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
-import { WebhookHandler } from "@/app/api/webhook/mercadopago/handlers/WebhookHandler";
-import { MercadoPagoService } from "@/services/mercadopago";
-import { PaymentProcessingService } from "@/app/api/webhook/mercadopago/services/PaymentProcessingService";
-import { PaymentApprovalHandler } from "@/app/api/webhook/mercadopago/handlers/PaymentApprovalHandler";
-import { DataSource } from "@/services/datasource";
 import { NotificationHandler } from "@/app/api/webhook/mercadopago/handlers/NotificationHandler";
+import { PaymentApprovalHandler } from "@/app/api/webhook/mercadopago/handlers/PaymentApprovalHandler";
+import { WebhookHandler } from "@/app/api/webhook/mercadopago/handlers/WebhookHandler";
+import { PaymentProcessingService } from "@/app/api/webhook/mercadopago/services/PaymentProcessingService";
+import { DataSource } from "@/services/datasource";
+import { MercadoPagoService } from "@/services/mercadopago";
 import { NotificationService } from "@/services/notifications/notification";
 
 export async function POST(req: NextRequest) {

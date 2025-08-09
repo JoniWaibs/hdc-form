@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
-import { MercadoPagoService } from "@/services/mercadopago";
 import { z } from "zod";
 import { CreatePreferenceSchema } from "@/app/schema/payment";
+import { MercadoPagoService } from "@/services/mercadopago";
 
 export async function POST(req: NextRequest) {
   try {

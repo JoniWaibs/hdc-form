@@ -2,11 +2,11 @@
  * @jest-environment node
  */
 
-import { POST } from "@/app/api/suscription/newsletter/susbcribe/route";
-import { SubscribeError } from "@/lib/errors/Suscription";
-import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NextRequest } from "next/server";
 import { Request as NodeRequest } from "undici";
+import { SubscribeError } from "@/lib/errors/Suscription";
+import { POST } from "@/app/api/suscription/newsletter/susbcribe/route";
+import { NewsletterDataSource } from "@/services/datasource/newsletter";
 
 jest.mock("@/services/datasource/newsletter");
 jest.mock("@/services/notifications/notification", () => {

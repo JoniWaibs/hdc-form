@@ -1,6 +1,6 @@
+import { FaYoutube, FaInstagram } from "react-icons/fa";
 import { SocialMedia } from "@/lib/enums/socialMedia";
 import { getMediaLink } from "@/lib/utils";
-import { FaYoutube, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
   return (

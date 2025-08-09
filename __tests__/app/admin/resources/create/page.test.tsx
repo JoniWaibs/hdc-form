@@ -1,7 +1,7 @@
-import { render, waitFor, fireEvent, screen } from "@testing-library/react";
 import { useRouter } from "next/navigation";
-import NewResourcePage from "@/app/admin/resource/create/page";
+import { render, waitFor, fireEvent, screen } from "@testing-library/react";
 import { toast } from "sonner";
+import NewResourcePage from "@/app/admin/resource/create/page";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),

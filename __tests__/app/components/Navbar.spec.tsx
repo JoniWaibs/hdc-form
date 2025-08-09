@@ -1,13 +1,12 @@
-import Navbar from "@/app/components/Navbar";
-import { render, screen, fireEvent } from "@testing-library/react";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { render, screen, fireEvent } from "@testing-library/react";
+import Navbar from "@/app/components/Navbar";
 
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => "/"),
 }));
-
-import Image from "next/image";
-import Link from "next/link";
 
 jest.mock("next/image", () => ({
   __esModule: true,

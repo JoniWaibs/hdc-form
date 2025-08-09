@@ -1,6 +1,6 @@
-import HomePage from "@/app/page";
-import { render, screen, fireEvent, act } from "@testing-library/react";
 import Image from "next/image";
+import { render, screen, fireEvent, act } from "@testing-library/react";
+import HomePage from "@/app/page";
 
 jest.mock("next/image", () => ({
   __esModule: true,

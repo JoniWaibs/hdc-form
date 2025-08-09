@@ -7,13 +7,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-import { RecentResources } from "@/app/admin/dashboard/components/RecentResources";
-import { Overview } from "@/app/admin/dashboard/components/Overview";
-import { ResourcesTable } from "@/app/admin/dashboard/components/ResourcesTable";
 import { DashboardSkeleton } from "@/app/admin/dashboard/components/DashboardSkeleton";
-import { Resource } from "@/app/schema";
+import { Overview } from "@/app/admin/dashboard/components/Overview";
+import { RecentResources } from "@/app/admin/dashboard/components/RecentResources";
+import { ResourcesTable } from "@/app/admin/dashboard/components/ResourcesTable";
 import { ResourcesStats } from "@/app/admin/resource/components/ResourcesStats";
+import Fallback from "@/app/components/Fallback";
+import { Resource } from "@/app/schema";
 
 export const dynamic = "force-dynamic";
 
@@ -33,11 +33,7 @@ export default async function AdminDashboard() {
   const resources = await getResources();
 
   if (!resources) {
-    return (
-      <div className="flex h-[50vh] w-full items-center justify-center">
-        <p className="text-muted-foreground">No se pudo obtener los recursos</p>
-      </div>
-    );
+    return <Fallback source="Resources not found" />;
   }
 
   const resourcesWithEnrollments = resources.map((resource) => ({

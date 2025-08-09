@@ -1,7 +1,7 @@
 import { Control } from "react-hook-form";
-import { SubscriberWithHowDidYouHear } from "@/app/schema";
 import { CardContent } from "@/components/ui/card";
 import FormFieldRenderer from "@/app/register/[resource_id]/components/FormFieldRenderer";
+import { SubscriberWithHowDidYouHear } from "@/app/schema";
 
 interface FormStepContentProps {
   fields: string[];
