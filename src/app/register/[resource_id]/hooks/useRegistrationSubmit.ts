@@ -1,6 +1,6 @@
+import { toast } from "sonner";
 import { Subscriber, SubscriberWithHowDidYouHear } from "@/app/schema";
 import { Resource } from "@/app/schema/resource";
-import { toast } from "sonner";
 
 interface UseRegistrationSubmitProps {
   resource: Resource;

@@ -1,4 +1,3 @@
-import { Resource, Subscriber } from "@/app/schema";
 import { Currency } from "@/lib/enums/currency";
 import { SocialMedia } from "@/lib/enums/socialMedia";
 import {
@@ -7,6 +6,7 @@ import {
   getMediaLink,
   formatPrice,
 } from "@/lib/utils";
+import { Resource, Subscriber } from "@/app/schema";
 
 export function getWelcomeEmail({
   subscriber,

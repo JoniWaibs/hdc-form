@@ -1,5 +1,10 @@
 "use client";
 
+import Link from "next/link";
+import { Calendar, Copy, Send } from "lucide-react";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,19 +12,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Calendar, Copy, Send } from "lucide-react";
-import Link from "next/link";
-import type { Resource, SubscriberResourcesList } from "@/app/schema";
+import { Currency } from "@/lib/enums/currency";
 import {
   capitalizeFirstLetter,
   formatPrice,
   formatLongDate,
   getResourceStatus,
 } from "@/lib/utils";
-import { toast } from "sonner";
-import { Currency } from "@/lib/enums/currency";
+import type { Resource, SubscriberResourcesList } from "@/app/schema";
 
 export function ResourcesCards({
   resources,

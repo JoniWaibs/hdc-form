@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { SubscriberSchema } from "@/app/schema/subscriber";
 import { ResourceSchema } from "@/app/schema/resource";
+import { SubscriberSchema } from "@/app/schema/subscriber";
 
 export const SubscriberResourcesSchema = z.object({
   id: z.string(),

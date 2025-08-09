@@ -1,10 +1,9 @@
-import { NotificationResult } from "@/app/typings/notification";
 import { NotificationError } from "@/lib/errors/Notifications";
-
-import { DataSource } from "@/services/datasource";
-import { ExternalReference } from "@/app/typings/webhook";
-import { NotificationService } from "@/services/notifications/notification";
 import { SubscriberResourceNotFoundError } from "@/lib/errors/Suscription";
+import { NotificationResult } from "@/app/typings/notification";
+import { ExternalReference } from "@/app/typings/webhook";
+import { DataSource } from "@/services/datasource";
+import { NotificationService } from "@/services/notifications/notification";
 
 export class NotificationHandler {
   private dataSource: DataSource;

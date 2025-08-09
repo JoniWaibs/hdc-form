@@ -1,7 +1,7 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 interface SplashLoaderModalProps {
   open: boolean;

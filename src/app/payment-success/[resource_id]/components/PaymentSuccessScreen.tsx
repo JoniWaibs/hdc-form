@@ -1,14 +1,15 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { motion } from "framer-motion";
+import { SocialMedia } from "@/lib/enums/socialMedia";
+import { getMediaLink } from "@/lib/utils";
 import successCheck from "@/app/assets/lottie/success-check.json";
 import wave from "@/app/assets/svg/wave-bg-green.svg";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { getMediaLink } from "@/lib/utils";
-import dynamic from "next/dynamic";
 import SocialMediaButton from "@/app/components/SocialMediaButton";
-import { SocialMedia } from "@/lib/enums/socialMedia";
+
 const Player = dynamic(() => import("lottie-react"), { ssr: false });
 
 export function PaymentSuccessScreen({

@@ -1,5 +1,5 @@
-import { NewsletterSubscriber } from "@/app/schema/newsletter";
 import { SubscribeError } from "@/lib/errors/Suscription";
+import { NewsletterSubscriber } from "@/app/schema/newsletter";
 import { DataSource } from "@/services/datasource";
 
 export class NewsletterDataSource extends DataSource {

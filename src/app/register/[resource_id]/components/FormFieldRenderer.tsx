@@ -1,10 +1,6 @@
 import { Control, FieldPath } from "react-hook-form";
 import { z } from "zod";
 import {
-  SubscriberWithHowDidYouHear,
-  SubscriberWithHowDidYouHearSchema,
-} from "@/app/schema";
-import {
   FormControl,
   FormField,
   FormItem,
@@ -13,11 +9,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { handleInputType } from "@/lib/utils";
 import {
   formLabel,
   formPlaceholder,
 } from "@/app/register/[resource_id]/content/form";
-import { handleInputType } from "@/lib/utils";
+import {
+  SubscriberWithHowDidYouHear,
+  SubscriberWithHowDidYouHearSchema,
+} from "@/app/schema";
 
 interface FormFieldRendererProps {
   fieldName: string;

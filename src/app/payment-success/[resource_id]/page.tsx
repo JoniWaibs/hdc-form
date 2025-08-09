@@ -1,5 +1,5 @@
-import { PaymentSuccessScreen } from "./components/PaymentSuccessScreen";
 import { Resource } from "@/app/schema";
+import { PaymentSuccessScreen } from "./components/PaymentSuccessScreen";
 
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {

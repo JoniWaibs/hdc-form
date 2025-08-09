@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { useState } from "react";
+import Link from "next/link";
 import {
   type ColumnDef,
   flexRender,
@@ -19,10 +13,9 @@ import {
   type ColumnFiltersState,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,11 +24,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Resource } from "@/app/schema";
-import { formatPrice, formatLongDate, getResourceStatus } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Currency } from "@/lib/enums/currency";
+import { formatPrice, formatLongDate, getResourceStatus } from "@/lib/utils";
+import { Resource } from "@/app/schema";
 
 interface ResourcesTableProps {
   resources: Resource[];

@@ -1,11 +1,11 @@
-import { ResourcesHeader } from "@/app/admin/resource/components/ResourcesHeader";
-import { ResourcesFilters } from "@/app/admin/resource/components/ResourcesFilters";
-import { ResourcesCards } from "@/app/admin/resource/components/ResourcesCards";
-import type { Resource, SubscriberResourcesList } from "@/app/schema";
-import { BookOpen, PlusCircle } from "lucide-react";
-import Fallback from "@/app/components/Fallback";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { BookOpen, PlusCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ResourcesCards } from "@/app/admin/resource/components/ResourcesCards";
+import { ResourcesFilters } from "@/app/admin/resource/components/ResourcesFilters";
+import { ResourcesHeader } from "@/app/admin/resource/components/ResourcesHeader";
+import Fallback from "@/app/components/Fallback";
+import type { Resource, SubscriberResourcesList } from "@/app/schema";
 
 export const dynamic = "force-dynamic";
 

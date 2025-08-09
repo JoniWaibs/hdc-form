@@ -1,9 +1,9 @@
-import { FaWhatsapp } from "react-icons/fa";
-import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import { getWhatsAppUrl } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+import { getWhatsAppUrl } from "@/lib/utils";
 
 export default function Navbar() {
   const pathname = usePathname();

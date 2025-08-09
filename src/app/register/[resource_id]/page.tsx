@@ -1,6 +1,6 @@
+import Fallback from "@/app/components/Fallback";
 import { Resource } from "@/app/schema/resource";
 import RegisterFormScreen from "./components/RegisterFormScreen";
-import Fallback from "@/app/components/Fallback";
 
 async function getResource(resourceId: string): Promise<Resource | null> {
   try {

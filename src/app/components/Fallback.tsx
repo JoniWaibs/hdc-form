@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { Frown } from "lucide-react";
-import { motion } from "framer-motion";
 import Image from "next/image";
-
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Frown } from "lucide-react";
 import wave from "@/app/assets/svg/wave-bg-gray.svg";
 
 interface FallbackProps {

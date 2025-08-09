@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { PaymentInfo } from "@/app/typings/payment";
-import { ExternalReference } from "@/app/typings/webhook";
 import { InvalidTokenError } from "@/lib/errors/Payment";
 import { PaymentNotApprovedError } from "@/lib/errors/Webhook";
+import { PaymentInfo } from "@/app/typings/payment";
+import { ExternalReference } from "@/app/typings/webhook";
 
 export class PaymentValidator {
   static validatePaymentInfo(paymentInfo: PaymentInfo): PaymentInfo {

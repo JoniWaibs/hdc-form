@@ -3,21 +3,21 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import MercadoPagoModal from "@/app/components/MercadoPagoModal";
+import FormHeader from "@/app/register/[resource_id]/components/FormHeader";
+import FormNavigation from "@/app/register/[resource_id]/components/FormNavigation";
+import FormStepContent from "@/app/register/[resource_id]/components/FormStepContent";
+import SplashLoaderModal from "@/app/register/[resource_id]/components/SplashLoaderModal";
+import StepProgressBar from "@/app/register/[resource_id]/components/StepProgressBar";
+import { formSections } from "@/app/register/[resource_id]/content/form";
+import { useFormSteps } from "@/app/register/[resource_id]/hooks/useFormSteps";
+import { useRegistrationSubmit } from "@/app/register/[resource_id]/hooks/useRegistrationSubmit";
 import {
   SubscriberWithHowDidYouHear,
   SubscriberWithHowDidYouHearSchema,
 } from "@/app/schema";
-import { Form } from "@/components/ui/form";
 import { Resource } from "@/app/schema/resource";
-import SplashLoaderModal from "@/app/register/[resource_id]/components/SplashLoaderModal";
-import MercadoPagoModal from "@/app/components/MercadoPagoModal";
-import FormHeader from "@/app/register/[resource_id]/components/FormHeader";
-import StepProgressBar from "@/app/register/[resource_id]/components/StepProgressBar";
-import FormStepContent from "@/app/register/[resource_id]/components/FormStepContent";
-import FormNavigation from "@/app/register/[resource_id]/components/FormNavigation";
-import { useFormSteps } from "@/app/register/[resource_id]/hooks/useFormSteps";
-import { formSections } from "@/app/register/[resource_id]/content/form";
-import { useRegistrationSubmit } from "@/app/register/[resource_id]/hooks/useRegistrationSubmit";
 
 export default function RegisterFormScreen({
   resource,

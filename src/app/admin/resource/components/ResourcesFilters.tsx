@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SlidersHorizontal } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export function ResourcesFilters() {
   const [open, setOpen] = useState(false);

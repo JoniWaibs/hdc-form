@@ -1,5 +1,5 @@
-import ServicesPage from "@/app/services/page";
 import { render, screen } from "@testing-library/react";
+import ServicesPage from "@/app/services/page";
 
 describe("Services Page", () => {
   beforeEach(() => {

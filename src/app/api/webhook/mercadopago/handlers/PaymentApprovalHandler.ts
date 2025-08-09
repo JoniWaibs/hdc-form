@@ -1,8 +1,8 @@
-import { MercadoPagoService } from "@/services/mercadopago";
-import { PaymentValidator } from "@/app/api/webhook/mercadopago/validators/PaymentValidator";
 import { PaymentProcessingService } from "@/app/api/webhook/mercadopago/services/PaymentProcessingService";
+import { PaymentValidator } from "@/app/api/webhook/mercadopago/validators/PaymentValidator";
 import { PaymentInfo } from "@/app/typings/payment";
 import { WebhookPayload } from "@/app/typings/webhook";
+import { MercadoPagoService } from "@/services/mercadopago";
 import { NotificationHandler } from "./NotificationHandler";
 
 export class PaymentApprovalHandler {

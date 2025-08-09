@@ -10,11 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
-import SocialMediaButton from "@/app/components/SocialMediaButton";
 import { SocialMedia } from "@/lib/enums/socialMedia";
 import { getMediaLink } from "@/lib/utils";
+import Footer from "@/app/components/Footer";
+import Navbar from "@/app/components/Navbar";
+import SocialMediaButton from "@/app/components/SocialMediaButton";
 
 export default function UnsubscribePage() {
   const { token } = useParams<{ token: string }>();

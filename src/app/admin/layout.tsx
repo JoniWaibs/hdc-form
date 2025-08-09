@@ -1,7 +1,14 @@
-import type React from "react";
-import type { Metadata } from "next";
 import Link from "next/link";
-
+import {
+  BarChart3,
+  BookOpen,
+  Calendar,
+  CreditCard,
+  FileText,
+  Home,
+  Settings,
+  Users,
+} from "lucide-react";
 import {
   SidebarProvider,
   Sidebar,
@@ -17,17 +24,9 @@ import {
   SidebarGroupContent,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import {
-  BarChart3,
-  BookOpen,
-  Calendar,
-  CreditCard,
-  FileText,
-  Home,
-  Settings,
-  Users,
-} from "lucide-react";
 import { UserNav } from "@/app/admin/dashboard/components/UserNav";
+import type { Metadata } from "next";
+import type React from "react";
 
 export const metadata: Metadata = {
   title: "Hablemos de cáncer",

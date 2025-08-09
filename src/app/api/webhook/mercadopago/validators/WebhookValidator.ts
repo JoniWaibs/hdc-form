@@ -1,5 +1,5 @@
-import { WebhookPayload } from "@/app/typings/webhook";
 import { InvalidWebhookTypeError } from "@/lib/errors/Webhook";
+import { WebhookPayload } from "@/app/typings/webhook";
 
 export class WebhookValidator {
   static validateWebhookPayload(payload: WebhookPayload): WebhookPayload {

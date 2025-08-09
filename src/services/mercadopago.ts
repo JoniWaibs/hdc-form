@@ -1,8 +1,8 @@
-import { CreatePreference } from "@/app/schema/payment";
+import jwt from "jsonwebtoken";
 import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
 import { PreferenceRequest } from "mercadopago/dist/clients/preference/commonTypes";
 import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
+import { CreatePreference } from "@/app/schema/payment";
 
 export class MercadoPagoService {
   private client: MercadoPagoConfig;

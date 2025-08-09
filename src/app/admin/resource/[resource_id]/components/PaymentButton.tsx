@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { CheckCircle, Loader2 } from "lucide-react";
-import { SubscriberResource } from "@/app/schema";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import {
   TooltipProvider,
   TooltipTrigger,
   TooltipContent,
   Tooltip,
 } from "@/components/ui/tooltip";
-import { toast } from "sonner";
+import { SubscriberResource } from "@/app/schema";
 
 interface PaymentButtonProps {
   subscriberResource: SubscriberResource;

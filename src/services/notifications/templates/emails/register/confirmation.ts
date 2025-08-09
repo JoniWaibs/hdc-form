@@ -1,4 +1,3 @@
-import { Resource, Subscriber } from "@/app/schema";
 import { SocialMedia } from "@/lib/enums/socialMedia";
 import {
   capitalizeFirstLetter,
@@ -6,6 +5,7 @@ import {
   getTimeByCountry,
   getMediaLink,
 } from "@/lib/utils";
+import { Resource, Subscriber } from "@/app/schema";
 
 export function getConfirmationEmail({
   subscriber,

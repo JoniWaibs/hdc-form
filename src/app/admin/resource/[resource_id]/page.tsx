@@ -8,11 +8,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { EnrollmentsTable } from "@/app/admin/resource/[resource_id]/components/EnrollmentsTable";
-import { ResourceSkeleton } from "@/app/admin/resource/[resource_id]/components/ResourceSkeleton";
-import { Resource, SubscriberResourcesList } from "@/app/schema";
-import Fallback from "@/app/components/Fallback";
-import { SubscribersComments } from "@/app/admin/resource/[resource_id]/components/SubscribersComments";
 import { ResourceInfo } from "@/app/admin/resource/[resource_id]/components/ResourceInfo";
+import { ResourceSkeleton } from "@/app/admin/resource/[resource_id]/components/ResourceSkeleton";
+import { SubscribersComments } from "@/app/admin/resource/[resource_id]/components/SubscribersComments";
+import Fallback from "@/app/components/Fallback";
+import { Resource, SubscriberResourcesList } from "@/app/schema";
 
 export const dynamic = "force-dynamic";
 

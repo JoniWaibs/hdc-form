@@ -1,8 +1,8 @@
-import { NotificationResult } from "@/app/typings/notification";
 import { NotificationError } from "@/lib/errors/Notifications";
+import { SubscriberResource } from "@/app/schema";
+import { NotificationResult } from "@/app/typings/notification";
 import { DataSource } from "@/services/datasource";
 import { NotificationService } from "@/services/notifications/notification";
-import { SubscriberResource } from "@/app/schema";
 
 export class NotificationHandler {
   private dataSource: DataSource;

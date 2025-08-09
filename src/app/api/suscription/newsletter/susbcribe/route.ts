@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { NewsletterDataSource } from "@/services/datasource/newsletter";
-import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
 import { z } from "zod";
-
+import { SubscribeError } from "@/lib/errors/Suscription";
 import { NewsletterHandler } from "@/app/api/suscription/handlers/NewsletterHandler";
-import { NotificationService } from "@/services/notifications/notification";
 import { NotificationHandler } from "@/app/api/suscription/handlers/NotificationHandler";
 import { SubscriptionService } from "@/app/api/suscription/services/Subscription";
-import { SubscribeError } from "@/lib/errors/Suscription";
+import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
+import { NewsletterDataSource } from "@/services/datasource/newsletter";
+import { NotificationService } from "@/services/notifications/notification";
 
 export async function POST(req: NextRequest) {
   try {

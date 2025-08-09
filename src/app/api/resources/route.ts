@@ -1,6 +1,6 @@
+import { NextResponse } from "next/server";
 import { Resource, ResourcePostSchema } from "@/app/schema";
 import { DataSource } from "@/services/datasource";
-import { NextResponse } from "next/server";
 
 export async function GET() {
   try {

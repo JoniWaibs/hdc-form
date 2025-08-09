@@ -1,10 +1,10 @@
+import { useState } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
 import {
   SubscriberWithHowDidYouHear,
   SubscriberWithHowDidYouHearSchema,
 } from "@/app/schema";
-import { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
 
 interface FormSection {
   fields: string[];

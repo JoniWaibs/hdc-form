@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { Resource } from "@/app/schema/resource";
-import { formatPrice, formatLongDate } from "@/lib/utils";
 import { Currency } from "@/lib/enums/currency";
+import { formatPrice, formatLongDate } from "@/lib/utils";
+import type { Resource } from "@/app/schema/resource";
 
 interface RecentResourcesProps {
   resources: Resource[];
