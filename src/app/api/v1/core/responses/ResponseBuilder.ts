@@ -1,14 +1,24 @@
-import { NextResponse } from 'next/server'
-import { ApiError } from '@/app/api/v1/core/errors/ApiError'
-import { ApiSuccessResponse, ApiErrorResponse } from '@/app/api/v1/core/responses/ApiResponse'
+import { NextResponse } from "next/server";
+import { ApiError } from "@/app/api/v1/core/errors/ApiError";
+import {
+  ApiSuccessResponse,
+  ApiErrorResponse,
+} from "@/app/api/v1/core/types/api";
 
 export class ResponseBuilder {
-  static success<T>(data: T, message?: string): NextResponse<ApiSuccessResponse<T>> {
-    return NextResponse.json({
-      success: true,
-      data,
-      message
-    })
+  static success<T>(
+    data: T,
+    message?: string,
+    status?: number,
+  ): NextResponse<ApiSuccessResponse<T>> {
+    return NextResponse.json(
+      {
+        success: true,
+        data,
+        message,
+      },
+      { status },
+    );
   }
 
   static error(error: ApiError): NextResponse<ApiErrorResponse> {
@@ -21,7 +31,7 @@ export class ResponseBuilder {
           details: error.details || "No details provided",
         },
       },
-      { status: error.statusCode }
+      { status: error.statusCode },
     );
   }
 }
