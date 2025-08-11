@@ -2,14 +2,14 @@ import { ApiError } from "@/app/api/v1/core/errors/ApiError";
 import { DatabaseError } from "@/app/api/v1/core/errors/DatabaseError";
 import { Email } from "@/app/schema/common/email";
 import {
-  CreateNewsletterSubscriber,
-  DDBBNewsletterSubscriber,
+  CreateSubscriberNewsletter,
+  SubscriberNewsletter,
   UnsubscribeToken,
 } from "@/app/schema/subscriptions/newsletter";
-import { NewsletterDataSourceV1 } from "@/services/datasource/v1/newsletter";
+import { SubscriptionsDataSourceV1 } from "@/services/datasource/v1/subscriptions";
 
 export class SubscriptionService {
-  constructor(private dataSource: NewsletterDataSourceV1) {}
+  constructor(private dataSource: SubscriptionsDataSourceV1) {}
 
   private handleDatabaseError(error: DatabaseError, status: number) {
     if (status === 409 || error.code === "23505") {
@@ -41,9 +41,9 @@ export class SubscriptionService {
   }
 
   private async handleReactivateSubscription(
-    subscriber: DDBBNewsletterSubscriber,
+    subscriber: SubscriberNewsletter,
     unsubscribe_token: UnsubscribeToken,
-  ): Promise<DDBBNewsletterSubscriber> {
+  ): Promise<SubscriberNewsletter> {
     const { data, error, status } =
       await this.dataSource.updateSubscriberNewsletter(subscriber.id, {
         is_active: true,
@@ -63,18 +63,15 @@ export class SubscriptionService {
   }
 
   async subscribeToNewsletter(
-    payload: CreateNewsletterSubscriber,
-  ): Promise<DDBBNewsletterSubscriber> {
-    const { data: existingSubscribers } =
-      await this.dataSource.getSubscribersNewsletter(payload.email);
+    payload: CreateSubscriberNewsletter,
+  ): Promise<SubscriberNewsletter> {
+    const { email, unsubscribe_token } = payload;
+
+    const existingSubscribers = await this.getSubscribersNewsletter({ email });
     if (!!existingSubscribers?.length) {
-      const subscriber =
-        existingSubscribers[0] as unknown as DDBBNewsletterSubscriber;
+      const subscriber = existingSubscribers[0];
       if (!subscriber?.is_active) {
-        return this.handleReactivateSubscription(
-          subscriber,
-          payload.unsubscribe_token,
-        );
+        return this.handleReactivateSubscription(subscriber, unsubscribe_token);
       }
     }
 
@@ -92,35 +89,49 @@ export class SubscriptionService {
     return data;
   }
 
-  async getSubscribersNewsletter(
-    email?: Email,
-  ): Promise<DDBBNewsletterSubscriber[]> {
+  async getSubscribersNewsletter({
+    email,
+    token,
+  }: {
+    email?: Email;
+    token?: UnsubscribeToken;
+  }): Promise<SubscriberNewsletter[]> {
     const { data, error, status } =
-      await this.dataSource.getSubscribersNewsletter(email);
+      await this.dataSource.getSubscribersNewsletter({
+        ...(email && { email }),
+        ...(token && { token }),
+      });
 
     if (error) {
       this.handleDatabaseError(error, status);
     }
 
-    return (
-      Array.isArray(data) ? data.flat() : []
-    ) as DDBBNewsletterSubscriber[];
+    return (Array.isArray(data) ? data.flat() : []) as SubscriberNewsletter[];
   }
 
   async unsubscribeNewsletter(
     token: UnsubscribeToken,
-  ): Promise<DDBBNewsletterSubscriber> {
-    const { data, error, status } =
-      await this.dataSource.unsubscribeNewsletterByToken(token);
+  ): Promise<SubscriberNewsletter> {
+    const existingSubscribers = await this.getSubscribersNewsletter({ token });
 
-    if (error) {
-      this.handleDatabaseError(error, status);
-    }
-
-    if (!data) {
+    if (!existingSubscribers?.length) {
       throw ApiError.notFound("Invalid or expired unsubscribe token");
     }
 
-    return data;
+    const subscriber = existingSubscribers[0];
+
+    await this.dataSource.updateSubscriberNewsletter(subscriber.id, {
+      is_active: false,
+      unsubscribe_token: token,
+      unsubscribed_at: new Date().toISOString(),
+    });
+
+    return subscriber;
   }
+
+  async subscribeToResource() {}
+
+  async getSubscribersResources() {}
+
+  async updateSubscriberResource() {}
 }

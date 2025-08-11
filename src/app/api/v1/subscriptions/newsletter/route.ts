@@ -9,10 +9,10 @@ import {
   subscribeBodySchema,
   unsubscribeParamSchema,
 } from "@/app/api/v1/subscriptions/validators";
-import { NewsletterDataSourceV1 } from "@/services/datasource/v1/newsletter";
+import { SubscriptionsDataSourceV1 } from "@/services/datasource/v1/subscriptions";
 import { NotificationService } from "@/services/notifications/notification";
 
-const dataSource = new NewsletterDataSourceV1();
+const dataSource = new SubscriptionsDataSourceV1();
 const notificationService = new NotificationService();
 const handler = new NewsletterHandler(
   new SubscriptionService(dataSource),

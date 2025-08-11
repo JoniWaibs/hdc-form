@@ -2,7 +2,7 @@ import { HandlerResult } from "@/app/api/v1/core/types/api";
 import { SubscriptionService } from "@/app/api/v1/subscriptions/services/Subscription";
 import { Email } from "@/app/schema/common/email";
 import {
-  DDBBNewsletterSubscriber,
+  SubscriberNewsletter,
   UnsubscribeToken,
 } from "@/app/schema/subscriptions/newsletter";
 import { NotificationHandler } from "./NotificationHandler";
@@ -13,9 +13,7 @@ export class NewsletterHandler {
     private notificationHandler: NotificationHandler,
   ) {}
 
-  async subscribe(
-    email: Email,
-  ): Promise<HandlerResult<DDBBNewsletterSubscriber | null>> {
+  async subscribe(email: Email): Promise<HandlerResult<null>> {
     const token = crypto.randomUUID();
 
     const subscriptionResult =
@@ -24,7 +22,7 @@ export class NewsletterHandler {
         unsubscribe_token: token,
       });
 
-    const emailResponse =
+    const emailSent =
       await this.notificationHandler.sendSubscriptionConfirmationEmail(
         email,
         token,
@@ -32,14 +30,16 @@ export class NewsletterHandler {
 
     return {
       data: null,
-      message: `Subscription created successfully for id: ${subscriptionResult.id}, email: ${emailResponse ? "was sent" : "was not sent"}`,
+      message: `Subscription created successfully for id: ${subscriptionResult.id}, email: ${!!emailSent ? "was sent" : "was not sent"}`,
     };
   }
 
   async getSubscribers(
     email?: Email,
-  ): Promise<HandlerResult<DDBBNewsletterSubscriber[]>> {
-    const data = await this.subscriptionService.getSubscribersNewsletter(email);
+  ): Promise<HandlerResult<SubscriberNewsletter[]>> {
+    const data = await this.subscriptionService.getSubscribersNewsletter({
+      email,
+    });
     const message = !!data.length
       ? "Subscriber retrieved successfully"
       : "No subscribers found";
@@ -48,7 +48,7 @@ export class NewsletterHandler {
 
   async unsubscribe(
     token: UnsubscribeToken,
-  ): Promise<HandlerResult<DDBBNewsletterSubscriber>> {
+  ): Promise<HandlerResult<SubscriberNewsletter>> {
     const result = await this.subscriptionService.unsubscribeNewsletter(token);
     return {
       data: result,

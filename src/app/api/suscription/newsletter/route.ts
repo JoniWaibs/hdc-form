@@ -5,6 +5,11 @@ import { SubscriptionService } from "@/app/api/suscription/services/Subscription
 import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NotificationService } from "@/services/notifications/notification";
 
+/**
+ * @deprecated Use the new api instead
+ * @param req
+ * @returns
+ */
 export async function GET(req: NextRequest) {
   const email = req.nextUrl.searchParams.get("email");
 

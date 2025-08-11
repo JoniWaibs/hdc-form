@@ -7,6 +7,11 @@ import { NewsletterUnsubscribeSchema } from "@/app/schema/newsletter";
 import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NotificationService } from "@/services/notifications/notification";
 
+/**
+ * @deprecated Use the new api instead
+ * @param req
+ * @returns
+ */
 export async function DELETE(req: NextRequest) {
   const parsedToken = NewsletterUnsubscribeSchema.safeParse({
     unsubscribe_token: req.nextUrl.searchParams.get("unsubscribe_token"),

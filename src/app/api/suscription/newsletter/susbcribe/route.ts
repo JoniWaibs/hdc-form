@@ -8,6 +8,11 @@ import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
 import { NewsletterDataSource } from "@/services/datasource/newsletter";
 import { NotificationService } from "@/services/notifications/notification";
 
+/**
+ * @deprecated Use the new api instead
+ * @param req
+ * @returns
+ */
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
