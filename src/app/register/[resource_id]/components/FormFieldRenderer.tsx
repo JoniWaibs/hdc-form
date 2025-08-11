@@ -61,7 +61,7 @@ export default function FormFieldRenderer({
               />
             ) : (
               <Input
-                placeholder={`${placeholder || `Ingresá tu ${label!.toLowerCase()}`}`}
+                placeholder={`${placeholder || `Ingresa tu ${label!.toLowerCase()}`}`}
                 {...field}
                 className="h-12 text-base"
               />

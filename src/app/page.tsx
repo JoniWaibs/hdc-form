@@ -16,7 +16,8 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { getWhatsAppUrl } from "@/lib/utils";
+import { SocialMedia } from "@/lib/enums/socialMedia";
+import { getMediaLink, getWhatsAppUrl } from "@/lib/utils";
 import Footer from "@/app/components/Footer";
 import Navbar from "@/app/components/Navbar";
 import { NewsletterSubscriptionSchema } from "@/app/schema/newsletter";
@@ -28,7 +29,7 @@ export default function HomePage() {
   const [modalMessage, setModalMessage] = useState<string>("");
 
   const handleSubmitNewsletter = async (
-    e: React.FormEvent<HTMLFormElement>,
+    e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
     setEmailError(null);
@@ -49,7 +50,7 @@ export default function HomePage() {
 
       if (response.ok) {
         setModalMessage(
-          "¡Gracias por suscribirte! Revisa tu correo para confirmar.",
+          "¡Gracias por suscribirte! Revisa tu correo para confirmar."
         );
       } else if (response.status === 409) {
         setModalMessage("Ya estás suscripto a la newsletter.");
@@ -180,7 +181,20 @@ export default function HomePage() {
               Creo profundamente en el valor de la palabra, su capacidad de ser
               refugio y espacio de transformación cuando la vida nos desafía.
             </p>
+            <p className="text-base sm:text-lg text-[#8b7355] text-justify">
+              Puedes conocer más sobre mi trayectoria profesional en{" "}
+              <a
+                href={getMediaLink(SocialMedia.LK)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#0077b5] font-medium hover:underline"
+              >
+                LinkedIn
+              </a>
+              .
+            </p>
           </div>
+
           <div className="w-full h-full">
             <Image
               src="https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//header-photo.jpeg"
@@ -228,7 +242,7 @@ export default function HomePage() {
           <div className="space-y-10">
             <div className="space-y-4 text-center">
               <h2 className="text-2xl sm:text-3xl lg:text-5xl font-light text-[#6b7c63]">
-                Estoy aquí para acompañarte
+                Estoy para acompañarte
               </h2>
               <p className="text-base sm:text-lg text-[#8b7355] max-w-2xl mx-auto">
                 Tu historia merece un espacio donde ser escuchada y abrazada.
@@ -263,7 +277,7 @@ export default function HomePage() {
             ¿Querés recibir novedades?
           </h3>
           <p className="text-[#8b7355] text-base sm:text-lg">
-            Suscribite a mi newsletter para recibir herramientas y reflexiones
+            Suscríbete a mi newsletter para recibir herramientas y reflexiones
             para acompañarte en tu proceso.
           </p>
           <form

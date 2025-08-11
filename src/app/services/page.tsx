@@ -17,9 +17,9 @@ export default function ServicesPage() {
     {
       title: "Psicooncología individual",
       description:
-        "Un espacio personalizado, cálido y confidencial para explorar tus emociones y necesidades durante el proceso oncológico, brindándote herramientas para tu bienestar. Sesiones de terapia virtual desde la comodidad de tu hogar.",
+        "Un espacio personalizado, cálido y confidencial para explorar las emociones y necesidades durante el proceso oncológico, brindando herramientas para el bienestar. Sesiones de terapia virtual desde la comodidad del hogar.",
       alt: "Psicóloga en sesión de terapia individual con paciente",
-      buttonText: "Agendar Sesión",
+      buttonText: "Agendar una Sesión",
     },
     {
       title: "Talleres grupales psicoeducativos",
@@ -31,9 +31,9 @@ export default function ServicesPage() {
     {
       title: "Psicoterapia en duelo",
       description:
-        "Acompañamiento especializado frente al fallecimiento de un ser querido por cáncer. Ofrece un espacio donde transitar al duelo como un proceso único y profundamente humano, validando sus emociones y ayudándote a gestionarlas.",
+        "Acompañamiento especializado frente al fallecimiento de un ser querido por cáncer. Ofrece un espacio donde transitar el duelo como un proceso único y profundamente humano, validando las emociones y ayudando a gestionarlas.",
       alt: "Persona en un momento de reflexión y duelo",
-      buttonText: "Agendar Sesión",
+      buttonText: "Agendar una Sesión",
     },
     {
       title: "Asesoramiento institucional en duelo",
@@ -79,7 +79,7 @@ export default function ServicesPage() {
                 <CardContent className="p-4 sm:p-6 pt-0 flex-grow flex items-end">
                   <a
                     href={getWhatsAppUrl(
-                      `Hola, me contacto por la siguiente consulta: ${service.title}`,
+                      `Hola, me contacto por la siguiente consulta: ${service.title}`
                     )}
                     target="_blank"
                     rel="noopener noreferrer"

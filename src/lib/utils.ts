@@ -44,6 +44,10 @@ export const capitalizeFirstLetter = (string: string) => {
 export const getMediaLink = (socialMedia: SocialMedia) =>
   new Map<string, string>([
     [SocialMedia.IG, "https://www.instagram.com/hablemos.de.cancer/"],
+    [
+      SocialMedia.LK,
+      "https://www.linkedin.com/in/mar%C3%ADa-florencia-martinez-a8977821b/",
+    ],
   ]).get(socialMedia);
 
 export const getTimeByCountry = (country: string) => {

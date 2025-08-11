@@ -1,4 +1,4 @@
-import { FaYoutube, FaInstagram } from "react-icons/fa";
+import { FaYoutube, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { SocialMedia } from "@/lib/enums/socialMedia";
 import { getMediaLink } from "@/lib/utils";
 
@@ -24,6 +24,14 @@ export default function Footer() {
           className="hover:underline text-white text-2xl"
         >
           <FaInstagram className="w-5 h-5" />
+        </a>
+        <a
+          data-testid="linkedin-link"
+          href={getMediaLink(SocialMedia.LK)}
+          target="_blank"
+          className="hover:underline text-white text-2xl"
+        >
+          <FaLinkedin className="w-5 h-5" />
         </a>
       </div>
     </footer>
