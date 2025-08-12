@@ -8,6 +8,9 @@ import {
 } from "@/lib/utils";
 import { Resource, Subscriber } from "@/app/schema";
 
+/**
+ * @deprecated Use the new email template instead
+ */
 export function getWelcomeEmail({
   subscriber,
   resource,

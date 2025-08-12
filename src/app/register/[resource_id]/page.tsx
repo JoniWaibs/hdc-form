@@ -34,7 +34,7 @@ export async function generateMetadata({
       openGraph: {
         title: `Hablemos de Cáncer - ${resource.name}`,
         description: `${resource.description}`,
-        url: `https://hablemosdecancer.com.ar/register/${resource.id}`,
+        url: `${process.env.APP_URL}/register/${resource.id}`,
         images: [
           {
             url: "https://edqkxwgbbunlomuzarwt.supabase.co/storage/v1/object/public/assets//HDC-2-mda-logo-05.png",
