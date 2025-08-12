@@ -29,7 +29,7 @@ export default function HomePage() {
   const [modalMessage, setModalMessage] = useState<string>("");
 
   const handleSubmitNewsletter = async (
-    e: React.FormEvent<HTMLFormElement>
+    e: React.FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
     setEmailError(null);
@@ -50,7 +50,7 @@ export default function HomePage() {
 
       if (response.ok) {
         setModalMessage(
-          "¡Gracias por suscribirte! Revisa tu correo para confirmar."
+          "¡Gracias por suscribirte! Revisa tu correo para confirmar.",
         );
       } else if (response.status === 409) {
         setModalMessage("Ya estás suscripto a la newsletter.");
