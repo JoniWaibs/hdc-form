@@ -52,7 +52,7 @@ describe("Home Page", () => {
     const { container } = render(<HomePage />);
     expect(container).toHaveTextContent("Hola, soy Florencia");
     expect(container).toHaveTextContent(
-      "Psicóloga con formación de posgrado y trayectoria profesional en el ámbito de la Oncología. Durante años especialicé mi formación hacia la Psicooncología, Cuidados Paliativos y el Duelo.Me dedico al acompañamiento de personas atravesadas por la vivencia de una enfermedad oncológica.Creo profundamente en el valor de la palabra, su capacidad de ser refugio y espacio de transformación cuando la vida nos desafía.",
+      "Psicóloga con formación de posgrado y trayectoria profesional en el ámbito de la Oncología. Durante años especialicé mi formación hacia la Psicooncología, Cuidados Paliativos y el Duelo.Me dedico al acompañamiento de personas atravesadas por la vivencia de una enfermedad oncológica.Creo profundamente en el valor de la palabra, su capacidad de ser refugio y espacio de transformación cuando la vida nos desafía."
     );
     expect(Image).toHaveBeenCalledWith(
       {
@@ -62,26 +62,34 @@ describe("Home Page", () => {
         height: 800,
         className: "object-cover w-full h-full",
       },
-      undefined,
+      undefined
     );
+    const link = screen.getByText("LinkedIn");
+
+    expect(link.closest("a")).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/mar%C3%ADa-florencia-martinez-a8977821b/"
+    );
+    expect(link.closest("a")).toHaveAttribute("target", "_blank");
+    expect(link.closest("a")).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   test("should render the TEDX talk section", () => {
     render(<HomePage />);
     expect(
-      screen.getByText("Te invito a escuchar mi TEDx"),
+      screen.getByText("Te invito a escuchar mi TEDx")
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Una mirada sencilla y profunda acerca de algo tan vital como inevitable: el dolor. Desmitificando creencias, ésta charla propone herramientas prácticas para acompañar a otros y una visión transformadora para transitar las propias pérdidas.",
-      ),
+        "Una mirada sencilla y profunda acerca de algo tan vital como inevitable: el dolor. Desmitificando creencias, ésta charla propone herramientas prácticas para acompañar a otros y una visión transformadora para transitar las propias pérdidas."
+      )
     ).toBeInTheDocument();
 
     const iframe = screen.getByTitle("YouTube video player");
     expect(iframe).toBeInTheDocument();
     expect(iframe).toHaveAttribute(
       "src",
-      "https://www.youtube.com/embed/m1w9gnFD9X0?si=qL38CmxO-2ED8LwB",
+      "https://www.youtube.com/embed/m1w9gnFD9X0?si=qL38CmxO-2ED8LwB"
     );
     expect(iframe).toHaveAttribute("width", "100%");
     expect(iframe).toHaveAttribute("height", "100%");
@@ -89,7 +97,7 @@ describe("Home Page", () => {
     expect(iframe).toHaveAttribute("allowFullScreen");
     expect(iframe).toHaveAttribute(
       "allow",
-      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     );
   });
 
@@ -97,17 +105,17 @@ describe("Home Page", () => {
     const { container } = render(<HomePage />);
     expect(container).toHaveTextContent("Estoy aquí para acompañarte");
     expect(container).toHaveTextContent(
-      "Tu historia merece un espacio donde ser escuchada y abrazada.",
+      "Tu historia merece un espacio donde ser escuchada y abrazada."
     );
     expect(container).toHaveTextContent(
-      "En Hablemos de Cáncer la palabra es refugio.",
+      "En Hablemos de Cáncer la palabra es refugio."
     );
 
     const link = screen.getAllByText("Agenda una sesión")[0];
     expect(link).toBeInTheDocument();
     expect(link.closest("a")).toHaveAttribute(
       "href",
-      "https://wa.me/+5493425134461?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20sesi%C3%B3n%20con%20Florencia",
+      "https://wa.me/+5493425134461?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20sesi%C3%B3n%20con%20Florencia"
     );
     expect(link.closest("a")).toHaveAttribute("target", "_blank");
     expect(link.closest("a")).toHaveAttribute("rel", "noopener noreferrer");
@@ -115,9 +123,9 @@ describe("Home Page", () => {
 
   test("should render the newsletter section", () => {
     const { container } = render(<HomePage />);
-    expect(container).toHaveTextContent("¿Querés recibir novedades?");
+    expect(container).toHaveTextContent("¿Quieres recibir novedades?");
     expect(container).toHaveTextContent(
-      "Suscribite a mi newsletter para recibir herramientas y reflexiones para acompañarte en tu proceso.",
+      "Suscríbete a mi newsletter para recibir herramientas y reflexiones para acompañarte en tu proceso."
     );
 
     const input = screen.getByPlaceholderText("Tu correo electrónico");
@@ -148,13 +156,13 @@ describe("Home Page", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email: "test@test.com" }),
-      },
+      }
     );
 
     expect(
       await screen.findByText(
-        "¡Gracias por suscribirte! Revisa tu correo para confirmar.",
-      ),
+        "¡Gracias por suscribirte! Revisa tu correo para confirmar."
+      )
     ).toBeInTheDocument();
   });
 
@@ -184,11 +192,11 @@ describe("Home Page", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email: "test@test.com" }),
-      },
+      }
     );
 
     expect(
-      await screen.findByText("Ya estás suscripto a la newsletter."),
+      await screen.findByText("Ya estás suscripto a la newsletter.")
     ).toBeInTheDocument();
   });
 

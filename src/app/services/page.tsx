@@ -31,7 +31,7 @@ export default function ServicesPage() {
     {
       title: "Psicoterapia en duelo",
       description:
-        "Acompañamiento especializado frente al fallecimiento de un ser querido por cáncer. Ofrece un espacio donde transitar al duelo como un proceso único y profundamente humano, validando sus emociones y ayudándote a gestionarlas.",
+        "Acompañamiento especializado frente al fallecimiento de un ser querido por cáncer. Ofrece un espacio donde transitar el duelo como un proceso único y profundamente humano, validando tus emociones y ayudándote a gestionarlas.",
       alt: "Persona en un momento de reflexión y duelo",
       buttonText: "Agendar Sesión",
     },

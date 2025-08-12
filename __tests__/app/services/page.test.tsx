@@ -33,8 +33,8 @@ describe("Services Page", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Acompañamiento especializado frente al fallecimiento de un ser querido por cáncer. Ofrece un espacio donde transitar al duelo como un proceso único y profundamente humano, validando sus emociones y ayudándote a gestionarlas.",
-      ),
+        "Acompañamiento especializado frente al fallecimiento de un ser querido por cáncer. Ofrece un espacio donde transitar el duelo como un proceso único y profundamente humano, validando tus emociones y ayudándote a gestionarlas."
+      )
     ).toBeInTheDocument();
     expect(
       screen.getByText(
