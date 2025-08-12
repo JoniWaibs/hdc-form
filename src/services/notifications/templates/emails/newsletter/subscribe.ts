@@ -1,3 +1,6 @@
+import { SocialMedia } from "@/lib/enums/socialMedia";
+import { getMediaLink } from "@/lib/utils";
+
 export function getNewsletterSubscribeEmail({
   unsubscribeToken,
 }: {
@@ -39,7 +42,7 @@ Si en algún momento preferís dejar de recibir nuestros correos, podés darte d
         <p style="font-size: 1em; color: #444;">El equipo de <strong>Hablemos de Cáncer</strong></p>
 
         <div style="margin-top: 24px; text-align: center;">
-          <a href="https://www.instagram.com/hablemosdecancer" target="_blank"
+          <a href="${getMediaLink(SocialMedia.IG)}" target="_blank"
             style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 9999px; color: white; background: linear-gradient(to right, #ec4899, #ef4444, #f59e0b); text-decoration: none; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.2s ease-in-out;">
             Seguinos en Instagram
           </a>

@@ -7,6 +7,9 @@ import {
 } from "@/lib/utils";
 import { Resource, Subscriber } from "@/app/schema";
 
+/**
+ * @deprecated Use the new email template instead
+ */
 export function getConfirmationEmail({
   subscriber,
   resource,
@@ -78,14 +81,6 @@ export function getConfirmationEmail({
               </td>
             </tr>
           </table>
-        </div>
-
-        <!-- Unsubscribe Footer -->
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6; text-align: center;">
-          <p style="font-size: 12px; color: #6c757d; margin: 0;">
-            Si no deseas recibir más correos, puedes 
-            <a href="mailto:contacto@hablemosdecancer.com.ar?subject=Unsubscribe" style="color: #6c757d;">darte de baja aquí</a>
-          </p>
         </div>
       </div>
     `,
