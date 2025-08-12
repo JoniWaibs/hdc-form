@@ -1,8 +1,11 @@
 import { SubscribeError } from "@/lib/errors/Suscription";
 import { NewsletterSubscriber } from "@/app/schema/newsletter";
-import { DataSource } from "@/services/datasource";
+import { BaseSupabaseDataSource } from "@/services/datasource/base";
 
-export class NewsletterDataSource extends DataSource {
+/**
+ * @deprecated Use the new datasource instead
+ */
+export class NewsletterDataSource extends BaseSupabaseDataSource {
   constructor() {
     super();
   }

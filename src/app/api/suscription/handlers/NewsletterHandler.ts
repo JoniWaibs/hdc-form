@@ -5,6 +5,9 @@ import { NewsletterSubscriber } from "@/app/schema";
 import { HandlerResult } from "@/app/typings/handlers";
 import { NotificationHandler } from "./NotificationHandler";
 
+/**
+ * @deprecated Use the new api instead
+ */
 export class NewsletterHandler {
   private subscriptionService: SubscriptionService;
   private notificationHandler: NotificationHandler;

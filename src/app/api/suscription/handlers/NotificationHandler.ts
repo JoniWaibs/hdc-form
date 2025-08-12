@@ -1,6 +1,9 @@
 import { NotificationError } from "@/lib/errors/Notifications";
 import { NotificationService } from "@/services/notifications/notification";
 
+/**
+ * @deprecated Use the new api instead
+ */
 export class NotificationHandler {
   private notificationService: NotificationService;
 

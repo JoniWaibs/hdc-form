@@ -2,6 +2,9 @@ import { NewsletterSubscriber } from "@/app/schema";
 import { ApiServiceResult } from "@/app/typings/services";
 import { NewsletterDataSource } from "@/services/datasource/newsletter";
 
+/**
+ * @deprecated Use the new datasource instead
+ */
 export class SubscriptionService {
   private dataSource: NewsletterDataSource;
 

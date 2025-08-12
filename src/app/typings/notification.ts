@@ -1,4 +1,6 @@
+import { CreateEmailResponse } from "resend";
 import { Resource, Subscriber } from "@/app/schema";
+import { Email } from "@/app/schema/common/email";
 
 export type EmailType =
   | "welcome"
@@ -41,11 +43,11 @@ export type EmailFunctionMap = {
 
 export interface NotificationPayload {
   to: string;
-  type: "email" | "sms" | "whatsapp" | "push";
+  type: Email | "sms" | "whatsapp" | "push";
   template: EmailType;
   data: EmailData;
 }
 
 export interface NotificationProvider {
-  send(payload: NotificationPayload): Promise<void>;
+  send(payload: NotificationPayload): Promise<CreateEmailResponse>;
 }

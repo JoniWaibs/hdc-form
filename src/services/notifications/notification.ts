@@ -1,3 +1,4 @@
+import { CreateEmailResponse } from "resend";
 import {
   NotificationPayload,
   NotificationProvider,
@@ -11,8 +12,9 @@ export class NotificationService {
     this.providers = new Map([["email", new EmailProvider()]]);
   }
 
-  async send(payload: NotificationPayload) {
+  async send(payload: NotificationPayload): Promise<CreateEmailResponse> {
     const provider = this.providers.get(payload.type);
+
     if (!provider) {
       throw new Error(`Provider ${payload.type} not found`);
     }
